@@ -1,1 +1,20 @@
-/* Empty. Add your own CSS if you like */
+/*Customized colour for the nav bar on index.html page */
+p.padding {
+	padding-top: 2cm;
+}
+
+form {
+	text-align: center;
+}
+input[type="textbox"] {
+	width: 80%; height: 50px;
+	padding-right: 50px;
+	text-align: center;
+	
+}
+
+input[type="image"] {
+	margin-left: -50px;
+	height: 20px;
+	width: 20px;
+}

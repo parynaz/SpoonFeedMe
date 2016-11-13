@@ -1,0 +1,28 @@
+<ion-view view-title="Search">
+  <ion-content>
+
+  <p class="padding"></p>
+
+<form>
+
+	<input type="textbox" id="text-id" class="search-box" name="searchParameter" placeholder="Search Recipes..." ng-model="query">
+	<input class="search-btn" type="image" src="img/search.png" ng-click="getRecipe()" alt="Search">
+	<br>
+	Filter Results:
+	<br>
+	Low-Fat <input type="checkbox" ng-model="low-Fat" ng-click="getRecipe()">
+
+</form>
+
+
+
+<ion-list>
+	<ion-item type="item-text-wrap">
+
+<img ng-src="{{result.image}}">
+<p>	{{ result.title }} </p>
+</ion-item>
+</ion-list>
+
+  </ion-content>
+</ion-view>
