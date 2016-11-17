@@ -32,12 +32,12 @@ angular.module('SpoonReadMe', ['ionic', 'firebase', 'SpoonReadMe.controllers', '
 .config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
-    .state('eventmenu', {
+    .state('event', {
       url: "/event",
       abstract: true,
       templateUrl: "templates/event-menu.html"
     })
-    .state('eventmenu.home', {
+    .state('event.home', {
       url: "/home",
       views: {
         'menuContent' :{
@@ -46,7 +46,7 @@ angular.module('SpoonReadMe', ['ionic', 'firebase', 'SpoonReadMe.controllers', '
         }
       }
     })
-    .state('eventmenu.search', {
+    .state('event.search', {
       url: "/search",
       views: {
         'menuContent' :{
@@ -55,12 +55,32 @@ angular.module('SpoonReadMe', ['ionic', 'firebase', 'SpoonReadMe.controllers', '
         }
       }
     })
-    .state('eventmenu.saved', {
+    .state('event.saved', {
       url: "/saved",
       views: {
         'menuContent' :{
           templateUrl: "templates/saved.html",
           controller: "SavedCtrl"
+        }
+      }
+    })
+
+    .state('event.saved-details', {
+      url: "/saved/:recipeId/:fromSavedOrSearch",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/recipe-detail.html",
+          controller: "RecipeDetailsCtrl"
+        }
+      }
+    })
+
+    .state('event.search-detail', {
+      url: "/search/:recipeId/:fromSavedOrSearch",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/recipe-detail.html",
+          controller: "RecipeDetailsCtrl"
         }
       }
     })
