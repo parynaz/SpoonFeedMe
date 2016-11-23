@@ -28,7 +28,7 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services'])
 })
 
 
-.controller('SearchCtrl', function($scope, $ionicLoading, RecipeDetails) {
+.controller('SearchCtrl', function($scope, $ionicLoading, $window, RecipeDetails) {
   $scope.result = "";
 
   $scope.diets = [
@@ -179,7 +179,7 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services'])
       });
 
 // query, $scope.calMin, $scope.calMax, $scope.carbMin, $scope.carbMax, $scope.fatMin, $scope.fatMax, $scope.proteinMin, proteinMax, $scope.selectedDiet, $scope.selectedCuisine, $scope.selectedAllergy, $scope.selectedKind
-
+// $window.location.reload(true);
 
     if($scope.filterOption == true){
       RecipeDetails.getFromSearchFiltered(query, $scope.selectedDiet, $scope.selectedCuisine, $scope.selectedAllergy, $scope.selectedKind, $scope.calMin, $scope.calMax, $scope.carbMin, $scope.carbMax, $scope.fatMin, $scope.fatMax, $scope.proteinMin, $scope.proteinMax).then(function(data){
@@ -189,6 +189,7 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services'])
     }else 
 
   RecipeDetails.getFromSearch(query).then(function(data){
+    //change all the images to have the https://spoonacular.com/recipeImages at the beginning before passing it forward
     $scope.result = data.results;
     $ionicLoading.hide();
   });
@@ -203,9 +204,22 @@ $scope.fromSavedOrSearch = $stateParams.fromSavedOrSearch;
 var payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch).results[$scope.recipeId];
 
 $scope.recipe = payload;
+
+//payload is the specific Recipe
+//get extra information
+RecipeDetails.getDetails(payload.id).then(function(detailPayload){
+  $scope.details = detailPayload;0
+  });
+
+
+  $scope.getSteps = function() {
+    RecipeDetails.getInstructions($scope.details.id).then(function(InstructionPayload){
+          $scope.instructions = InstructionPayload;
+});
+}
+
+
 })
-
-
 
 .controller('SavedCtrl', function($scope) {
   

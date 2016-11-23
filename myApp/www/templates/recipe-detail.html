@@ -1,6 +1,24 @@
 <ion-view view-title="{{recipe.title}}">
   <ion-content>
  <h1>FuckYeahRecipes</h1>
- <p>{{ recipe.image }}</p>
+ <img class="recipe-detail-img" ng-src="{{ recipe.image }}">
+ <p>Calories: {{ recipe.calories }}</p>
+ <p>Protein: {{ recipe.protein }}</p>
+ <p>Fat: {{ recipe.fat }}</p>
+ <p>Carbohydrates: {{ recipe.carbs }}</p>
+
+ <p>Details: {{ details.servings }}</p>
+
+
+
+    <center>
+      <button ng-click="getSteps()">Walkthrough</button>
+    </center>
+
+Steps:
+<div ng-repeat="list in instructions track by $index">
+
+	<p>{{ list.step }}</p>
+
  </ion-content>
 </ion-view>

@@ -84,6 +84,7 @@ angular.module('SpoonReadMe', ['ionic', 'firebase', 'SpoonReadMe.controllers', '
         }
       }
     })
+
   
   $urlRouterProvider.otherwise("/event/home");
 })
