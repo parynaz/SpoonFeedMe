@@ -6,7 +6,7 @@
 
 //This is angular's way of creating an application; we are telling to include the ionic module which includes all of the ionic code
 //that will process the tags for the side menu 
-angular.module('SpoonReadMe', ['ionic', 'firebase', 'SpoonReadMe.controllers', 'SpoonReadMe.services'])
+angular.module('SpoonReadMe', ['ionic', 'SpoonReadMe.controllers', 'SpoonReadMe.services'])
 
 //IONIC FUNCTIONS DO NOT TOUCH
 .run(function($ionicPlatform) {

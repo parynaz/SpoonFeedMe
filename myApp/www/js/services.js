@@ -28,10 +28,6 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 								{params: {'cuisine' : cuisine, 'diet' : diet, 'intolerances': allergy, 'maxCalories': calMax, 'maxCarbs': carbMax, 'maxFat': fatMax, 'maxProtein': proteinMax, 'minCalories': calMin, 'minCarbs': carbMin, 'minFat': fatMin, 'minProtein': proteinMin, 'query': query, 'type': kind }}).then(
 				function(payload) {
 					var recipes = payload.data;
-					console.log("results", payload.data);
-					console.log("results", payload.data.results[0]);
-
-
 					return recipes;
 				},
 				function(error) {

@@ -19,6 +19,24 @@ Steps:
 <div ng-repeat="list in instructions track by $index">
 
 	<p>{{ list.step }}</p>
+</div>
+
+
+WALKTHROUGH
+<div>
+   <p class = "step">{{currentStep}}</p>
+
+<button class="col-50 button android-btn" ng-show="currentStepNum > 1" ng-click="prevStep()">Back</button>
+<button class="col-50 button android-btn" ng-show="currentStepNum < maxStepNum" ng-click="nextStep()">Next</button>
+
+      <div style = "text-align: center">
+        <div id="page-wrapper">
+          <p class="styled">
+            <meter id="progress" max="{{max}}" value="{{percentageThrough}}"></meter>
+          </p>
+        </div>
+    </div>
+</div>
 
  </ion-content>
 </ion-view>
