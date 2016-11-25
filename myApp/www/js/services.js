@@ -2,6 +2,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 
 .factory('SearchService', function($http, sharedInformation) {
 	return {
+		//Search with no filters only the query provided
 		search: function(query) {
 			$http.defaults.headers.common["X-Mashape-key"] = sharedInformation.getKey();
 
@@ -15,7 +16,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 					console.log("Error", error.status);
 				});
 		},
-
+		//Filtered search with filters ticked off
 		filter: function(query, diet, cuisine, allergy, kind, calMin, calMax, carbMin, carbMax, fatMin, fatMax, proteinMin, proteinMax) {
 			$http.defaults.headers.common["X-Mashape-key"] = sharedInformation.getKey();
 
@@ -34,7 +35,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 					console.log("Error", error.status);
 				});
 		}, 
-
+		//Returns Recipe details
 		details: function(id) {
 			$http.defaults.headers.common["X-Mashape-key"] = sharedInformation.getKey();
 
@@ -48,7 +49,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 					console.log("Error", error.status);
 				});
 		},
-
+		//Returns Recipe instructions broken down into steps
 		instructions: function(id) {
 			$http.defaults.headers.common["X-Mashape-key"] = sharedInformation.getKey();
 
@@ -65,14 +66,37 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 	}
 })
 
-// {params: {'cuisine' : cuisine, 'diet' : diet, 'intolerances': allergy, 'maxCalories': calMax, 'maxCarbs': carbMax, 'maxFat': fatMax, 'maxProtein': proteinMax, 'minCalories': calMin, 'minCarbs': carbMin, 'minFat': fatMin, 'minProtein': proteinMin, 'query': query, 'type': kind }}).then(
-// query, calMin, calMax, carbMin, carbMax, fatMin, fatMax, proteinMin, proteinMax, diet, cuisine, allergy, kind
+.factory('StorageService', function($http, $localstorage) {
+	var savedRecipes;
+	return {
+		getSavedRecipes: function() {
+			savedRecipes = $localstorage.getObject('savedRecipes');
+			if (savedRecipes.length > 0) return savedRecipes;
+		},
 
+		removeSavedRecipe: function(recipe) {
+			savedRecipes.splice(savedRecipes.indexOf(recipe), 1);
+			$localstorage.setObject('savedRecipes', savedRecipes);
+		},
 
-.factory('RecipeDetails', function(SearchService, $http) {
+		saveRecipe: function(recipe) {
+			for(var i = 0; i < savedRecipes.length; i++){
+				if(savedRecipes[i].title == recipe.title) {
+					alert ("Recipe already saved!");
+					return;
+				}
+			}
+			savedRecipes.push(recipe);
+			$localstorage.setObject('savedRecipes', savedRecipes);
+		}
+	}
+})
+
+.factory('RecipeDetails', function(SearchService, StorageService, $http) {
 	var searchPayLoad;
 	var searchDetails;
 	var searchInstructions;
+	var saved;
 
 	return {
 		getFromSearch: function(query) {
@@ -93,7 +117,10 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 			if (savedOrSearch == 'search') {
 				return searchPayLoad;
 			}
-			else return 4;
+			else if (savedOrSearch == 'saved'){
+				saved = StorageService.getSavedRecipes();
+				return saved;
+			}
 		},
 
 		getDetails: function(id) {
@@ -113,3 +140,30 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 	};
 
 })
+
+
+angular.module('ionic.utils', [])
+
+.factory('$localstorage', ['$window', function($window) {
+  return {
+    set: function(key, value) {
+      $window.localStorage[key] = value;
+    },
+
+    get: function(key, defaultValue) {
+      return $window.localStorage[key] || defaultValue;
+    },
+
+    setObject: function(key, value) {
+      $window.localStorage[key] = JSON.stringify(value);
+    },
+
+    getObject: function(key) {
+      return JSON.parse($window.localStorage[key] || '[]');
+    },
+
+    removeItem: function(key){
+      $window.localStorage.removeItem(key);
+    }
+  }
+}]);

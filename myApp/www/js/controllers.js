@@ -6,7 +6,7 @@
 
 //This is angular's way of creating an application; we are telling to include the ionic module which includes all of the ionic code
 //that will process the tags for the side menu 
-angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services'])
+angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ionic.utils'])
 
 
 //Custom FUNCTIONS
@@ -14,14 +14,6 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services'])
    ionic.Platform.ready(function() {
       $scope.recognition = new SpeechRecognition();
     })
-
-
-  $scope.attendees = [
-    { firstname: 'Nicolas', lastname: 'Cage' },
-    { firstname: 'Jean-Claude', lastname: 'Van Damme' },
-    { firstname: 'Keanu', lastname: 'Reeves' },
-    { firstname: 'Steven', lastname: 'Seagal' }
-  ];
   
   $scope.toggleLeft = function() {
     $ionicSideMenuDelegate.toggleLeft();
@@ -204,20 +196,24 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services'])
 })
 
 
-.controller('RecipeDetailsCtrl', function($scope, $stateParams, RecipeDetails) {
-   
-
-
+.controller('RecipeDetailsCtrl', function($scope, $stateParams, RecipeDetails, StorageService) {
 $scope.recipeId = $stateParams.recipeId;
+console.log("id = ", $scope.recipeId);
 $scope.fromSavedOrSearch = $stateParams.fromSavedOrSearch;
-var payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch).results[$scope.recipeId];
+
+if($scope.fromSavedOrSearch == 'search'){
+  var payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch).results[$scope.recipeId];
+}
+else if($scope.fromSavedOrSearch == 'saved'){
+  var payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch)[$scope.recipeId];
+}
 
 $scope.recipe = payload;
 
 //payload is the specific Recipe
 //get extra information
 RecipeDetails.getDetails(payload.id).then(function(detailPayload){
-  $scope.details = detailPayload;0
+  $scope.details = detailPayload;
   });
 
 
@@ -292,10 +288,11 @@ $scope.handleVoiceInput = function(event) {
   }
 }
 
+$scope.saveRecipe = function(recipe) {
+  StorageService.saveRecipe(recipe);
+}
+
 $scope.$on("$ionicView.enter", function() {
-
-    console.log("FELT SOMETHING");
-
   window.plugins.insomnia.keepAwake();
 
 });
@@ -311,19 +308,13 @@ $scope.$on("$ionicView.beforeLeave", function() {
 
 })
 
-.controller('SavedCtrl', function($scope) {
-  
-  $scope.activity = [];
-  $scope.arrivedChange = function(attendee) {
-    var msg = attendee.firstname + ' ' + attendee.lastname;
-    msg += (!attendee.arrived ? ' has arrived, ' : ' just left, '); 
-    msg += new Date().getMilliseconds();
-    $scope.activity.push(msg);
-    if($scope.activity.length > 3) {
-      $scope.activity.splice(0, 1);
-    }
+.controller('SavedCtrl', function($scope, StorageService) {
+  $scope.$on("$ionicView.beforeEnter", function() {
+    $scope.saved = StorageService.getSavedRecipes();
+    console.log("controller saved", $scope.saved);
+  });
+
+  $scope.remove = function(recipe){
+    StorageService.removeSavedRecipe(recipe);
   };
-  
 });
-
-

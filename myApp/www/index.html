@@ -109,25 +109,7 @@
 
 
 
-    <script id="templates/saved.html" type="text/ng-template">
-      <ion-view view-title="Saved Recipes">
-        <ion-content>
-          <div class="list">
-            <ion-toggle ng-repeat="attendee in attendees | orderBy:'firstname' | orderBy:'lastname'"
-                        ng-model="attendee.arrived"
-                        ng-change="arrivedChange(attendee)">
-              {{ attendee.firstname }}
-              {{ attendee.lastname }}
-            </ion-toggle>
-            <div class="item item-divider">
-              Activity
-            </div>
-            <div class="item" ng-repeat="msg in activity">
-              {{ msg }}
-            </div>
-          </div>
-        </ion-content>
-      </ion-view>
+    <script src="templates/saved.html" type="text/ng-template">
     </script>
 
 
