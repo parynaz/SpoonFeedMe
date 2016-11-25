@@ -7,7 +7,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 			$http.defaults.headers.common["X-Mashape-key"] = sharedInformation.getKey();
 
 			return $http.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search?", 
-								{params: {'query': query }}).then(
+								{params: {'query': query, 'number' : 20 }}).then(
 				function(payload) {
 					var recipes = payload.data;
 					return recipes;
@@ -26,7 +26,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 			var kind = kind.join();
 
 			return $http.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?addRecipeInformation=false", 
-								{params: {'cuisine' : cuisine, 'diet' : diet, 'intolerances': allergy, 'maxCalories': calMax, 'maxCarbs': carbMax, 'maxFat': fatMax, 'maxProtein': proteinMax, 'minCalories': calMin, 'minCarbs': carbMin, 'minFat': fatMin, 'minProtein': proteinMin, 'query': query, 'type': kind }}).then(
+								{params: {'cuisine' : cuisine, 'number': 20, 'diet' : diet, 'intolerances': allergy, 'maxCalories': calMax, 'maxCarbs': carbMax, 'maxFat': fatMax, 'maxProtein': proteinMax, 'minCalories': calMin, 'minCarbs': carbMin, 'minFat': fatMin, 'minProtein': proteinMin, 'query': query, 'type': kind }}).then(
 				function(payload) {
 					var recipes = payload.data;
 					return recipes;

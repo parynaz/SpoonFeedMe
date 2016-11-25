@@ -193,6 +193,16 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ion
   });
 }
 
+$scope.getRecipeImage = function(recipe) {
+  var substring = "https://spoonacular.com/recipeImages/";
+  var string = recipe.image;
+
+  if(string.includes(substring))
+    return string;
+  else
+    return (substring + string);
+}
+
 })
 
 
@@ -220,6 +230,22 @@ RecipeDetails.getDetails(payload.id).then(function(detailPayload){
   $scope.getSteps = function() {
     RecipeDetails.getInstructions($scope.details.id).then(function(InstructionPayload){
           $scope.instructions = InstructionPayload;
+
+//fix the steps
+for(var i = 0; i < $scope.instructions.length; i++){
+  var step = $scope.instructions[i].step.replace('.1.', '.')
+                                        .replace('.2.', '.')
+                                        .replace('.3.', '.')
+                                        .replace('.4.', '.')
+                                        .replace('.5.', '.')
+                                        .replace('.6.', '.')
+                                        .replace('.7.', '.')
+                                        .replace('.8.', '.')
+                                        .replace('.9.', '.')
+                                        .replace('.10.', '.');
+  $scope.instructions[i].step = step;
+}
+
 
           //Voice Control stuff
 
