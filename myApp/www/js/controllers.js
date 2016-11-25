@@ -288,9 +288,24 @@ $scope.handleVoiceInput = function(event) {
   }
 }
 
+
 $scope.saveRecipe = function(recipe) {
-  StorageService.saveRecipe(recipe);
+  if($scope.fromSavedOrSearch == 'search'){
+      StorageService.saveRecipe(recipe);
+      $scope.button = "Saved";
+    }
+  else {
+    $scope.button = "Saved";
+    alert("Already saved!");
 }
+}
+
+$scope.$on('$ionicView.beforeEnter', function() {
+      if($scope.fromSavedOrSearch == 'search'){
+        $scope.button = "Click to Save";
+      }
+      else $scope.button = "Saved";
+});
 
 $scope.$on("$ionicView.enter", function() {
   window.plugins.insomnia.keepAwake();
@@ -311,7 +326,6 @@ $scope.$on("$ionicView.beforeLeave", function() {
 .controller('SavedCtrl', function($scope, StorageService) {
   $scope.$on("$ionicView.beforeEnter", function() {
     $scope.saved = StorageService.getSavedRecipes();
-    console.log("controller saved", $scope.saved);
   });
 
   $scope.remove = function(recipe){
