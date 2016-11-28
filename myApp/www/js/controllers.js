@@ -10,19 +10,26 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ion
 
 
 //Custom FUNCTIONS
-.controller('MainCtrl', function($scope, $ionicSideMenuDelegate, $stateParams) {
+.controller('MainCtrl', function($scope, $ionicSideMenuDelegate, $stateParams, $state) {
    ionic.Platform.ready(function() {
       $scope.recognition = new SpeechRecognition();
     })
   
   $scope.toggleLeft = function() {
     $ionicSideMenuDelegate.toggleLeft();
+  }
+
+  $scope.import = function() {
+    $state.go('event.import');
+  }
+  $scope.search = function() {
+    $state.go('event.search');
   };
 
 })
 
 .controller('HomeCtrl', function($scope, SearchService) {
-  $scope.recipe = "";
+  
 })
 
 
@@ -230,10 +237,9 @@ RecipeDetails.getDetails(payload.id).then(function(detailPayload){
   $scope.getSteps = function() {
     RecipeDetails.getInstructions($scope.details.id).then(function(InstructionPayload){
           $scope.instructions = InstructionPayload;
-
-//fix the steps
-for(var i = 0; i < $scope.instructions.length; i++){
-  var step = $scope.instructions[i].step.replace('.1.', '.')
+          //fix the steps
+          for(var i = 0; i < $scope.instructions.length; i++){
+            var step = $scope.instructions[i].step.replace('.1.', '.')
                                         .replace('.2.', '.')
                                         .replace('.3.', '.')
                                         .replace('.4.', '.')
@@ -243,11 +249,9 @@ for(var i = 0; i < $scope.instructions.length; i++){
                                         .replace('.8.', '.')
                                         .replace('.9.', '.')
                                         .replace('.10.', '.');
-  $scope.instructions[i].step = step;
+                                        $scope.instructions[i].step = step;
 }
-
-
-          //Voice Control stuff
+//Voice Control stuff
 
 $scope.currentStepNum = 1;
 $scope.currentStep = ($scope.instructions[$scope.currentStepNum - 1].step);
@@ -263,55 +267,52 @@ $scope.max = ($scope.maxStepNum / $scope.maxStepNum) * 100;
 });
 }
 
-
-
-
 $scope.nextStep = function() {
-  if ($scope.currentStepNum < $scope.maxStepNum) {
-    $scope.currentStepNum += 1;
-    $scope.currentStep = $scope.instructions[$scope.currentStepNum - 1].step;
-    $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
-  }
+      if ($scope.currentStepNum < $scope.maxStepNum) {
+        $scope.currentStepNum += 1;
+        $scope.currentStep = $scope.instructions[$scope.currentStepNum - 1].step;
+        $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
+      }
 }
 
 $scope.prevStep = function() {
-  if ($scope.currentStepNum > 1) {
-    $scope.currentStepNum -= 1;
-    $scope.currentStep = $scope.instructions[$scope.currentStepNum - 1].step;
-    $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
-  }
+      if ($scope.currentStepNum > 1) {
+        $scope.currentStepNum -= 1;
+        $scope.currentStep = $scope.instructions[$scope.currentStepNum - 1].step;
+        $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
+      }
 }
 
 $scope.voice = function() {
-  var text = $scope.currentStep;
-  var pace = 0.9;
-  window.TTS.speak({
-    text: text,
-    locale: 'en-GB',
-    rate: pace
-  }, function() {
-    $scope.recognition.start();
-  }, function(reason) {
-    alert(reason);
-  });
+      var text = $scope.currentStep;
+      var pace = 0.9;
+      window.TTS.speak({
+        text: text,
+        locale: 'en-GB',
+        rate: pace
+      }, function() {
+        $scope.recognition.start();
+      }, function(reason) {
+        alert(reason);
+      });
 }
 
 
 $scope.handleVoiceInput = function(event) {
-  if (event.results.length > 0) {  
-    console.log("HEARD SOMETHING");
-    var heardValue = event.results[0][0].transcript;
-    if (heardValue == "next") {
-      $scope.nextStep();
-      $scope.$apply();
-    } else if ((heardValue == "back") || (heardValue == "previous")) {
-      $scope.prevStep();
-      $scope.$apply();
-    } else if ((heardValue == "read") || (heardValue == "repeat")) {
-      $scope.recognition.abort();
-      $scope.voice();
-    }
-  }
+      if (event.results.length > 0) {  
+        console.log("HEARD SOMETHING");
+        var heardValue = event.results[0][0].transcript;
+        if (heardValue == "next") {
+          $scope.nextStep();
+          $scope.$apply();
+        } else if ((heardValue == "back") || (heardValue == "previous")) {
+          $scope.prevStep();
+          $scope.$apply();
+        } else if ((heardValue == "read") || (heardValue == "repeat")) {
+          $scope.recognition.abort();
+          $scope.voice();
+        }
+}
 }
 
 
@@ -346,6 +347,93 @@ $scope.$on("$ionicView.beforeLeave", function() {
   window.plugins.insomnia.allowSleepAgain();
 });
 
+
+})
+
+.controller('ImportCtrl', function($scope, $ionicLoading, $sce, SearchService) {
+$scope.walkthroughHTML = false;
+var steps = [];
+ $scope.import = function(query) {
+    $ionicLoading.show({
+    template: '<ion-spinner icon="android"></ion-spinner>',
+    animation: 'fade-in'
+      });
+
+  SearchService.import(query).then(function(data){
+    $scope.result = data;
+    $scope.img = data.imageUrls[0];
+    $scope.instructions = $sce.trustAsHtml(data.instructions);
+    var steps = data.text.split(".");
+    $scope.steps = steps;
+    $ionicLoading.hide();
+  });
+}
+
+$scope.walkthrough = function(){
+    $scope.currentStepNum = 1;
+    $scope.currentStep = ($scope.steps[$scope.currentStepNum - 1]);
+    $scope.maxStepNum = $scope.steps.length;
+    $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
+    $scope.max = ($scope.maxStepNum / $scope.maxStepNum) * 100; 
+    $scope.walkthroughHTML = true;  
+    $scope.recognition.onresult = $scope.handleVoiceInput;
+    console.log("started listening");
+    $scope.recognition.start();
+}
+$scope.nextStep = function() {
+      if ($scope.currentStepNum < $scope.maxStepNum) {
+        $scope.currentStepNum += 1;
+        $scope.currentStep = $scope.steps[$scope.currentStepNum - 1];
+        $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
+      }
+}
+
+$scope.prevStep = function() {
+      if ($scope.currentStepNum > 1) {
+        $scope.currentStepNum -= 1;
+        $scope.currentStep = $scope.steps[$scope.currentStepNum - 1];
+        $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
+      }
+}
+
+$scope.voice = function() {
+      var text = $scope.currentStep;
+      var pace = 0.9;
+      window.TTS.speak({
+        text: text,
+        locale: 'en-GB',
+        rate: pace
+      }, function() {
+        $scope.recognition.start();
+      }, function(reason) {
+        alert(reason);
+      });
+}
+
+$scope.handleVoiceInput = function(event) {
+      if (event.results.length > 0) {  
+        console.log("HEARD SOMETHING");
+        var heardValue = event.results[0][0].transcript;
+        if (heardValue == "next") {
+          $scope.nextStep();
+          $scope.$apply();
+        } else if ((heardValue == "back") || (heardValue == "previous")) {
+          $scope.prevStep();
+          $scope.$apply();
+        } else if ((heardValue == "read") || (heardValue == "repeat")) {
+          $scope.recognition.abort();
+          $scope.voice();
+        }
+}
+}
+
+$scope.$on("$ionicView.beforeLeave", function() {
+
+  $scope.recognition.abort();      
+  console.log("stopped listening");
+
+  window.plugins.insomnia.allowSleepAgain();
+});
 
 })
 

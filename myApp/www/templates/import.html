@@ -1,0 +1,47 @@
+<ion-view view-title="home">
+  <ion-nav-title>
+        <img src='img/spoon.png'>
+  </ion-nav-title>
+  <ion-content>
+ <h1>Welcome to SpoonReadMe!</h1>
+
+<p>Import own recipes!</p>
+<form novalidate class="import-form">
+	<label>URL:<input type="text" ng-model="url"/></label><br />
+	<input type="button" ng-click="import(url)" value="Import" />
+</form>
+
+<ion-item>
+	<img class="import-img" ng-src= "{{ img }}">
+	<p>{{ result.title }}</p>
+<div ng-bind-html="instructions"></div>
+
+<!-- <div ng-bind-html="walkthrough"></div>
+ -->  
+<button ng-click="walkthrough()">Walkthrough</button>
+
+
+<div ng-show="walkthroughHTML">
+<p>Walkthrough</p>
+   <p class = "step">{{currentStep}}</p>
+
+<button class="col-50 button android-btn" ng-show="currentStepNum > 1" ng-click="prevStep()">Back</button>
+<button class="col-50 button android-btn" ng-show="currentStepNum < maxStepNum" ng-click="nextStep()">Next</button>
+
+      <div style = "text-align: center">
+        <div id="page-wrapper">
+          <p class="styled">
+            <meter id="progress" max="{{max}}" value="{{percentageThrough}}"></meter>
+          </p>
+        </div>
+    </div>
+</div>
+
+
+</ion-content>
+</ion-item>
+
+
+</ion-view>
+
+

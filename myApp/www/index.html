@@ -74,20 +74,30 @@
               <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
               </button>
             </ion-nav-buttons>
-          </ion-nav-bar>
+
+            <ion-nav-buttons side ="right">
+            <select ng-model = "option">
+              <option value="option1">Option1</option>
+            </select>
+            <button class="import-button" ng-click="import()">Import</button>
+            <button class="search-button" ng-click="search()">Search</button>
+            </ion-nav-buttons>
+
+            </ion-nav-bar>
 
           <ion-nav-view name="menuContent"></ion-nav-view>
         </ion-side-menu-content> 
 
         <ion-side-menu side="left">
           <ion-header-bar class="bar-balanced">
-            <h1 class="title">Left Menu</h1>
+            <h1 class="title">Menu</h1>
           </ion-header-bar>
           <ion-content>
             <ul class="list">
 
               <a href="#/event/home" class="item" menu-close>Home</a>
               <a href="#/event/search" class="item" menu-close>Search</a>
+              <a href="#/event/import" class="item" menu-close>Import</a>
               <a href="#/event/saved" class="item" menu-close>Saved</a>
             </ul>
           </ion-content>

@@ -55,6 +55,15 @@ angular.module('SpoonReadMe', ['ionic', 'SpoonReadMe.controllers', 'SpoonReadMe.
         }
       }
     })
+    .state('event.import', {
+      url: "/import",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/import.html",
+          controller: "ImportCtrl"
+        }
+      }
+    })
     .state('event.saved', {
       url: "/saved",
       views: {

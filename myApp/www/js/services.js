@@ -62,6 +62,21 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 				function(error) {
 					console.log("Error", error.status);
 				});			
+		},
+
+		//Returns recipe data imported from a website or blog
+		import: function(url){
+			$http.defaults.headers.common["X-Mashape-key"] = sharedInformation.getKey();
+
+			return $http.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/extract?", 
+								{params: {'forceExtraction': true, 'url' : url }}).then(
+				function(payload) {
+					var recipes = payload.data;
+					return recipes;
+				},
+				function(error) {
+					console.log("Error", error.status);
+				});
 		}
 	}
 })
