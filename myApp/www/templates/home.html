@@ -2,7 +2,17 @@
   <ion-nav-title>
         <img src='img/spoon.png'>
   </ion-nav-title>
+            <ion-nav-buttons side ="right">
+            <select ng-model = "option">
+            <option value="option1">Option1</option>
+            </select>
+            <button class="import-button" ng-click="import()">Import</button>
+            <button class="search-button" ng-click="search()">Search</button>
+            </ion-nav-buttons>
+
   <ion-content>
+
+
  <h1>Welcome to SpoonReadMe!</h1>
 
 <p>Random Recipe to Try!</p>

@@ -30,6 +30,10 @@ angular.module('SpoonReadMe', ['ionic', 'SpoonReadMe.controllers', 'SpoonReadMe.
 
 //Custom FUNCTIONS
 .config(function($stateProvider, $urlRouterProvider) {
+//Has to go in parentheses: multiselectProvider
+// multiselectProvider.setTemplateUrl('lib/ionic-multiselect/dist/templates/item-template.html');
+// multiselectProvider.setModalTemplateUrl('lib/ionic-multiselect/dist/templates/modal-template.html');
+
 
   $stateProvider
     .state('event', {

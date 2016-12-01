@@ -6,7 +6,7 @@
 
 //This is angular's way of creating an application; we are telling to include the ionic module which includes all of the ionic code
 //that will process the tags for the side menu 
-angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ionic.utils'])
+angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ionic.utils', 'angularjs-dropdown-multiselect'])
 
 
 //Custom FUNCTIONS
@@ -19,32 +19,44 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ion
     $ionicSideMenuDelegate.toggleLeft();
   }
 
+})
+
+.controller('HomeCtrl', function($scope, $state, SearchService) {
+  $scope.$on("$ionicView.beforeEnter", function() {
   $scope.import = function() {
     $state.go('event.import');
   }
   $scope.search = function() {
     $state.go('event.search');
   };
-
-})
-
-.controller('HomeCtrl', function($scope, SearchService) {
-  
+ 
+});
 })
 
 
-.controller('SearchCtrl', function($scope, $ionicLoading, $window, RecipeDetails) {
-  $scope.result = "";
+.controller('SearchCtrl', function($scope, $ionicLoading, $ionicPopup, $window, RecipeDetails) {
+$scope.result = "";
 
+  //triggered on filter button click
+  $scope.showPopup = function() {
+  $scope.diets_model = [];
   $scope.diets = [
-  {'name': 'Pescetarian', 'selected': false},
-  {'name': 'Lacto Vegetarian', 'selected': false},
-  {'name': 'Ovo Vegetarian', 'selected': false},
-  {'name': 'Vegan', 'selected': false},
-  {'name': 'Paleo', 'selected': false},
-  {'name': 'Primal', 'selected': false},
-  {'name': 'Vegetarian', 'selected': false}
+  {id: 'Pescetarian', label: 'Pescetarian','name': 'Pescetarian', 'selected': false},
+  {id: 'Lacto Vegetarian', label: 'Lacto Vegetarian','name': 'Lacto Vegetarian', 'selected': false},
+  {id: 'Ovo Vegetarian', label: 'Ovo Vegetarian', 'name': 'Ovo Vegetarian', 'selected': false},
+  {id: 'Vegan', label: 'Vegan', 'name': 'Vegan', 'selected': false},
+  {id: 'Paleo', label: 'Paleo', 'name': 'Paleo', 'selected': false},
+  {id: 'Primal', label: 'Primal', 'name': 'Primal', 'selected': false},
+  {id: 'Vegetarian', label: 'Vegetarian', 'name': 'Vegetarian', 'selected': false}
   ];
+
+  $scope.dietssettings = {
+    showCheckAll: false,
+    showUncheckAll: false,
+    scrollable: true,
+    buttonClasses: 'filterBtn',
+    smartButtonMaxItems: 2
+  };
 
   $scope.cuisines = [
   {'name': 'African', 'selected': false},
@@ -117,6 +129,29 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ion
 
   $scope.filterOption = false;
 
+  //custom popup
+  var myPopup = $ionicPopup.show({
+    templateUrl: 'templates/filter.html',
+    title: 'Filter Results',
+    subTitle: 'Do it',
+    scope: $scope,
+    buttons: [
+    {text: 'Cancel'},
+    {text: '<b>Save Filters</b>',
+    type: 'button-positive',
+    onTap: function(e) {
+      //Probably want to do some refresh thing??
+      return 5;
+    }
+  }
+  ]
+  });
+
+  myPopup.then(function(res) {
+    console.log('Pressed!', res);
+  });
+
+  }
 
   $scope.addFilterArray = function(filter, array){
     var index = array.indexOf(filter.name);
@@ -215,7 +250,6 @@ $scope.getRecipeImage = function(recipe) {
 
 .controller('RecipeDetailsCtrl', function($scope, $stateParams, RecipeDetails, StorageService) {
 $scope.recipeId = $stateParams.recipeId;
-console.log("id = ", $scope.recipeId);
 $scope.fromSavedOrSearch = $stateParams.fromSavedOrSearch;
 
 if($scope.fromSavedOrSearch == 'search'){

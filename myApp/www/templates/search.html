@@ -1,77 +1,22 @@
 <ion-view view-title="Search">
-  <ion-content>
+            
+            <ion-nav-buttons side ="right">
+            <button class="search-button" ng-click="showPopup()">Filter</button>
+            </ion-nav-buttons>
+ <ion-content>
 
   <p class="padding"></p>
+
 
 <form>
 
 	<input type="textbox" id="text-id" class="search-box" name="searchParameter" placeholder="Search Recipes..." ng-model="query">
 	<input class="search-btn" type="image" src="img/search.png" ng-click="getRecipe(query)" alt="Search">
 	<br>
+
 <span>Filter For:</span>
 <strong class="titles">Diet, Ingredients, Restrictions</strong>
 </form>
-
-<b>Calories</b>
-<div class="cals"> 
-From:
-<label><input type="text" ng-model="calMin" ng-change="addFilter(calorieMin, 1.1)"  style="border: 1px solid black;width:50px;height:20px;"/>
-</label>
-To:
-<label><input type="text" ng-model="calMax" ng-change="addFilter(calorieMax, 1.2)" style="border: 1px solid black;width:50px;height:20px;"/>
-</label>
-</div>
-
-<b>Carbs</b>
-<div class="carbs"> 
-From:
-<label><input type="text" ng-model="carbMin" ng-change="addFilter(carbsMin, 2.1)" style="border: 1px solid black;width:50px;height:20px;"/>
-</label>
-To:
-<label><input type="text" ng-model="carbMax" ng-change="addFilter(carbsMax, 2.2)" style="border: 1px solid black;width:50px;height:20px;"/>
-</label>
-</div>
-
-<b>Fat</b>
-<div class="fats"> 
-From:
-<label><input type="text" ng-model="fatMin" ng-change="addFilter(fatMin, 3.1)" style="border: 1px solid black;width:50px;height:20px;"/>
-</label>
-To:
-<label><input type="text" ng-model="fatMax" ng-change="addFilter(fatMax, 3.2)" style="border: 1px solid black;width:50px;height:20px;"/>
-</label>
-</div>
-
-<b>Protein</b>
-<div class="protein"> 
-From:
-<label><input type="text" ng-model="proteinMin" ng-change="addFilter(proteinMin, 4.1)" style="border: 1px solid black;width:50px;height:20px;"/>
-</label>
-To:
-<label><input type="text" ng-model="proteinMax" ng-change="addFilter(proteinMax, 4.2)" style="border: 1px solid black;width:50px;height:20px;"/>
-</label>
-</div>
-
-<b>Diet</b>
-<div class="diet" ng-repeat="diet in diets"> 
-<input type="checkbox" ng-model="diet.selected" ng-change="addFilter(diet, 5)"/> {{diet.name}}
-</div>
-
-<b>Cuisine</b>
-<div class="cuisine" ng-repeat="cuisine in cuisines"> 
-<input type="checkbox" ng-model="cuisine.selected" ng-change="addFilter(cuisine, 6)"/> {{cuisine.name}}
-</div>
-
-<b>Allergies</b>
-<div class="allergy" ng-repeat="allergy in allergies"> 
-<input type="checkbox" ng-model="allergy.selected" ng-change="addFilter(allergy, 7)"/> {{allergy.name}}
-</div>
-
-
-<b>Kind</b>
-<div class="kind" ng-repeat="kind in kinds"> 
-<input type="checkbox" ng-model="kind.selected" ng-change="addFilter(kind, 8)"/> {{kind.name}}
-</div>
 
 
 <button ng-click="getRecipe(query)">Filter Results</button>
