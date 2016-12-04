@@ -123,7 +123,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 		},
 
 		getFromSearchFiltered: function(query, diet, cuisine, allergy, kind, calMin, calMax, carbMin, carbMax, fatMin, fatMax, proteinMin, proteinMax) {
-			return SearchService.filter(query, diet, cuisine, allergy, kind, proteinMax).then(function(results) {
+			return SearchService.filter(query, diet, cuisine, allergy, kind, calMin, calMax, carbMin, carbMax, fatMin, fatMax, proteinMin, proteinMax).then(function(results) {
 				searchPayLoad = results;
 				return searchPayLoad;
 			});

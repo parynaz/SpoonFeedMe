@@ -58,75 +58,88 @@ $scope.result = "";
     smartButtonMaxItems: 2
   };
 
+  $scope.cuisines_model =[];
   $scope.cuisines = [
-  {'name': 'African', 'selected': false},
-  {'name': 'Chinese', 'selected': false},
-  {'name': 'Japanese', 'selected': false},
-  {'name': 'Korean', 'selected': false},
-  {'name': 'Vietnamese', 'selected': false},
-  {'name': 'Thai', 'selected': false},
-  {'name': 'Indian', 'selected': false},
-  {'name': 'British', 'selected': false},
-  {'name': 'Irish', 'selected': false},
-  {'name': 'French', 'selected': false},
-  {'name': 'Italian', 'selected': false},
-  {'name': 'Mexican', 'selected': false},
-  {'name': 'Spanish', 'selected': false},
-  {'name': 'Middle Eastern', 'selected': false},
-  {'name': 'Jewish', 'selected': false},
-  {'name': 'American', 'selected': false},
-  {'name': 'Cajun', 'selected': false},
-  {'name': 'Southern', 'selected': false},
-  {'name': 'Greek', 'selected': false},
-  {'name': 'German', 'selected': false},
-  {'name': 'Nordic', 'selected': false},
-  {'name': 'Eastern European', 'selected': false},
-  {'name': 'Caribbean', 'selected': false},
-  {'name': 'Latin American', 'selected': false}
+  {id: 'African', label: 'Africa', 'name': 'African', 'selected': false},
+  {id: 'Chinese', label: 'Chinese', 'name': 'Chinese', 'selected': false},
+  {id: 'Japanese', label: 'Japanese', 'name': 'Japanese', 'selected': false},
+  {id: 'Korean', label: 'Korean', 'name': 'Korean', 'selected': false},
+  {id: 'Vietnamese', label: 'Vietnamese', 'name': 'Vietnamese', 'selected': false},
+  {id: 'Thai', label: 'Thai', 'name': 'Thai', 'selected': false},
+  {id: 'Indian', label: 'Indian', 'name': 'Indian', 'selected': false},
+  {id: 'British', label: 'British', 'name': 'British', 'selected': false},
+  {id: 'Irish', label: 'Irish', 'name': 'Irish', 'selected': false},
+  {id: 'French', label: 'French', 'name': 'French', 'selected': false},
+  {id: 'Italian', label: 'Italian', 'name': 'Italian', 'selected': false},
+  {id: 'Mexican', label: 'Mexican', 'name': 'Mexican', 'selected': false},
+  {id: 'Spanish', label: 'Spanish', 'name': 'Spanish', 'selected': false},
+  {id: 'Middle Eastern', label: 'Middle Eastern', 'name': 'Middle Eastern', 'selected': false},
+  {id: 'Jewish', label: 'Jewish', 'name': 'Jewish', 'selected': false},
+  {id: 'American', label: 'American', 'name': 'American', 'selected': false},
+  {id: 'Cajun', label: 'Cajun', 'name': 'Cajun', 'selected': false},
+  {id: 'Southern', label: 'Southern', 'name': 'Southern', 'selected': false},
+  {id: 'Greek', label: 'Greek', 'name': 'Greek', 'selected': false},
+  {id: 'German', label: 'German', 'name': 'German', 'selected': false},
+  {id: 'Nordic', label: 'Nordic', 'name': 'Nordic', 'selected': false},
+  {id: 'Eastern European', label: 'Eastern European', 'name': 'Eastern European', 'selected': false},
+  {id: 'Caribbean', label: 'Caribbean', 'name': 'Caribbean', 'selected': false},
+  {id: 'Latin American', label: 'Latin American', 'name': 'Latin American', 'selected': false}
   ];
 
+$scope.allergies_model=[];
  $scope.allergies = [
-  {'name': 'Dairy', 'selected': false},
-  {'name': 'Egg', 'selected': false},
-  {'name': 'Gluten', 'selected': false},
-  {'name': 'Peanut', 'selected': false},
-  {'name': 'Sesame', 'selected': false},
-  {'name': 'Seafood', 'selected': false},
-  {'name': 'Shellfish', 'selected': false},
-  {'name': 'Soy', 'selected': false},
-  {'name': 'Sulfite', 'selected': false},
-  {'name': 'Tree Nut', 'selected': false},
-  {'name': 'Wheat', 'selected': false}
+  {id: 'Dairy', label: 'Dairy', 'name': 'Dairy', 'selected': false},
+  {id: 'Egg', label: 'Egg', 'name': 'Egg', 'selected': false},
+  {id: 'Gluten', label: 'Gluten', 'name': 'Gluten', 'selected': false},
+  {id: 'Peanut', label: 'Peanut', 'name': 'Peanut', 'selected': false},
+  {id: 'Sesame', label: 'Sesame', 'name': 'Sesame', 'selected': false},
+  {id: 'Seafood', label: 'Seafood', 'name': 'Seafood', 'selected': false},
+  {id: 'Shellfish', label: 'Shellfish', 'name': 'Shellfish', 'selected': false},
+  {id: 'Soy', label: 'Soy', 'name': 'Soy', 'selected': false},
+  {id: 'Sulfite', label: 'Sulfite', 'name': 'Sulfite', 'selected': false},
+  {id: 'Tree Nut', label: 'Tree Nut', 'name': 'Tree Nut', 'selected': false},
+  {id: 'Wheat', label: 'Wheat', 'name': 'Wheat', 'selected': false}
   ];
 
+$scope.kinds_model = [];
   $scope.kinds = [
-  {'name': 'Main Course', 'selected': false},
-  {'name': 'Side Dish', 'selected': false},
-  {'name': 'Dessert', 'selected': false},
-  {'name': 'Appetizer', 'selected': false},
-  {'name': 'Salad', 'selected': false},
-  {'name': 'Bread', 'selected': false},
-  {'name': 'Breakfast', 'selected': false},
-  {'name': 'Soup', 'selected': false},
-  {'name': 'Beverage', 'selected': false},
-  {'name': 'Sauce', 'selected': false},
-  {'name': 'Drink', 'selected': false}
+  {id: 'Main Course', label: 'Main Course', 'name': 'Main Course', 'selected': false},
+  {id: 'Side Dish', label: 'Side Dish', 'name': 'Side Dish', 'selected': false},
+  {id: 'Dessert', label: 'Dessert', 'name': 'Dessert', 'selected': false},
+  {id: 'Appetizer', label: 'Appetizer', 'name': 'Appetizer', 'selected': false},
+  {id: 'Salad', label: 'Salad', 'name': 'Salad', 'selected': false},
+  {id: 'Bread', label: 'Bread', 'name': 'Bread', 'selected': false},
+  {id: 'Breakfast', label: 'Breakfast', 'name': 'Breakfast', 'selected': false},
+  {id: 'Soup', label: 'Soup', 'name': 'Soup', 'selected': false},
+  {id: 'Beverage', label: 'Beverage', 'name': 'Beverage', 'selected': false},
+  {id: 'Sauce', label: 'Sauce', 'name': 'Sauce', 'selected': false},
+  {id: 'Drink', label: 'Drink', 'name': 'Drink', 'selected': false}
   ];
 
-  $scope.calMin = 0;
-  $scope.calMax = 10000;
-  $scope.carbMin = 0;
-  $scope.carbMax = 10000;
-  $scope.fatMin = 0;
-  $scope.fatMax = 10000;
-  $scope.proteinMin = 0;
-  $scope.proteinMax = 10000;
+  $scope.calories = {
+    min: 0,
+    max: 10000
+  };
+
+  $scope.carbs ={
+    min: 0,
+    max: 10000
+  };
+
+  $scope.fat = {
+    min: 0,
+    max: 10000
+  };
+
+  $scope.protein = {
+    min: 0,
+    max: 10000
+  };
 
   $scope.selectedDiet = [];
   $scope.selectedCuisine = [];
   $scope.selectedAllergy = [];
   $scope.selectedKind = [];
-
   $scope.filterOption = false;
 
   //custom popup
@@ -141,76 +154,42 @@ $scope.result = "";
     type: 'button-positive',
     onTap: function(e) {
       //Probably want to do some refresh thing??
-      return 5;
+        
+      if ($scope.diets_model.length > 0 || 
+            $scope.cuisines_model.length > 0 || 
+              $scope.allergies_model.length > 0 || 
+                $scope.kinds_model.length > 0 ||
+                  $scope.calories.min > 0 || $scope.calories.max < 10000 ||
+                    $scope.carbs.min > 0 || $scope.carbs.max < 10000 ||
+                      $scope.fat.min > 0 || $scope.fat.max < 10000 ||
+                        $scope.protein.min > 0 || $scope.protein.max < 10000)
+        $scope.filterOption = true;
+
+      for(var i = 0; i < $scope.diets_model.length; i++){
+        $scope.selectedDiet.push($scope.diets_model[i].id);
+      }
+    
+      for(var i = 0; i < $scope.cuisines_model.length; i++){
+        $scope.selectedCuisine.push($scope.cuisines_model[i].id);
+      }
+
+      for(var i = 0; i < $scope.allergies_model.length; i++){
+        $scope.selectedAllergy.push($scope.allergies_model[i].id);
+      }
+
+      for(var i = 0; i < $scope.kinds_model.length; i++){
+        $scope.selectedKind.push($scope.kinds_model[i].id);
+      }
     }
   }
   ]
   });
 
   myPopup.then(function(res) {
-    console.log('Pressed!', res);
+    console.log('Pressed!');
   });
 
   }
-
-  $scope.addFilterArray = function(filter, array){
-    var index = array.indexOf(filter.name);
-    if(index == -1 && filter.selected){
-      array.push(filter.name);
-    } else if (!filter.selected && index != -1){
-      array.splice(index, 1);
-    }
-  }  
- 
-  $scope.addFilter = function(filter, num) {
-    console.log("FILTER CHANGE");
-    switch (num) {
-      case 1.1:
-        $scope.calMin = parseInt(filter);
-        break;
-      case 1.2:
-        $scope.calMax = parseInt(filter);
-        break;
-      case 2.1:
-        $scope.carbMin = parseInt(filter);
-        break;
-      case 2.2:
-        $scope.carbMax = parseInt(filter);
-        break;
-      case 3.1:
-        $scope.fatMin = parseInt(filter);
-        break;
-      case 3.2:
-        $scope.fatMax = parseInt(filter);
-        break;
-      case 4.1:
-        $scope.proteinMin = parseInt(filter);
-        break;
-      case 4.2:
-        console.log("PROTEIN");
-        $scope.proteinMax = parseInt(filter);
-        break;
-      case 5:
-        console.log("DIET");
-        $scope.addFilterArray(filter, $scope.selectedDiet);
-        break;
-      case 6:        
-      console.log("CUISINE");
-        $scope.addFilterArray(filter, $scope.selectedCuisine);
-        break;
-      case 7:
-      console.log("ALLERGY");
-        $scope.addFilterArray(filter, $scope.selectedAllergy);
-        break;
-      case 8:
-      console.log("KIND");
-        $scope.addFilterArray(filter, $scope.selectedKind);
-        break;
-      default:
-    }
-    $scope.filterOption = true;
-
-      }
 
   $scope.getRecipe = function(query) {
     $ionicLoading.show({
@@ -218,11 +197,8 @@ $scope.result = "";
     animation: 'fade-in'
       });
 
-// query, $scope.calMin, $scope.calMax, $scope.carbMin, $scope.carbMax, $scope.fatMin, $scope.fatMax, $scope.proteinMin, proteinMax, $scope.selectedDiet, $scope.selectedCuisine, $scope.selectedAllergy, $scope.selectedKind
-// $window.location.reload(true);
-
     if($scope.filterOption == true){
-      RecipeDetails.getFromSearchFiltered(query, $scope.selectedDiet, $scope.selectedCuisine, $scope.selectedAllergy, $scope.selectedKind, $scope.calMin, $scope.calMax, $scope.carbMin, $scope.carbMax, $scope.fatMin, $scope.fatMax, $scope.proteinMin, $scope.proteinMax).then(function(data){
+      RecipeDetails.getFromSearchFiltered(query, $scope.selectedDiet, $scope.selectedCuisine, $scope.selectedAllergy, $scope.selectedKind, $scope.calories.min, $scope.calories.max, $scope.carbs.min, $scope.carbs.max, $scope.fat.min, $scope.fat.max, $scope.protein.min, $scope.protein.max).then(function(data){
         $scope.result = data.results;
         $ionicLoading.hide();
       })
