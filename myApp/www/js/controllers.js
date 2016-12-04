@@ -41,79 +41,71 @@ $scope.result = "";
   $scope.showPopup = function() {
   $scope.diets_model = [];
   $scope.diets = [
-  {id: 'Pescetarian', label: 'Pescetarian','name': 'Pescetarian', 'selected': false},
-  {id: 'Lacto Vegetarian', label: 'Lacto Vegetarian','name': 'Lacto Vegetarian', 'selected': false},
-  {id: 'Ovo Vegetarian', label: 'Ovo Vegetarian', 'name': 'Ovo Vegetarian', 'selected': false},
-  {id: 'Vegan', label: 'Vegan', 'name': 'Vegan', 'selected': false},
-  {id: 'Paleo', label: 'Paleo', 'name': 'Paleo', 'selected': false},
-  {id: 'Primal', label: 'Primal', 'name': 'Primal', 'selected': false},
-  {id: 'Vegetarian', label: 'Vegetarian', 'name': 'Vegetarian', 'selected': false}
+  {id: 'Pescetarian', label: 'Pescetarian','name': 'Pescetarian'},
+  {id: 'Lacto Vegetarian', label: 'Lacto Vegetarian','name': 'Lacto Vegetarian'},
+  {id: 'Ovo Vegetarian', label: 'Ovo Vegetarian', 'name': 'Ovo Vegetarian'},
+  {id: 'Vegan', label: 'Vegan', 'name': 'Vegan'},
+  {id: 'Paleo', label: 'Paleo', 'name': 'Paleo'},
+  {id: 'Primal', label: 'Primal', 'name': 'Primal'},
+  {id: 'Vegetarian', label: 'Vegetarian', 'name': 'Vegetarian'}
   ];
-
-  $scope.dietssettings = {
-    showCheckAll: false,
-    showUncheckAll: false,
-    scrollable: true,
-    buttonClasses: 'filterBtn',
-    smartButtonMaxItems: 2
-  };
 
   $scope.cuisines_model =[];
   $scope.cuisines = [
-  {id: 'African', label: 'Africa', 'name': 'African', 'selected': false},
-  {id: 'Chinese', label: 'Chinese', 'name': 'Chinese', 'selected': false},
-  {id: 'Japanese', label: 'Japanese', 'name': 'Japanese', 'selected': false},
-  {id: 'Korean', label: 'Korean', 'name': 'Korean', 'selected': false},
-  {id: 'Vietnamese', label: 'Vietnamese', 'name': 'Vietnamese', 'selected': false},
-  {id: 'Thai', label: 'Thai', 'name': 'Thai', 'selected': false},
-  {id: 'Indian', label: 'Indian', 'name': 'Indian', 'selected': false},
-  {id: 'British', label: 'British', 'name': 'British', 'selected': false},
-  {id: 'Irish', label: 'Irish', 'name': 'Irish', 'selected': false},
-  {id: 'French', label: 'French', 'name': 'French', 'selected': false},
-  {id: 'Italian', label: 'Italian', 'name': 'Italian', 'selected': false},
-  {id: 'Mexican', label: 'Mexican', 'name': 'Mexican', 'selected': false},
-  {id: 'Spanish', label: 'Spanish', 'name': 'Spanish', 'selected': false},
-  {id: 'Middle Eastern', label: 'Middle Eastern', 'name': 'Middle Eastern', 'selected': false},
-  {id: 'Jewish', label: 'Jewish', 'name': 'Jewish', 'selected': false},
-  {id: 'American', label: 'American', 'name': 'American', 'selected': false},
-  {id: 'Cajun', label: 'Cajun', 'name': 'Cajun', 'selected': false},
-  {id: 'Southern', label: 'Southern', 'name': 'Southern', 'selected': false},
-  {id: 'Greek', label: 'Greek', 'name': 'Greek', 'selected': false},
-  {id: 'German', label: 'German', 'name': 'German', 'selected': false},
-  {id: 'Nordic', label: 'Nordic', 'name': 'Nordic', 'selected': false},
-  {id: 'Eastern European', label: 'Eastern European', 'name': 'Eastern European', 'selected': false},
-  {id: 'Caribbean', label: 'Caribbean', 'name': 'Caribbean', 'selected': false},
-  {id: 'Latin American', label: 'Latin American', 'name': 'Latin American', 'selected': false}
+  {id: 'African', label: 'Africa', 'name': 'African'},
+  {id: 'Chinese', label: 'Chinese', 'name': 'Chinese'},
+  {id: 'Japanese', label: 'Japanese', 'name': 'Japanese'},
+  {id: 'Korean', label: 'Korean', 'name': 'Korean'},
+  {id: 'Vietnamese', label: 'Vietnamese', 'name': 'Vietnamese'},
+  {id: 'Thai', label: 'Thai', 'name': 'Thai'},
+  {id: 'Indian', label: 'Indian', 'name': 'Indian'},
+  {id: 'British', label: 'British', 'name': 'British'},
+  {id: 'Irish', label: 'Irish', 'name': 'Irish'},
+  {id: 'French', label: 'French', 'name': 'French'},
+  {id: 'Italian', label: 'Italian', 'name': 'Italian'},
+  {id: 'Mexican', label: 'Mexican', 'name': 'Mexican'},
+  {id: 'Spanish', label: 'Spanish', 'name': 'Spanish'},
+  {id: 'Middle Eastern', label: 'Middle Eastern', 'name': 'Middle Eastern'},
+  {id: 'Jewish', label: 'Jewish', 'name': 'Jewish'},
+  {id: 'American', label: 'American', 'name': 'American'},
+  {id: 'Cajun', label: 'Cajun', 'name': 'Cajun'},
+  {id: 'Southern', label: 'Southern', 'name': 'Southern'},
+  {id: 'Greek', label: 'Greek', 'name': 'Greek'},
+  {id: 'German', label: 'German', 'name': 'German'},
+  {id: 'Nordic', label: 'Nordic', 'name': 'Nordic'},
+  {id: 'Eastern European', label: 'Eastern European', 'name': 'Eastern European'},
+  {id: 'Caribbean', label: 'Caribbean', 'name': 'Caribbean'},
+  {id: 'Latin American', label: 'Latin American', 'name': 'Latin American'}
   ];
 
 $scope.allergies_model=[];
  $scope.allergies = [
-  {id: 'Dairy', label: 'Dairy', 'name': 'Dairy', 'selected': false},
-  {id: 'Egg', label: 'Egg', 'name': 'Egg', 'selected': false},
-  {id: 'Gluten', label: 'Gluten', 'name': 'Gluten', 'selected': false},
-  {id: 'Peanut', label: 'Peanut', 'name': 'Peanut', 'selected': false},
-  {id: 'Sesame', label: 'Sesame', 'name': 'Sesame', 'selected': false},
-  {id: 'Seafood', label: 'Seafood', 'name': 'Seafood', 'selected': false},
-  {id: 'Shellfish', label: 'Shellfish', 'name': 'Shellfish', 'selected': false},
-  {id: 'Soy', label: 'Soy', 'name': 'Soy', 'selected': false},
-  {id: 'Sulfite', label: 'Sulfite', 'name': 'Sulfite', 'selected': false},
-  {id: 'Tree Nut', label: 'Tree Nut', 'name': 'Tree Nut', 'selected': false},
-  {id: 'Wheat', label: 'Wheat', 'name': 'Wheat', 'selected': false}
+  {id: 'Dairy', label: 'Dairy', 'name': 'Dairy'},
+  {id: 'Egg', label: 'Egg', 'name': 'Egg'},
+  {id: 'Gluten', label: 'Gluten', 'name': 'Gluten'},
+  {id: 'Peanut', label: 'Peanut', 'name': 'Peanut'},
+  {id: 'Sesame', label: 'Sesame', 'name': 'Sesame'},
+  {id: 'Seafood', label: 'Seafood', 'name': 'Seafood'},
+  {id: 'Shellfish', label: 'Shellfish', 'name': 'Shellfish'},
+  {id: 'Soy', label: 'Soy', 'name': 'Soy'},
+  {id: 'Sulfite', label: 'Sulfite', 'name': 'Sulfite'},
+  {id: 'Tree Nut', label: 'Tree Nut', 'name': 'Tree Nut'},
+  {id: 'Wheat', label: 'Wheat', 'name': 'Wheat'}
   ];
 
 $scope.kinds_model = [];
   $scope.kinds = [
-  {id: 'Main Course', label: 'Main Course', 'name': 'Main Course', 'selected': false},
-  {id: 'Side Dish', label: 'Side Dish', 'name': 'Side Dish', 'selected': false},
-  {id: 'Dessert', label: 'Dessert', 'name': 'Dessert', 'selected': false},
-  {id: 'Appetizer', label: 'Appetizer', 'name': 'Appetizer', 'selected': false},
-  {id: 'Salad', label: 'Salad', 'name': 'Salad', 'selected': false},
-  {id: 'Bread', label: 'Bread', 'name': 'Bread', 'selected': false},
-  {id: 'Breakfast', label: 'Breakfast', 'name': 'Breakfast', 'selected': false},
-  {id: 'Soup', label: 'Soup', 'name': 'Soup', 'selected': false},
-  {id: 'Beverage', label: 'Beverage', 'name': 'Beverage', 'selected': false},
-  {id: 'Sauce', label: 'Sauce', 'name': 'Sauce', 'selected': false},
-  {id: 'Drink', label: 'Drink', 'name': 'Drink', 'selected': false}
+  {id: 'Main Course', label: 'Main Course', 'name': 'Main Course'},
+  {id: 'Side Dish', label: 'Side Dish', 'name': 'Side Dish'},
+  {id: 'Dessert', label: 'Dessert', 'name': 'Dessert'},
+  {id: 'Appetizer', label: 'Appetizer', 'name': 'Appetizer'},
+  {id: 'Salad', label: 'Salad', 'name': 'Salad'},
+  {id: 'Bread', label: 'Bread', 'name': 'Bread'},
+  {id: 'Breakfast', label: 'Breakfast', 'name': 'Breakfast'},
+  {id: 'Soup', label: 'Soup', 'name': 'Soup'},
+  {id: 'Beverage', label: 'Beverage', 'name': 'Beverage'},
+  {id: 'Sauce', label: 'Sauce', 'name': 'Sauce'},
+  {id: 'Drink', label: 'Drink', 'name': 'Drink'}
   ];
 
   $scope.calories = {
@@ -141,6 +133,14 @@ $scope.kinds_model = [];
   $scope.selectedAllergy = [];
   $scope.selectedKind = [];
   $scope.filterOption = false;
+
+  $scope.dietssettings = {
+    showCheckAll: false,
+    showUncheckAll: false,
+    scrollable: true,
+    buttonClasses: 'filterBtn',
+    smartButtonMaxItems: 2
+  };
 
   //custom popup
   var myPopup = $ionicPopup.show({
