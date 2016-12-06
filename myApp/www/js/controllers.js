@@ -35,9 +35,11 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ion
 
 
 .controller('SearchCtrl', function($scope, $ionicLoading, $ionicPopup, $window, RecipeDetails) {
-$scope.result = "";
 
+  //The results to be rendered
+  $scope.result = "";
   //triggered on filter button click
+  //ng-model for the following filters; attached to html and will get added into filter_model array
   $scope.showPopup = function() {
   $scope.diets_model = [];
   $scope.diets = [
@@ -108,6 +110,7 @@ $scope.kinds_model = [];
   {id: 'Drink', label: 'Drink', 'name': 'Drink'}
   ];
 
+  //ng-model for cal, carb, fat, protein filters
   $scope.calories = {
     min: 0,
     max: 10000
@@ -143,6 +146,7 @@ $scope.kinds_model = [];
   };
 
   //custom popup
+  //On save filter button click, will add any filters to selectedFilter array and make sure query will be complex search by turning on filteroption
   var myPopup = $ionicPopup.show({
     templateUrl: 'templates/filter.html',
     title: 'Filter Results',
@@ -191,6 +195,8 @@ $scope.kinds_model = [];
 
   }
 
+  //If any filters are pressed, there will be a complex search (3 API calls)
+  //If no filters are pressed, then there will be a simple recipe search (1 API call)
   $scope.getRecipe = function(query) {
     $ionicLoading.show({
     template: '<ion-spinner icon="android"></ion-spinner>',
@@ -205,20 +211,27 @@ $scope.kinds_model = [];
     }else 
 
   RecipeDetails.getFromSearch(query).then(function(data){
-    //change all the images to have the https://spoonacular.com/recipeImages at the beginning before passing it forward
     $scope.result = data.results;
+    $scope.getRecipeImage($scope.result);
     $ionicLoading.hide();
   });
 }
 
+//For query only searches; the images need to have url added to them
+//Also some recipes don't have images so default image added for these
 $scope.getRecipeImage = function(recipe) {
-  var substring = "https://spoonacular.com/recipeImages/";
-  var string = recipe.image;
+var substring = "https://spoonacular.com/recipeImages/";
 
-  if(string.includes(substring))
-    return string;
-  else
-    return (substring + string);
+  for(var i = 0; i < recipe.length; i++){
+    if (recipe[i].imageUrls.length == 0){
+      recipe[i].image = "https://static.pexels.com/photos/3329/food-kitchen-cutting-board-cooking.jpg";
+    }
+    else {
+      var string = recipe[i].image;
+      recipe[i].image = (substring + string); 
+    }
+
+  }
 }
 
 })
