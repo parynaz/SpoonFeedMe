@@ -238,12 +238,20 @@ var substring = "https://spoonacular.com/recipeImages/";
 
 
 .controller('RecipeDetailsCtrl', function($scope, $stateParams, RecipeDetails, StorageService) {
+//Won't show walkthrough panel unless turned on
+$scope.walkthroughHTML = false;
+//Will have to split up the instructions to get steps
+var steps = [];
+
 $scope.recipeId = $stateParams.recipeId;
+//will arrive here from either saved paged or search page
 $scope.fromSavedOrSearch = $stateParams.fromSavedOrSearch;
 
+//if from search; will be getting the results
 if($scope.fromSavedOrSearch == 'search'){
   var payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch).results[$scope.recipeId];
 }
+//if from saved; will have to look in local storage
 else if($scope.fromSavedOrSearch == 'saved'){
   var payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch)[$scope.recipeId];
 }
@@ -256,29 +264,17 @@ RecipeDetails.getDetails(payload.id).then(function(detailPayload){
   $scope.details = detailPayload;
   });
 
-
+//Will execute when user presses walkthrough button
   $scope.getSteps = function() {
-    RecipeDetails.getInstructions($scope.details.id).then(function(InstructionPayload){
-          $scope.instructions = InstructionPayload;
+          $scope.instructions = $scope.details.instructions;
+          $scope.walkthroughHTML = true;
           //fix the steps
-          for(var i = 0; i < $scope.instructions.length; i++){
-            var step = $scope.instructions[i].step.replace('.1.', '.')
-                                        .replace('.2.', '.')
-                                        .replace('.3.', '.')
-                                        .replace('.4.', '.')
-                                        .replace('.5.', '.')
-                                        .replace('.6.', '.')
-                                        .replace('.7.', '.')
-                                        .replace('.8.', '.')
-                                        .replace('.9.', '.')
-                                        .replace('.10.', '.');
-                                        $scope.instructions[i].step = step;
-}
-//Voice Control stuff
+          steps = $scope.instructions.split(".");
+          $scope.steps = steps;
 
 $scope.currentStepNum = 1;
-$scope.currentStep = ($scope.instructions[$scope.currentStepNum - 1].step);
-$scope.maxStepNum = $scope.instructions.length;
+$scope.currentStep = ($scope.steps[$scope.currentStepNum - 1]);
+$scope.maxStepNum = $scope.steps.length;
 $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
 $scope.max = ($scope.maxStepNum / $scope.maxStepNum) * 100;
 
@@ -287,13 +283,12 @@ $scope.max = ($scope.maxStepNum / $scope.maxStepNum) * 100;
 
   $scope.recognition.start();
 
-});
 }
 
 $scope.nextStep = function() {
       if ($scope.currentStepNum < $scope.maxStepNum) {
         $scope.currentStepNum += 1;
-        $scope.currentStep = $scope.instructions[$scope.currentStepNum - 1].step;
+        $scope.currentStep = $scope.steps[$scope.currentStepNum - 1];
         $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
       }
 }
@@ -301,7 +296,7 @@ $scope.nextStep = function() {
 $scope.prevStep = function() {
       if ($scope.currentStepNum > 1) {
         $scope.currentStepNum -= 1;
-        $scope.currentStep = $scope.instructions[$scope.currentStepNum - 1].step;
+        $scope.currentStep = $scope.steps[$scope.currentStepNum - 1];
         $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
       }
 }

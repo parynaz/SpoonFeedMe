@@ -49,21 +49,6 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 					console.log("Error", error.status);
 				});
 		},
-		//Returns Recipe instructions broken down into steps
-		instructions: function(id) {
-			$http.defaults.headers.common["X-Mashape-key"] = sharedInformation.getKey();
-
-			return $http.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/" + id + "/analyzedInstructions", 
-								{params: {'stepBreakdown': true }}).then(
-				function(payload) {
-					var recipes = payload.data[0].steps;
-					return recipes;
-				},
-				function(error) {
-					console.log("Error", error.status);
-				});			
-		},
-
 		//Returns recipe data imported from a website or blog
 		import: function(url){
 			$http.defaults.headers.common["X-Mashape-key"] = sharedInformation.getKey();
@@ -111,7 +96,6 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 .factory('RecipeDetails', function(SearchService, StorageService, $http) {
 	var searchPayLoad;
 	var searchDetails;
-	var searchInstructions;
 	var saved;
 
 	return {
@@ -144,14 +128,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 				searchDetails = results 
 				return searchDetails;
 			})
-		},
-		getInstructions: function(id) {
-			return SearchService.instructions(id).then(function (results) {
-				searchInstructions = results;
-				return searchInstructions;
-			})
 		}
-
 
 	};
 
