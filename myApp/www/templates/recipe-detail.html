@@ -1,23 +1,23 @@
-<ion-view view-title="{{recipe.title}}">
+<ion-view view-title="{{ recipe.title}}">
   <ion-content>
  <h1>FuckYeahRecipes</h1>
 
 <ion-item>
- <img class="recipe-detail-img" ng-src="{{ recipe.image }}">
- <p>Calories: {{ recipe.calories }}</p>
- <p>Protein: {{ recipe.protein }}</p>
- <p>Fat: {{ recipe.fat }}</p>
- <p>Carbohydrates: {{ recipe.carbs }}</p>
+ <img class="recipe-detail-img" ng-src="{{ image }}">
+ <p>Calories: {{ calories }}</p>
+ <p>Protein: {{ protein }}</p>
+ <p>Fat: {{ fat }}</p>
+ <p>Carbohydrates: {{ carbs }}</p>
 
- <p>Servings: {{ details.servings }}</p>
- <p>Instructions: {{ details.instructions }}</p>
+ <p>Servings: {{ servings }}</p>
+ <p>Instructions: {{ instructions }}</p>
 
 <button ng-click="saveRecipe(recipe)">{{button}}</button>
 <br>
 <button ng-click="getSteps()">Walkthrough</button>
 
 
-<div ng-show="walkthroughHTML">
+<div id="walkthrough" ng-show="walkthroughHTML">
 <p>WALKTHROUGH</p>
    <p class = "step">{{currentStep}}</p>
 

@@ -22,15 +22,12 @@
 <button ng-click="getRecipe(query)">Filter Results</button>
 
 </form>
-<!-- <img ng-src="{{result.image}}">{{ recipe.results[$index].title }}	{{ result[$index] }}
-
- -->
-<!-- <ion-list>
-<ion-item type="item-text-wrap" ng-repeat="recipe in result"> -->
 
 
-<div class="row" style="flex-wrap: wrap;">
-		<div class="col col-25" ng-repeat="recipe in result track by $index">
+
+<div class="row" ng-show = "searchResultsReturned" style="flex-wrap: wrap;">
+
+  <div class="col col-25" ng-repeat="recipe in result">
 
 	<ion-item href="#/event/search/{{$index}}/search">
 <!-- 	<div class="results">

@@ -35,9 +35,10 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ion
 
 
 .controller('SearchCtrl', function($scope, $ionicLoading, $ionicPopup, $window, RecipeDetails) {
-
   //The results to be rendered
   $scope.result = "";
+  $scope.searchResultsReturned = false;
+
   //triggered on filter button click
   //ng-model for the following filters; attached to html and will get added into filter_model array
   $scope.showPopup = function() {
@@ -206,6 +207,7 @@ $scope.kinds_model = [];
     if($scope.filterOption == true){
       RecipeDetails.getFromSearchFiltered(query, $scope.selectedDiet, $scope.selectedCuisine, $scope.selectedAllergy, $scope.selectedKind, $scope.calories.min, $scope.calories.max, $scope.carbs.min, $scope.carbs.max, $scope.fat.min, $scope.fat.max, $scope.protein.min, $scope.protein.max).then(function(data){
         $scope.result = data.results;
+        $scope.searchResultsReturned = true;
         $ionicLoading.hide();
       })
     }else 
@@ -213,6 +215,7 @@ $scope.kinds_model = [];
   RecipeDetails.getFromSearch(query).then(function(data){
     $scope.result = data.results;
     $scope.getRecipeImage($scope.result);
+    $scope.searchResultsReturned = true;
     $ionicLoading.hide();
   });
 }
@@ -237,7 +240,12 @@ var substring = "https://spoonacular.com/recipeImages/";
 })
 
 
-.controller('RecipeDetailsCtrl', function($scope, $stateParams, RecipeDetails, StorageService) {
+.controller('RecipeDetailsCtrl', function($scope, $stateParams, $location, $anchorScroll, $ionicLoading, RecipeDetails, StorageService) {
+    $ionicLoading.show({
+    template: '<ion-spinner icon="android"></ion-spinner>',
+    animation: 'fade-in'
+      });
+
 //Won't show walkthrough panel unless turned on
 $scope.walkthroughHTML = false;
 //Will have to split up the instructions to get steps
@@ -250,6 +258,19 @@ $scope.fromSavedOrSearch = $stateParams.fromSavedOrSearch;
 //if from search; will be getting the results
 if($scope.fromSavedOrSearch == 'search'){
   var payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch).results[$scope.recipeId];
+  console.log(payload);
+  RecipeDetails.getDetails(payload.id).then(function(detailPayload){
+  $scope.details = detailPayload;
+  console.log($scope.details);
+  $scope.image = payload.image;
+  $scope.calories = $scope.details.nutrition.nutrients[0].amount;
+  $scope.fat = $scope.details.nutrition.nutrients[1].amount;
+  $scope.protein = $scope.details.nutrition.nutrients[7].amount;
+  $scope.carbs = $scope.details.nutrition.nutrients[3].amount;
+  $scope.servings = $scope.details.servings;
+  $scope.instructions = $scope.details.instructions;
+  $ionicLoading.hide();
+});
 }
 //if from saved; will have to look in local storage
 else if($scope.fromSavedOrSearch == 'saved'){
@@ -260,12 +281,18 @@ $scope.recipe = payload;
 
 //payload is the specific Recipe
 //get extra information
-RecipeDetails.getDetails(payload.id).then(function(detailPayload){
-  $scope.details = detailPayload;
-  });
+// RecipeDetails.getDetails(payload.id).then(function(detailPayload){
+//   $scope.details = detailPayload;
+//   });
 
 //Will execute when user presses walkthrough button
   $scope.getSteps = function() {
+       //set the location.hash to the id of the element you wish to scroll to
+  $location.hash('walkthrough');
+
+  //call anchorscroll
+  $anchorScroll();
+
           $scope.instructions = $scope.details.instructions;
           $scope.walkthroughHTML = true;
           //fix the steps
