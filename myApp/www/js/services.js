@@ -7,7 +7,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 			$http.defaults.headers.common["X-Mashape-key"] = sharedInformation.getKey();
 
 			return $http.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search?", 
-								{params: {'query': query, 'number' : 20 }}).then(
+								{params: {'query': query, 'number' : 100 }}).then(
 				function(payload) {
 					var recipes = payload.data;
 					return recipes;

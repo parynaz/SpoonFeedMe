@@ -6,7 +6,7 @@
 
 //This is angular's way of creating an application; we are telling to include the ionic module which includes all of the ionic code
 //that will process the tags for the side menu 
-angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ionic.utils', 'angularjs-dropdown-multiselect'])
+angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ionic.utils', 'angularjs-dropdown-multiselect', 'infinite-scroll'])
 
 
 //Custom FUNCTIONS
