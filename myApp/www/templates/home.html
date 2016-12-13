@@ -1,19 +1,14 @@
 <ion-view view-title="home">
   <ion-nav-title>
-        <img src='img/spoon.png'>
+   <p>SpoonReadMe</p>
   </ion-nav-title>
-            <ion-nav-buttons side ="right">
-            <select ng-model = "option">
-            <option value="option1">Option1</option>
-            </select>
-            <button class="import-button" ng-click="import()">Import</button>
-            <button class="search-button" ng-click="search()">Search</button>
-            </ion-nav-buttons>
+
+  <ion-nav-buttons side ="right">
+            <button class="import-button" title="Import from URL" ng-click="import()"></button>
+            <button class="search-button" title="Search Recipes" ng-click="search()"></button>
+  </ion-nav-buttons>
 
   <ion-content>
-
-
- <h1>Welcome to SpoonReadMe!</h1>
 
 <p>Random Recipe to Try!</p>
 
