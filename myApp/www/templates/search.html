@@ -1,45 +1,61 @@
-<ion-view view-title="Search">
-            
-            <ion-nav-buttons side ="right">
-            <button class="search-button" ng-click="showPopup()">Filter</button>
-            </ion-nav-buttons>
+<ion-view>
+
+<ion-nav-buttons side ="right">		
+<div class="bar bar-header item-input-inset">
+		<label class="item-input-wrapper">
+				<i class="icon ion-ios-search placeholder-icon"></i>
+				<form class="searchBox" ng-submit="submit()">
+					<input class = "textbox" type="text" placeholder="Search Recipes..." ng-model="query" name="query" autofocus>
+<!-- 					<input class = "searchSubmit" type="submit" id="submit" value="Submit"/>
+ -->				</form>
+		</label>
+
+</div> 
+
+        <button class="search-button" ng-click="showPopup()"><img class="btn-img" src="img/filter.png"/></button>
+
+</ion-nav-buttons>
  <ion-content>
 
-  <p class="padding"></p>
+  <p class="searchPadding"></p>
 
 
-<form>
+<!-- <form class="searchBox" ng-submit="submit()">
 
-	<input type="textbox" id="text-id" class="search-box" name="searchParameter" placeholder="Search Recipes..." ng-model="query">
-	<input class="search-btn" type="image" src="img/search.png" ng-click="getRecipe(query)" alt="Search">
-	<br>
+	<input type="text" class="textbox" placeholder="Search Recipes..." ng-model="query" name="query">
+	<input class = "searchSubmit" type="submit" id="submit" value=""/>
 
-<span>Filter For:</span>
+<!	<input class="search-btn" type="image" src="img/search.png" ng-click="getRecipe(query)" alt="Search">
+ -->
+<!-- 	<br>
+</form> --> 
+<!-- <div class ="filterOption">
+<span><button ng-click="showPopup()">Filter</button></span>
 <strong class="titles">Diet, Ingredients, Restrictions</strong>
-</form>
-
-
-<button ng-click="getRecipe(query)">Filter Results</button>
-
-</form>
+</div> -->
 
 
 
 <div class="row" ng-show = "searchResultsReturned" infinite-scroll="myPagingFunction()" infinite-scroll-distance = "3" style="flex-wrap: wrap;">
 
-  <div class="col col-25" ng-repeat="recipe in result">
 
-	<ion-item href="#/event/search/{{$index}}/search">
+	<ion-item ng-repeat="recipe in result" href="#/event/search/{{$index}}/search">
+
+	
+
 <!-- 	<div class="results">
  -->
 	<img class="result-img" ng-src= "{{ recipe.image }}">
 
 <!--  	<img class = "result-img" ng-src="{{getRecipeImage(recipe)}}">
  -->
-	 <p>{{ recipe.title }}</p>
+	 <b><p class="results-title">{{ recipe.title }}  </p></b>
+
+	 <p class="results-details">{{ recipe.resultsdetails }}</p>
+
+	
 
 </ion-item>
-</div>
 </div>
 
 <!-- 

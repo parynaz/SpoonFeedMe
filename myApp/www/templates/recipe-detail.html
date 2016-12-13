@@ -11,6 +11,10 @@
 
  <p>Servings: {{ servings }}</p>
  <p>Instructions: {{ instructions }}</p>
+ <div ng-show="instructionsNULL">
+ 	<p>Take the link above and import the recipe to walkthrough the recipe as usual</p>
+ 	<button  ng-click="importRecipe()">Import this Recipe</button>
+ </div>
 
 <button ng-click="saveRecipe(recipe)">{{button}}</button>
 <br>

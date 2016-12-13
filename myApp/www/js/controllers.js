@@ -39,6 +39,10 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ion
   $scope.result = "";
   $scope.searchResultsReturned = false;
 
+  $scope.submit = function(){
+      $scope.getRecipe(this.query);    
+  }
+
   //triggered on filter button click
   //ng-model for the following filters; attached to html and will get added into filter_model array
   $scope.showPopup = function() {
@@ -207,6 +211,7 @@ $scope.kinds_model = [];
     if($scope.filterOption == true){
       RecipeDetails.getFromSearchFiltered(query, $scope.selectedDiet, $scope.selectedCuisine, $scope.selectedAllergy, $scope.selectedKind, $scope.calories.min, $scope.calories.max, $scope.carbs.min, $scope.carbs.max, $scope.fat.min, $scope.fat.max, $scope.protein.min, $scope.protein.max).then(function(data){
         $scope.result = data.results;
+        $scope.getRecipeImage($scope.result, "filter");
         $scope.searchResultsReturned = true;
         $ionicLoading.hide();
       })
@@ -214,7 +219,8 @@ $scope.kinds_model = [];
 
   RecipeDetails.getFromSearch(query).then(function(data){
     $scope.result = data.results;
-    $scope.getRecipeImage($scope.result);
+    $scope.getRecipeImage($scope.result, "nofilter");
+
     $scope.searchResultsReturned = true;
     $ionicLoading.hide();
   });
@@ -222,16 +228,25 @@ $scope.kinds_model = [];
 
 //For query only searches; the images need to have url added to them
 //Also some recipes don't have images so default image added for these
-$scope.getRecipeImage = function(recipe) {
+$scope.getRecipeImage = function(recipe, from) {
 var substring = "https://spoonacular.com/recipeImages/";
 
   for(var i = 0; i < recipe.length; i++){
-    if (recipe[i].imageUrls.length == 0){
+    if (from == "nofilter" && recipe[i].imageUrls.length == 0){
       recipe[i].image = "https://static.pexels.com/photos/3329/food-kitchen-cutting-board-cooking.jpg";
     }
     else {
-      var string = recipe[i].image;
-      recipe[i].image = (substring + string); 
+      var stringID = recipe[i].id;
+      recipe[i].image = (substring + stringID + '-636x393.jpg'); 
+
+      //set details
+      if(from == "nofilter"){
+        recipe[i].resultsdetails = "Time Required: " + recipe[i].readyInMinutes;
+      }
+      else if(from == "filter"){
+        recipe[i].resultsdetails = "Calories: " + recipe[i].calories;
+      }
+      
     }
 
   }
@@ -240,7 +255,7 @@ var substring = "https://spoonacular.com/recipeImages/";
 })
 
 
-.controller('RecipeDetailsCtrl', function($scope, $stateParams, $location, $anchorScroll, $ionicLoading, RecipeDetails, StorageService) {
+.controller('RecipeDetailsCtrl', function($scope, $stateParams, $location, $anchorScroll, $ionicLoading, $state, RecipeDetails, StorageService) {
     $ionicLoading.show({
     template: '<ion-spinner icon="android"></ion-spinner>',
     animation: 'fade-in'
@@ -248,8 +263,11 @@ var substring = "https://spoonacular.com/recipeImages/";
 
 //Won't show walkthrough panel unless turned on
 $scope.walkthroughHTML = false;
+$scope.instructionsNULL = false;
+
 //Will have to split up the instructions to get steps
 var steps = [];
+var payload;
 
 $scope.recipeId = $stateParams.recipeId;
 //will arrive here from either saved paged or search page
@@ -257,28 +275,38 @@ $scope.fromSavedOrSearch = $stateParams.fromSavedOrSearch;
 
 //if from search; will be getting the results
 if($scope.fromSavedOrSearch == 'search'){
-  var payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch).results[$scope.recipeId];
-  console.log(payload);
+  payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch).results[$scope.recipeId];
+
+}
+//if from saved; will have to look in local storage
+else if($scope.fromSavedOrSearch == 'saved'){
+  payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch)[$scope.recipeId];
+}
+
+$scope.recipe = payload;
   RecipeDetails.getDetails(payload.id).then(function(detailPayload){
   $scope.details = detailPayload;
-  console.log($scope.details);
   $scope.image = payload.image;
   $scope.calories = $scope.details.nutrition.nutrients[0].amount;
   $scope.fat = $scope.details.nutrition.nutrients[1].amount;
   $scope.protein = $scope.details.nutrition.nutrients[7].amount;
   $scope.carbs = $scope.details.nutrition.nutrients[3].amount;
   $scope.servings = $scope.details.servings;
-  $scope.instructions = $scope.details.instructions;
+
+  if($scope.details.instructions != null){
+      $scope.instructions = $scope.details.instructions;
+    }
+    else{
+      $scope.importRecipe = function() {
+        $state.go('event.import');
+      }
+      $scope.instructionsNULL = true;
+      var string = $scope.details.sourceUrl;
+      $scope.instructions = string;
+}
+
   $ionicLoading.hide();
 });
-}
-//if from saved; will have to look in local storage
-else if($scope.fromSavedOrSearch == 'saved'){
-  var payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch)[$scope.recipeId];
-}
-
-$scope.recipe = payload;
-
 //payload is the specific Recipe
 //get extra information
 // RecipeDetails.getDetails(payload.id).then(function(detailPayload){
