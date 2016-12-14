@@ -45,7 +45,7 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ion
 
   //triggered on filter button click
   //ng-model for the following filters; attached to html and will get added into filter_model array
-  $scope.showPopup = function() {
+  $scope.showPopup = function(query) {
   $scope.diets_model = [];
   $scope.diets = [
   {id: 'Pescetarian', label: 'Pescetarian','name': 'Pescetarian'},
@@ -159,7 +159,7 @@ $scope.kinds_model = [];
     scope: $scope,
     buttons: [
     {text: 'Cancel'},
-    {text: '<b>Save Filters</b>',
+    {text: '<b>Apply Filters</b>',
     type: 'button-positive',
     onTap: function(e) {
       //Probably want to do some refresh thing??
@@ -194,8 +194,8 @@ $scope.kinds_model = [];
   ]
   });
 
-  myPopup.then(function(res) {
-    console.log('Pressed!');
+  myPopup.then(function() {
+    $scope.getRecipe(query);
   });
 
   }
@@ -425,6 +425,7 @@ $scope.$on("$ionicView.beforeLeave", function() {
 
 .controller('ImportCtrl', function($scope, $ionicLoading, $sce, SearchService) {
 $scope.walkthroughHTML = false;
+$scope.imported = false;
 var steps = [];
  $scope.import = function(query) {
     $ionicLoading.show({
@@ -438,6 +439,7 @@ var steps = [];
     $scope.instructions = $sce.trustAsHtml(data.instructions);
     var steps = data.text.split(".");
     $scope.steps = steps;
+    $scope.imported=true;
     $ionicLoading.hide();
   });
 }

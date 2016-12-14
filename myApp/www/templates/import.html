@@ -1,16 +1,33 @@
-<ion-view view-title="home">
-  <ion-nav-title>
-        <img src='img/spoon.png'>
-  </ion-nav-title>
-  <ion-content>
- <h1>Welcome to SpoonReadMe!</h1>
+<ion-view>
 
-<p>Import own recipes!</p>
-<form novalidate class="import-form">
+<ion-nav-buttons side ="right">           
+
+
+<div class="bar bar-header item-input-inset mysearchbar">
+    <label class="item-input-wrapper">
+        <i class="icon ion-ios-search placeholder-icon"></i>
+        <form class="searchBox" ng-submit="submit()" >
+          <input class = "textbox" type="text" placeholder="Enter URL..." ng-model="url" name="url" autofocus>
+      </form>
+    </label>
+
+
+</div> 
+
+<button class="searchpage-button" title="Import Recipes" ng-click="import(url)"><img ng-src="img/import.svg"/></button>
+<p class="filterLabel"> IMPORT</p>
+
+</ion-nav-buttons>
+
+<ion-content>
+<p class="menuPadding"></p>
+
+<!-- <form novalidate class="import-form">
 	<label>URL:<input type="text" ng-model="url"/></label><br />
 	<input type="button" ng-click="import(url)" value="Import" />
 </form>
-
+ -->
+<div ng-show="imported">
 <ion-item>
 	<img class="import-img" ng-src= "{{ img }}">
 	<p>{{ result.title }}</p>
@@ -20,6 +37,7 @@
  -->  
 <button ng-click="walkthrough()">Walkthrough</button>
 
+</div>
 
 <div ng-show="walkthroughHTML">
 <p>Walkthrough</p>

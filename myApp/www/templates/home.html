@@ -1,14 +1,17 @@
 <ion-view view-title="home">
   <ion-nav-title>
-   <p>SpoonReadMe</p>
+   <p class = "hometitle">SpoonReadMe</p>
   </ion-nav-title>
 
   <ion-nav-buttons side ="right">
-            <button class="import-button" title="Import from URL" ng-click="import()"></button>
-            <button class="search-button" title="Search Recipes" ng-click="search()"></button>
+            <button class="import-button" title="Import from URL" ng-click="import()"><img class="import-btn" ng-src="img/import.svg"/></button>
+            <button class="search-button" title="Search Recipes" ng-click="search()"><img class="search-btn" ng-src="img/search.svg"/></button>
   </ion-nav-buttons>
 
   <ion-content>
+
+<p class="homePadding"></p>
+
 
 <p>Random Recipe to Try!</p>
 

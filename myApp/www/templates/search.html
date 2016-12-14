@@ -1,13 +1,13 @@
-<ion-view view-title="search">
+<ion-view >
 
 
 <ion-nav-buttons side ="right">		        
 
 
-<div class="bar bar-header item-input-inset">
+<div class="bar bar-header item-input-inset mysearchbar">
 		<label class="item-input-wrapper">
 				<i class="icon ion-ios-search placeholder-icon"></i>
-				<form class="searchBox" ng-submit="submit()">
+				<form class="searchBox" ng-submit="submit()" >
 					<input class = "textbox" type="text" placeholder="Search Recipes..." ng-model="query" name="query" autofocus>
 <!-- 					<input class = "searchSubmit" type="submit" id="submit" value="Submit"/>
  -->				</form>
@@ -16,8 +16,9 @@
 
 </div> 
 
-
-<button class="filter-button" title="Filter" ng-click="showPopup()"></button>
+<button class="searchpage-button" title="Search Recipes" ng-click="getRecipe(query)"><img ng-src="img/search.svg"/></button>
+<button class="filter-button" title="Filter" ng-click="showPopup(query)"><img class = "filter-btn" ng-src="img/filter.svg"/></button>
+<p class="filterLabel"> FILTERS</p>
 
 </ion-nav-buttons>
  <ion-content>

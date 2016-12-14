@@ -1,12 +1,123 @@
 /*Customized colour for the nav bar on index.html page */
+
+/*INDEX PAGE
+*/
+.mynavbar{
+  height: 60px !important;
+}
+
+p.hometitle{
+  font-size: 110%;
+  padding-top: 8px;
+}
+
+button.menu-button{
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  margin-top: 8px;
+}
+
+img.menu-btn{
+  width: 30px;
+  margin-right: 10px;
+}
+
+img.menu-home{
+  border: none;
+}
+
+.menu-home{
+  margin-bottom: -6px;
+}
+
+.mymenu{
+  height: 100px;  
+}
+
+img.menu-img{
+  width:50%;
+  height:100%;
+}
+
+p.menuPadding {
+  padding-top: 1cm;
+}
+
+
+.current{
+  background: #ddd !important;
+}
+
+.mymenubar{
+  border: none;
+}
+
+
+/*HOME PAGE
+*/
+p.homePadding {
+  padding-top: 1cm;
+}
+
+.menu-title{
+  font-size: 150%;
+  color: white;
+ /* padding-top: 25%;*/
+
+}
+
+button.import-button{
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  margin-top: 8px;
+}
+
+button.search-button{
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  margin-top: 7px;
+}
+
+img.import-btn{
+  width: 30px;
+}
+
+img.search-btn{
+  width: 30px;
+}
+
+img.filter-btn{
+  width: 30px;
+  margin-right: 10px;
+}
+
+/*SEARCH PAGE
+*/
+.mysearchbar{
+  margin-left: 50px;
+}
+
 p.searchPadding {
   padding-top: 1cm;
 }
+
 form.searchBox {
 }
 
+
 input.textbox {
- display: inline;   
+   
 }
 
 input.searchSubmit{
@@ -14,22 +125,34 @@ input.searchSubmit{
 }
 
 button.filter-button{
-  background:url(/img/filter.svg) no-repeat;
   background-color: transparent;
   background-repeat: no-repeat;
   border: none;
   cursor: pointer;
   overflow: hidden;
   outline: none;
-  padding-right: 20px;
   margin-top: 7px;
+}
+
+button.searchpage-button{
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  margin-top: 7px;
+
+}
+p.filterLabel{
+  margin-top: 15px;
+  font-size: 10px;
 }
 
 ion-item.item{
   border: 1px solid black;
   width: 100%;
 }
-
 
 img.result-img {
   width: 50%;
@@ -59,30 +182,6 @@ p.results-details{
 div.filterOption{
   text-align: center;
 }
-
-/* HOME PAGE */
-button.import-button{
-  background:url(/img/import.svg) no-repeat;
-  background-repeat: no-repeat;
-  border: none;
-  cursor: pointer;
-  outline: none;
-  padding-right: 30px;
-  margin-top: 8px;
-
-}
-button.search-button{
-  background:url(/img/search.svg) no-repeat;
-  background-color: transparent;
-  background-repeat: no-repeat;
-  border: none;
-  cursor: pointer;
-  overflow: hidden;
-  outline: none;
-  padding-right: 20px;
-  margin-top: 7px;
-}
-
 
 
 
