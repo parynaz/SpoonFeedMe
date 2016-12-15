@@ -3,7 +3,7 @@
 /*INDEX PAGE
 */
 .mynavbar{
-  height: 60px !important;
+  height: 55px !important;
 }
 
 p.hometitle{
@@ -188,8 +188,44 @@ div.filterOption{
   text-align: center;
 }
 
+/*IMPORT PAGE
+*/
 
+.myimportbar{
+  
+}
 
+button.importpage-button{
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  margin-top: 10px;
+  font-size: 130%;
+
+}
+
+p.importLabel{
+  margin-top: 26px;
+  font-size: 10px;
+  margin-left: -6px;
+}
+
+p.urlLabel{
+  font-size: 13px;
+  font-weight: bold;
+  height: 9px;
+  padding-right: 5px;
+}
+
+p.importParagraph{
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: bold;
+}
 /*
 
 form.searchBox {
