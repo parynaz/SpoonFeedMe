@@ -1,5 +1,10 @@
 /*Customized colour for the nav bar on index.html page */
 
+p {
+  font-family: copperplate;
+}
+
+
 /*INDEX PAGE
 */
 .mynavbar{
@@ -29,6 +34,7 @@ img.menu-btn{
 img.menu-home{
   border: none;
   margin-left: -30%;
+
 }
 
 .menu-home{
@@ -54,11 +60,21 @@ p.menuPadding {
   margin-right: -10%;
   margin-left: -6%;
   padding-right: 40%;
+  font-weight: bold;
 }
 
 .mymenubar{
   border: none;
   background-color: #ddd;
+}
+
+p.menuTitle{
+  font-size: 16px;
+  text-align: left;
+  display: inline;
+  margin-left: 20px;
+
+
 }
 
 
@@ -226,6 +242,18 @@ p.importParagraph{
   font-size: 11px;
   font-weight: bold;
 }
+
+
+/*RECIPE DETAILS
+*/
+img.recipe-detail-img{
+  border: 5px solid black;
+  height: 50%;
+  width: 50%; 
+}
+
+
+
 /*
 
 form.searchBox {

@@ -283,7 +283,7 @@ else if($scope.fromSavedOrSearch == 'saved'){
   payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch)[$scope.recipeId];
 }
 
-$scope.recipe = payload;
+  $scope.recipe = payload;
   RecipeDetails.getDetails(payload.id).then(function(detailPayload){
   $scope.details = detailPayload;
   $scope.image = payload.image;
@@ -291,7 +291,8 @@ $scope.recipe = payload;
   $scope.fat = $scope.details.nutrition.nutrients[1].amount;
   $scope.protein = $scope.details.nutrition.nutrients[7].amount;
   $scope.carbs = $scope.details.nutrition.nutrients[3].amount;
-  $scope.servings = $scope.details.servings;
+  $scope.supplies = $scope.details.extendedIngredients;
+
 
   if($scope.details.instructions != null){
       $scope.instructions = $scope.details.instructions;

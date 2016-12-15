@@ -1,22 +1,48 @@
-<ion-view view-title="{{ recipe.title}}">
-  <ion-content>
- <h1>FuckYeahRecipes</h1>
+<ion-view>
+<ion-nav-title>
+   <p class = "hometitle">{{ recipe.title }}</p>
+</ion-nav-title>
+
+<ion-content>
+<p class="menuPadding"></p>
+
 
 <ion-item>
  <img class="recipe-detail-img" ng-src="{{ image }}">
+ <button class = "detailsave-btn" ng-click="saveRecipe(recipe)">{{button}}</button>
+ <p class="detail-servings">{{ details.sourceName }}</p> 
+ <p class="detail-servings">{{ details.servings }}</p>
+ <p class="detail-time">{{ details.readyInMinutes }}</p>
+
  <p>Calories: {{ calories }}</p>
  <p>Protein: {{ protein }}</p>
  <p>Fat: {{ fat }}</p>
  <p>Carbohydrates: {{ carbs }}</p>
+ 
 
- <p>Servings: {{ servings }}</p>
+ <p>Ingredients : </p>
+
+ <ion-item ng-repeat = "ingredient in supplies">
+
+ 	<p>{{ ingredient.name }}</p>
+
+</ion-item>
+ 
+
  <p>Instructions: {{ instructions }}</p>
+
+
+
+
+
+
+
  <div ng-show="instructionsNULL">
  	<p>Take the link above and import the recipe to walkthrough the recipe as usual</p>
  	<button  ng-click="importRecipe()">Import this Recipe</button>
  </div>
 
-<button ng-click="saveRecipe(recipe)">{{button}}</button>
+
 <br>
 <button ng-click="getSteps()">Walkthrough</button>
 
