@@ -28,6 +28,7 @@ img.menu-btn{
 
 img.menu-home{
   border: none;
+  margin-left: -30%;
 }
 
 .menu-home{
@@ -49,11 +50,15 @@ p.menuPadding {
 
 
 .current{
-  background: #ddd !important;
+  background: #b0b0b0 !important;
+  margin-right: -10%;
+  margin-left: -6%;
+  padding-right: 40%;
 }
 
 .mymenubar{
   border: none;
+  background-color: #ddd;
 }
 
 
