@@ -26,35 +26,14 @@
   <p class="searchPadding"></p>
 
 
-<!-- <form class="searchBox" ng-submit="submit()">
-
-	<input type="text" class="textbox" placeholder="Search Recipes..." ng-model="query" name="query">
-	<input class = "searchSubmit" type="submit" id="submit" value=""/>
-
-<!	<input class="search-btn" type="image" src="img/search.png" ng-click="getRecipe(query)" alt="Search">
- -->
-<!-- 	<br>
-</form> --> 
-<!-- <div class ="filterOption">
-<span><button ng-click="showPopup()">Filter</button></span>
-<strong class="titles">Diet, Ingredients, Restrictions</strong>
-</div> -->
-
-
-
 <div class="row" ng-show = "searchResultsReturned" infinite-scroll="myPagingFunction()" infinite-scroll-distance = "3" style="flex-wrap: wrap;">
 
 
 	<ion-item ng-repeat="recipe in result" href="#/event/search/{{$index}}/search">
 
 	
-
-<!-- 	<div class="results">
- -->
 	<img class="result-img" ng-src= "{{ recipe.image }}">
 
-<!--  	<img class = "result-img" ng-src="{{getRecipeImage(recipe)}}">
- -->
 	 <b><p class="results-title">{{ recipe.title }}  </p></b>
 
 	 <p class="results-details">{{ recipe.resultsdetails }}</p>
@@ -64,10 +43,6 @@
 </ion-item>
 </div>
 
-<!-- 
-</ion-item>
-</div>
-</ion-list></div> -->
 
   </ion-content>
 </ion-view>

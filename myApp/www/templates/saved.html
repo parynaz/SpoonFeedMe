@@ -3,18 +3,19 @@
   <p class="menuPadding"></p>
 
 <div class="row" style="flex-wrap: wrap;">
-		<div class="col col-25" ng-repeat="recipe in saved track by $index">
+		<div ng-repeat="recipe in saved track by $index">
 
 	<ion-item href="#/event/saved/{{$index}}/saved">
-<!-- 	<div class="results">
- -->
+
 	<img class="result-img" ng-src= "{{ recipe.image }}">
 
-	 <p>{{ recipe.title }}</p>
+	 <b><p class="results-title">{{ recipe.title }}  </p></b>
 
-<button class="button-assertive" ng-click="remove(recipe)">
+	 <p class="results-details">{{ recipe.resultsdetails }}</p>
+
+<!-- <button class="button-assertive" ng-click="remove(recipe)">
 Delete
-</button>
+</button> -->
 
 </ion-item>
 </div>
