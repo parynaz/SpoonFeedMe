@@ -252,6 +252,20 @@ img.recipe-detail-img{
   width: 50%; 
 }
 
+/*
+SAVED PAGE*/
+
+button.delete-button{
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  margin-top: 10px;
+}
+
+
 
 
 /*

@@ -514,9 +514,20 @@ $scope.$on("$ionicView.beforeLeave", function() {
 })
 
 .controller('SavedCtrl', function($scope, StorageService) {
+  $scope.showDelete = false;
+
   $scope.$on("$ionicView.beforeEnter", function() {
     $scope.saved = StorageService.getSavedRecipes();
   });
+
+  $scope.removeRecipes = function(){
+    if ($scope.showDelete == false)
+        $scope.showDelete = true;
+
+    else 
+        $scope.showDelete = false;
+    
+  }
 
   $scope.remove = function(recipe){
     StorageService.removeSavedRecipe(recipe);

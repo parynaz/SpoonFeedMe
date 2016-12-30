@@ -82,7 +82,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 
 		saveRecipe: function(recipe) {
 			for(var i = 0; i < savedRecipes.length; i++){
-				if(savedRecipes[i].title == recipe.title) {
+				if(savedRecipes[i].id == recipe.id) {
 					alert ("Recipe already saved!");
 					return;
 				}
