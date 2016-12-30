@@ -74,6 +74,11 @@ angular.module('SpoonReadMe', ['ionic', 'SpoonReadMe.controllers', 'SpoonReadMe.
         'menuContent' :{
           templateUrl: "templates/saved.html",
           controller: "SavedCtrl"
+        },
+
+        'importContent' :{
+          templateUrl: "templates/saved-imports.html",
+          controller: "SavedCtrl"
         }
       }
     })

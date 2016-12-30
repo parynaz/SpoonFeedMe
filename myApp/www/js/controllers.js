@@ -293,6 +293,19 @@ else if($scope.fromSavedOrSearch == 'saved'){
   $scope.carbs = $scope.details.nutrition.nutrients[3].amount;
   $scope.supplies = $scope.details.extendedIngredients;
 
+  for(var i = 0; i < $scope.supplies.length; i++){
+    if ($scope.supplies[i].amount == 0.25){
+      $scope.supplies[i].amount = "1/4";
+    }
+    if ($scope.supplies[i].amount == 0.5){
+      $scope.supplies[i].amount = "1/2";
+    }
+    if ($scope.supplies[i].amount == 1.25){
+      $scope.supplies[i].amount = "1 and 1/4";
+    }
+  }
+
+
 
   if($scope.details.instructions != null){
       $scope.instructions = $scope.details.instructions;

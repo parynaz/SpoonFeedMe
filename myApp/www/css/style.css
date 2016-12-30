@@ -243,6 +243,16 @@ p.importParagraph{
   font-weight: bold;
 }
 
+img.import-img{
+  width: 50%;
+  height: 50%;
+  border: 2px solid green;
+  margin-left: 25%;
+}
+
+p.import-title{
+  margin-left: 25%;
+}
 
 /*RECIPE DETAILS
 */
@@ -250,7 +260,41 @@ img.recipe-detail-img{
   border: 5px solid black;
   height: 50%;
   width: 50%; 
+  margin-left: 25%
 }
+
+button.detailsave-btn{
+  border: 1px solid red;
+}
+
+button.walkthrough-btn{
+
+}
+
+img.ingredient-img{
+  width: 60px;
+  height: 60px;
+
+}
+
+p.ingredient-name{
+  float: right;
+
+}
+p.ingredient-amount{
+  float: right;
+  margin-top: -5%;
+
+}
+
+div.instructions-section{
+  border: 1px solid red;
+    word-wrap: break-word;
+
+}
+p.instructions{
+  word-wrap: break-word;
+  }
 
 /*
 SAVED PAGE*/

@@ -6,10 +6,13 @@
 <ion-content>
 <p class="menuPadding"></p>
 
-
+<button class = "walkthrough-btn" ng-click="getSteps()">Walkthrough</button>
+<button class = "detailsave-btn" ng-click="saveRecipe(recipe)">{{ button }}</button>
+<div>
 <ion-item>
  <img class="recipe-detail-img" ng-src="{{ image }}">
- <button class = "detailsave-btn" ng-click="saveRecipe(recipe)">{{button}}</button>
+
+
  <p class="detail-servings">{{ details.sourceName }}</p> 
  <p class="detail-servings">{{ details.servings }}</p>
  <p class="detail-time">{{ details.readyInMinutes }}</p>
@@ -24,13 +27,16 @@
 
  <ion-item ng-repeat = "ingredient in supplies">
 
- 	<p>{{ ingredient.name }}</p>
+ 	<img class = "ingredient-img" ng-src = "{{ ingredient.image }}">
+ 	<p class = "ingredient-name">{{ ingredient.name }}</p><br>
+ 	<p class = "ingredient-amount">{{ ingredient.amount }} {{ ingredient.unit }}</p>
 
 </ion-item>
- 
+</div>
 
- <p>Instructions: {{ instructions }}</p>
-
+<div class = "instructions-section">
+ <p class = "instructions">Instructions: {{ instructions }}</p>
+</div>
 
 
 

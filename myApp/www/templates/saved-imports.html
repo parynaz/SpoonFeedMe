@@ -1,0 +1,51 @@
+<ion-view>
+  <ion-nav-title>
+   <p class = "hometitle">Saved Recipes</p>
+  </ion-nav-title>
+
+<ion-nav-buttons side ="right">
+
+
+<button class="delete-button" title="Delete" ng-click="removeRecipes()"><img class = "delete-btn" ng-src="img/delete.svg"/></button>
+
+
+</ion-nav-buttons>
+
+
+
+
+
+
+  <ion-content>
+  <p class="menuPadding"></p>
+
+<div class="row" style="flex-wrap: wrap;">
+		<div >
+
+
+<ion-list show-delete="showDelete">
+	<ion-item ng-repeat="recipe in saved track by $index" href="#/event/saved/{{$index}}/saved">
+
+	<ion-delete-button class="ion-minus-circled" ng-click="remove(recipe)"></ion-delete-button>
+
+
+	<img class="result-img" ng-src= "{{ recipe.image }}">
+
+	 <b><p class="results-title">{{ recipe.title }}  </p></b>
+
+	 <p class="results-details">{{ recipe.resultsdetails }}</p>
+
+<!-- <button class="button-assertive" ng-click="remove(recipe)">
+Delete
+</button> -->
+
+</ion-item>
+</ion-list>
+
+
+
+</div>
+</div>
+
+  </ion-content>
+</ion-view>
