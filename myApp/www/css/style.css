@@ -1,7 +1,9 @@
 /*Customized colour for the nav bar on index.html page */
+@import url('https://fonts.googleapis.com/css?family=Cinzel');
 
-p {
-  font-family: copperplate;
+
+p, button, b, ion-item{
+  font-family: 'Cinzel', serif;
 }
 
 
@@ -10,6 +12,13 @@ p {
 .mynavbar{
   height: 55px !important;
 }
+p.maintitle{
+  font-size: 110%;
+  padding-top: 8px;
+  float: left;
+  width: 110%;
+}
+
 
 p.hometitle{
   font-size: 110%;
@@ -24,6 +33,7 @@ button.menu-button{
   overflow: hidden;
   outline: none;
   margin-top: 8px;
+  width: 80%;
 }
 
 img.menu-btn{
@@ -51,7 +61,7 @@ img.menu-img{
 }
 
 p.menuPadding {
-  padding-top: 1cm;
+  padding-top: 0.5cm;
 }
 
 
@@ -98,6 +108,7 @@ button.import-button{
   cursor: pointer;
   outline: none;
   margin-top: 8px;
+
 }
 
 button.search-button{
@@ -257,29 +268,122 @@ p.import-title{
 /*RECIPE DETAILS
 */
 img.recipe-detail-img{
-  border: 5px solid black;
+  width: 50%;
   height: 50%;
-  width: 50%; 
-  margin-left: 25%
+  border: 2px solid green;
+  margin-left: 25%;
+  margin-top: 3%;
+}
+
+ion-item.recipe-img{
+  border:none;
+  margin-bottom: 3%;
 }
 
 button.detailsave-btn{
-  border: 1px solid red;
+  border-radius: 25px;
+  float: right;
+  color: white;
+  background-color: #BAB9B9;
+  width: 25%;
+  font-size: 110%;
+  margin-top: 1.5%;
+  margin-right: 1%;
+  border: 1px solid #878987;
 }
 
 button.walkthrough-btn{
+  border-radius: 25px;
+  color: white;
+  background-color: #BAB9B9;
+  border: 1px solid #878987;
+  width: 45%;
+  font-size: 110%;
+  margin-top: 1.5%;
+  margin-left: 1%;
 
 }
+
 
 img.ingredient-img{
   width: 60px;
   height: 60px;
 
 }
+ion-item.ingredients{
+  border: 2px solid black;
+  margin-left: 0.01%;
+}
+img.voice-btn{
+  float: left;
+  margin-top: 1%;
+}
+
+img.save-btn{
+  float: left;
+  margin-top: 2%;
+}
+
+img.saved-btn{
+  float: left;
+  margin-top: 2%;
+
+}
+
+span.activateON{
+  font-style: bold;
+  color: #189D09;
+  float: right;
+  margin-top: 5px;
+
+
+}
+
+img.voiceON-btn{
+ float: left;
+ margin-top: 1%;
+
+}
+
+span.activateOFF{
+  float: right;
+  margin-top: 5px;
+}
+
+span.notSaved{
+  float: right;
+  margin-top: 5px;
+}
+
+span.saved{
+  font-style: bold;
+  color: green;
+  float: right;
+  margin-top: 5px;
+}
+
+div.recipe-detail{
+  border: 1px solid #878987;
+  padding-left: 3%;
+  padding-top: 3%;
+  padding-right: 3%;
+  margin-right: 1%;
+  margin-left: 1%;
+
+}
+
+p.ingredients{
+  text-align: center;
+}
+
+p.detail{
+  text-align: right;
+  margin-top: -10%;
+  padding-top: 5%;
+}
 
 p.ingredient-name{
   float: right;
-
 }
 p.ingredient-amount{
   float: right;
@@ -287,15 +391,36 @@ p.ingredient-amount{
 
 }
 
-div.instructions-section{
-  border: 1px solid red;
-    word-wrap: break-word;
 
+
+div.instructions-section{
+  margin-top: 2%;
 }
 p.instructions{
   word-wrap: break-word;
-  }
+}
 
+img.speaking{
+  width: 8%;
+  height: 8%;
+  float: left;
+  margin-left: -2%;
+  margin-right: 2%;
+  margin-bottom: 15%;
+}
+
+img.listening{
+  width: 10%;
+  height: 10%;
+  float: left;
+  margin-left: -2%;
+  margin-right: 2%;
+  margin-bottom: 15%;
+  margin-top: -1%;
+}
+p.step{
+  margin-top: 3%;
+}
 /*
 SAVED PAGE*/
 

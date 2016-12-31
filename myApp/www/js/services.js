@@ -81,14 +81,19 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 		},
 
 		saveRecipe: function(recipe) {
-			for(var i = 0; i < savedRecipes.length; i++){
-				if(savedRecipes[i].id == recipe.id) {
-					alert ("Recipe already saved!");
-					return;
-				}
-			}
 			savedRecipes.push(recipe);
 			$localstorage.setObject('savedRecipes', savedRecipes);
+		},
+
+		alreadySaved: function(recipe) {
+			savedRecipes = $localstorage.getObject('savedRecipes');
+			
+			for(var i = 0; i < savedRecipes.length; i++){
+				if(savedRecipes[i].id == recipe.id) {
+					return 1;
+				}
+			}
+			return 0;
 		}
 	}
 })

@@ -262,7 +262,6 @@ var substring = "https://spoonacular.com/recipeImages/";
       });
 
 //Won't show walkthrough panel unless turned on
-$scope.walkthroughHTML = false;
 $scope.instructionsNULL = false;
 
 //Will have to split up the instructions to get steps
@@ -287,11 +286,22 @@ else if($scope.fromSavedOrSearch == 'saved'){
   RecipeDetails.getDetails(payload.id).then(function(detailPayload){
   $scope.details = detailPayload;
   $scope.image = payload.image;
+
+  $scope.servings = $scope.details.servings;
+  $scope.timeRequired = $scope.details.readyInMinutes;
+
   $scope.calories = $scope.details.nutrition.nutrients[0].amount;
   $scope.fat = $scope.details.nutrition.nutrients[1].amount;
   $scope.protein = $scope.details.nutrition.nutrients[7].amount;
   $scope.carbs = $scope.details.nutrition.nutrients[3].amount;
   $scope.supplies = $scope.details.extendedIngredients;
+
+  //Won't show any details that aren't rendered
+  if (!$scope.details.sourceName)
+    $scope.details.sourceName = "Go to Source";
+
+  $scope.sourceName = $scope.details.sourceName;
+
 
   for(var i = 0; i < $scope.supplies.length; i++){
     if ($scope.supplies[i].amount == 0.25){
@@ -306,18 +316,25 @@ else if($scope.fromSavedOrSearch == 'saved'){
   }
 
 
+  //ADD SERVICE FOR NO INSTRUCTION SEARCHES
+//   if($scope.details.instructions != null){
+//       $scope.instructions = $scope.details.instructions;
+//     }
+//     else{
+//       $scope.importRecipe = function() {
+//         $state.go('event.import');
+//       }
+//       $scope.instructionsNULL = true;
+//       var string = $scope.details.sourceUrl;
+//       $scope.instructions = string;
+// }
 
-  if($scope.details.instructions != null){
-      $scope.instructions = $scope.details.instructions;
-    }
-    else{
-      $scope.importRecipe = function() {
-        $state.go('event.import');
-      }
-      $scope.instructionsNULL = true;
-      var string = $scope.details.sourceUrl;
-      $scope.instructions = string;
-}
+$scope.instructions = $scope.details.instructions;
+//fix the steps
+steps = $scope.instructions.split(".");
+steps.splice((steps.length) - 1, 1);
+$scope.steps = steps;
+
 
   $ionicLoading.hide();
 });
@@ -327,31 +344,46 @@ else if($scope.fromSavedOrSearch == 'saved'){
 //   $scope.details = detailPayload;
 //   });
 
+
+
 //Will execute when user presses walkthrough button
-  $scope.getSteps = function() {
+$scope.activateVoiceInstructions = function() {
        //set the location.hash to the id of the element you wish to scroll to
-  $location.hash('walkthrough');
+  $location.hash('progress');
 
   //call anchorscroll
   $anchorScroll();
 
-          $scope.instructions = $scope.details.instructions;
-          $scope.walkthroughHTML = true;
-          //fix the steps
-          steps = $scope.instructions.split(".");
-          $scope.steps = steps;
+$scope.speaking = false;
+$scope.listening = false;
+      
+      $scope.getSteps();
+            
+      var text = "Hello. Please say Read to begin";
+      var pace = 0.9;
+      window.TTS.speak({
+        text: text,
+        locale: 'en-GB',
+        rate: pace
+      }, function() {
+        $scope.recognition.onresult = $scope.handleVoiceInput;
+        console.log("started listening");
+        $scope.recognition.start();
+        $scope.listening = true;
+        $scope.$apply();
+      }, function(reason) {
+        alert(reason);
+      });
+  
+}
 
-$scope.currentStepNum = 1;
-$scope.currentStep = ($scope.steps[$scope.currentStepNum - 1]);
-$scope.maxStepNum = $scope.steps.length;
-$scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
-$scope.max = ($scope.maxStepNum / $scope.maxStepNum) * 100;
 
-  $scope.recognition.onresult = $scope.handleVoiceInput;
-      console.log("started listening");
-
-  $scope.recognition.start();
-
+$scope.getSteps = function() {
+  $scope.currentStepNum = 1;
+  $scope.currentStep = ($scope.steps[$scope.currentStepNum - 1]);
+  $scope.maxStepNum = $scope.steps.length;
+  $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
+  $scope.max = ($scope.maxStepNum / $scope.maxStepNum) * 100;
 }
 
 $scope.nextStep = function() {
@@ -360,6 +392,8 @@ $scope.nextStep = function() {
         $scope.currentStep = $scope.steps[$scope.currentStepNum - 1];
         $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
       }
+      else if ($scope.currentStepNum == $scope.maxStepNum)
+        $scope.currentStep = "You are done!";
 }
 
 $scope.prevStep = function() {
@@ -379,9 +413,14 @@ $scope.voice = function() {
         rate: pace
       }, function() {
         $scope.recognition.start();
+        $scope.speaking = false;
+        $scope.listening = true;
+        $scope.$apply();
       }, function(reason) {
         alert(reason);
       });
+
+
 }
 
 
@@ -391,17 +430,40 @@ $scope.handleVoiceInput = function(event) {
         var heardValue = event.results[0][0].transcript;
         if (heardValue == "next") {
           $scope.nextStep();
-          $scope.$apply();
-        } else if ((heardValue == "back") || (heardValue == "previous")) {
-          $scope.prevStep();
-          $scope.$apply();
-        } else if ((heardValue == "read") || (heardValue == "repeat")) {
           $scope.recognition.abort();
+          $scope.iconChange();
           $scope.voice();
+          $scope.$apply();
+        } 
+        else if ((heardValue == "back") || (heardValue == "previous")) {
+          $scope.prevStep();
+          $scope.recognition.abort();
+          $scope.iconChange();
+          $scope.voice();
+          $scope.$apply();
+        } 
+        else if ((heardValue == "read") || (heardValue == "repeat")) {
+          $scope.recognition.abort();
+          $scope.speaking = true;
+          $scope.listening = false;
+          $scope.voice();
+          $scope.$apply();
         }
 }
 }
 
+$scope.iconChange = function() {
+  if($scope.speaking == false && $scope.listening == true){
+    $scope.speaking = true;
+    $scope.listening = false;
+  }     
+  else {
+    $scope.speaking = false;
+    $scope.listening = true;
+  }
+
+  $scope.$apply();
+}
 
 $scope.saveRecipe = function(recipe) {
   if($scope.fromSavedOrSearch == 'search'){
@@ -410,15 +472,43 @@ $scope.saveRecipe = function(recipe) {
     }
   else {
     $scope.button = "Saved";
-    alert("Already saved!");
 }
 }
 
+$scope.savedRecipe = function() {
+  if($scope.notSaved == true && $scope.saved == false){
+    $scope.notSaved = false;
+    $scope.saved = true;
+  }     
+  else 
+    alert("Already saved!");
+}
+
+
+$scope.activateVoice = function() {
+  if($scope.activateOFF == true && $scope.activateON == false){
+    $scope.activateOFF = false;
+    $scope.activateON = true;
+  }     
+  else {
+    $scope.activateOFF = true;
+    $scope.activateON = false;
+  }
+}
+
+
 $scope.$on('$ionicView.beforeEnter', function() {
-      if($scope.fromSavedOrSearch == 'search'){
-        $scope.button = "Click to Save";
+  $scope.activateOFF = true;
+  $scope.activateON = false;
+
+      if($scope.fromSavedOrSearch == 'search' && StorageService.alreadySaved($scope.recipe) == 0){
+        $scope.notSaved = true;
+        $scope.saved = false;
       }
-      else $scope.button = "Saved";
+      else{
+         $scope.notSaved = false;
+         $scope.saved = true;
+      };
 });
 
 $scope.$on("$ionicView.enter", function() {
@@ -479,7 +569,9 @@ $scope.nextStep = function() {
 
 $scope.prevStep = function() {
       if ($scope.currentStepNum > 1) {
-        $scope.currentStepNum -= 1;
+        if ($scope.currentStepNum != $scope.maxStepNum){
+            $scope.currentStepNum -= 1;
+        }
         $scope.currentStep = $scope.steps[$scope.currentStepNum - 1];
         $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
       }
