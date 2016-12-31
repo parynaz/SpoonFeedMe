@@ -392,8 +392,9 @@ $scope.nextStep = function() {
         $scope.currentStep = $scope.steps[$scope.currentStepNum - 1];
         $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
       }
-      else if ($scope.currentStepNum == $scope.maxStepNum)
-        $scope.currentStep = "You are done!";
+      else if ($scope.currentStepNum == $scope.maxStepNum){
+        $scope.done = true;
+      }
 }
 
 $scope.prevStep = function() {
@@ -405,7 +406,7 @@ $scope.prevStep = function() {
 }
 
 $scope.voice = function() {
-      var text = $scope.currentStep;
+      var text = + $scope.currentStep;
       var pace = 0.9;
       window.TTS.speak({
         text: text,
@@ -425,15 +426,34 @@ $scope.voice = function() {
 
 
 $scope.handleVoiceInput = function(event) {
+
+  var step;
+  var num;
+
       if (event.results.length > 0) {  
         console.log("HEARD SOMETHING");
         var heardValue = event.results[0][0].transcript;
         if (heardValue == "next") {
           $scope.nextStep();
+
+          if ($scope.done == true){
+              step = $scope.currentStep;
+              num = $scope.currentStepNum;
+              $scope.currentStepNum = "*";
+              $scope.currentStep = "You are done!";
+          }
+
           $scope.recognition.abort();
           $scope.iconChange();
           $scope.voice();
           $scope.$apply();
+
+          if ($scope.done == true){
+              $scope.currentStep = step;
+              $scope.currentStepNum = num;
+              $scope.done = false;
+          }
+
         } 
         else if ((heardValue == "back") || (heardValue == "previous")) {
           $scope.prevStep();
@@ -569,16 +589,14 @@ $scope.nextStep = function() {
 
 $scope.prevStep = function() {
       if ($scope.currentStepNum > 1) {
-        if ($scope.currentStepNum != $scope.maxStepNum){
-            $scope.currentStepNum -= 1;
-        }
+        $scope.currentStepNum -= 1;
         $scope.currentStep = $scope.steps[$scope.currentStepNum - 1];
         $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
       }
 }
 
 $scope.voice = function() {
-      var text = $scope.currentStep;
+      var text = " ." + $scope.currentStep;
       var pace = 0.9;
       window.TTS.speak({
         text: text,
