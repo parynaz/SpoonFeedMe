@@ -68,6 +68,8 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 
 .factory('StorageService', function($http, $localstorage) {
 	var savedRecipes = $localstorage.getObject('savedRecipes');
+	var importedRecipes = $localstorage.getObject('importedRecipes');
+
 
 	return {
 		getSavedRecipes: function() {

@@ -9,11 +9,7 @@
 <ion-content>
 <p class="menuPadding"></p>
 
-<!-- <form novalidate class="import-form">
-	<label>URL:<input type="text" ng-model="url"/></label><br />
-	<input type="button" ng-click="import(url)" value="Import" />
-</form>
- -->
+
 <p class="importParagraph">Enter any link to a website or blog with recipe instructions</p>
 
 <div class="bar bar-header item-input-inset myimportbar">
@@ -27,28 +23,71 @@
 
 <button class="importpage-button" title="Import Recipes" ng-click="import(url)"><img ng-src="img/importblack.svg"/></button>
 <p class="importLabel"></p>
-
-</div> 
-
-
-
+</div>
 
 <div ng-show="imported">
-<ion-item>
+
+<button class = "walkthrough-btn" ng-click="activateVoice(); activateVoiceInstructions(); "><img class="voice-btn" ng-show="activateOFF" ng-src="img/voice.svg"/><span class="activateOFF" ng-show="activateOFF">Activate Voice</span><img class="voiceON-btn" ng-show="activateON" ng-src="img/voiceon.svg"/><span class="activateON" ng-show="activateON">Activated</span></button>
+
+<button class = "detailsave-btn" ng-click="savedRecipe(); saveRecipe(recipe);"><img class="save-btn" ng-src="img/save.svg" ng-show="notSaved"/><span class = "notSaved" ng-show="notSaved">Save</span><img class="saved-btn" ng-src="img/saved.svg" ng-show="saved"/><span class = "saved" ng-show="saved">Saved</span></button>
+
+<ion-item class= "recipe-img">
 	<img class="import-img" ng-src= "{{ img }}">
 	<p class="import-title">{{ result.title }}</p>
-<div ng-bind-html="instructions"></div>
+</ion-item>
+
+<!-- <div ng-bind-html="instructions"></div> -->
 
 <!-- <div ng-bind-html="walkthrough"></div>
  -->  
-<button ng-click="walkthrough()">Walkthrough</button>
 
+<div class = "recipe-detail">
+ <b ng-show = "sourceName">Source: </b><p class="detail"><a href = "{{ result.sourceUrl }}"><i>{{ result.sourceName }}</i></a></p><br>
+ <b ng-show = "servings">Servings: </b><p class="detail">{{ result.servings }}</p><br>
+ <b ng-show = "timeRequired" = >Time Required: </b><p class="detail">{{ result.readyInMinutes }}</p><br>
 </div>
 
-<div ng-show="walkthroughHTML">
-<p>Walkthrough</p>
-   <p class = "step">{{currentStep}}</p>
+ <br>
 
+ <p class = "ingredients"><b>Ingredients : </p></b>
+
+
+ <ion-item class = "ingredients" ng-repeat = "ingredient in supplies">
+
+  <img class = "ingredient-img" ng-src = "{{ ingredient.image }}">
+  <p class = "ingredient-name"><b>{{ ingredient.name }}</b></p><br>
+  <p class = "ingredient-amount">{{ ingredient.amount }} {{ ingredient.unit }}</p>
+
+</ion-item>
+
+
+<br>
+
+<button class = "walkthrough-btn" ng-click="activateVoice(); activateVoiceInstructions(); "><img class="voice-btn" ng-show="activateOFF" ng-src="img/voice.svg"/><span class="activateOFF" ng-show="activateOFF">Activate Voice</span><img class="voiceON-btn" ng-show="activateON" ng-src="img/voiceon.svg"/><span class="activateON" ng-show="activateON">Activated</span></button>
+
+
+<div ng-show="activateOFF" class = "instructions-section">
+
+
+<b>Instructions:</b>
+ <ion-item class="item-text-wrap" ng-repeat = "step in steps">{{$index + 1}}. {{ step }}</p>
+</ion-item>
+
+
+</div>
+<br>
+
+<div ng-show="activateON">
+  <br>
+<p>Walkthrough</p>
+<ion-item class="item-text-wrap">
+   <img class="speaking" ng-show="speaking" ng-src="img/speaker.svg"/>
+   <img class="listening" ng-show="listening" ng-src="img/listening.svg"/>   
+
+   <p class = "step">{{currentStepNum}}. {{currentStep}}</p>
+
+</ion-item>
+<br>
 <button class="col-50 button android-btn" ng-show="currentStepNum > 1" ng-click="prevStep()">Back</button>
 <button class="col-50 button android-btn" ng-show="currentStepNum < maxStepNum" ng-click="nextStep()">Next</button>
 
@@ -62,10 +101,8 @@
 </div>
 
 
-</ion-content>
+</div>
+ </ion-content>
 </ion-item>
-
-
 </ion-view>
-
 
