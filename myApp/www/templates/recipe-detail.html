@@ -6,9 +6,13 @@
 <ion-content>
 <p class="menuPadding"></p>
 
-<button class = "walkthrough-btn" ng-click="activateVoice(); activateVoiceInstructions(); "><img class="voice-btn" ng-show="activateOFF" ng-src="img/voice.svg"/><span class="activateOFF" ng-show="activateOFF">Activate Voice</span><img class="voiceON-btn" ng-show="activateON" ng-src="img/voiceon.svg"/><span class="activateON" ng-show="activateON">Activated</span></button>
+<button class = "walkthroughOFF-btn" ng-click="activateVoice(); activateVoiceInstructions();" ng-show="activateOFF"><img class="voice-btn" ng-show="activateOFF" ng-src="img/voice.svg"/><span class="activateVoice" ng-show="activateOFF">Activate Voice</span></button>
 
-<button class = "detailsave-btn" ng-click="savedRecipe(); saveRecipe(recipe);"><img class="save-btn" ng-src="img/save.svg" ng-show="notSaved"/><span class = "notSaved" ng-show="notSaved">Click to Save</span><img class="saved-btn" ng-src="img/saved.svg" ng-show="saved"/><span class = "saved" ng-show="saved">Recipe Saved</span></button>
+<button class = "walkthroughON-btn" ng-click="activateVoice(); activateVoiceInstructions();" ng-show="activateON"><img class="voiceON-btn" ng-show="activateON" ng-src="img/voice.svg"/><span class="activateVoice" ng-show="activateON">Activated</span></button>
+
+<button class = "notSaved-btn" ng-click="savedRecipe(); saveRecipe(recipe);" ng-show="notSaved"><img class="save-btn" ng-src="img/save.svg" ng-show="notSaved"/><span class = "save" ng-show="notSaved">Click to Save</span></button>
+
+<button class = "saved-btn" ng-click="savedRecipe(); saveRecipe(recipe);" ng-show="saved"><img class="save-btn" ng-src="img/save.svg" ng-show="saved"/><span class = "save" ng-show="saved">Recipe Saved</span></button>
 
 <ion-item class= "recipe-img">
 <img class="recipe-detail-img" ng-src="{{ image }}">
@@ -17,12 +21,12 @@
 <ion-item class = "recipe-detail">
  <p class = "detail-title" ng-show = "sourceName"><b>Source:</b></p><p class="detail"><a href = "{{ details.sourceUrl }}"><i>{{ sourceName }}</i></a></p><br>
  <p class = "detail-title" ng-show = "servings"><b>Servings: </b></p><p class="detail">{{ servings }}</p><br>
- <p class = "detail-title" ng-show = "timeRequired"><b>Time Required: </b></p><p class="detail">{{ timeRequired }}</p><br>
+ <p class = "detail-title" ng-show = "timeRequired"><b>Time Required: </b></p><p class="detail">{{ timeRequired }} minutes</p><br>
 
  <p class = "detail-title" ng-show = "calories"><b>Calories:</b> </p><p class="detail">{{ calories }}</p><br>
  <p class = "detail-title" ng-show = "protein"><b>Protein(g): </b></p><p class="detail">{{ protein }}</p><br>
  <p class = "detail-title" ng-show = "fat"><b>Fat(g): </b></p><p class="detail">{{ fat }}</p><br>
- <p class = "detail-title" ng-show = "carbs"><b>Carbohydrates(g): </b></p><p class="detail">{{ carbs }}</p><br>
+ <p class = "carbs-title" ng-show = "carbs"><b>Carbohydrates(g): </b></p><p class="carbs-detail">{{ carbs }}</p><br>
 
  </ion-item>
  <br>
@@ -30,7 +34,7 @@
  <p class = "ingredients"><b>Ingredients : </p></b>
 
 
- <ion-item class = "ingredients" ng-repeat = "ingredient in supplies">
+ <ion-item class="item-text-wrap" ng-repeat = "ingredient in supplies">
 
  	<img class = "ingredient-img" ng-src = "{{ ingredient.image }}">
  	<p class = "ingredient-name"><b>{{ ingredient.name }}</b></p><br>
@@ -41,7 +45,9 @@
 
 <br>
 
-<button class = "walkthrough-btn" ng-click="activateVoice(); activateVoiceInstructions(); "><img class="voice-btn" ng-show="activateOFF" ng-src="img/voice.svg"/><span class="activateOFF" ng-show="activateOFF">Activate Voice</span><img class="voiceON-btn" ng-show="activateON" ng-src="img/voiceon.svg"/><span class="activateON" ng-show="activateON">Activated</span></button>
+<button class = "walkthroughOFF-btn" ng-click="activateVoice(); activateVoiceInstructions();" ng-show="activateOFF"><img class="voice-btn" ng-show="activateOFF" ng-src="img/voice.svg"/><span class="activateVoice" ng-show="activateOFF">Activate Voice</span></button>
+
+<button class = "walkthroughON-btn" ng-click="activateVoice(); activateVoiceInstructions();" ng-show="activateON"><img class="voiceON-btn" ng-show="activateON" ng-src="img/voice.svg"/><span class="activateVoice" ng-show="activateON">Activated</span></button>
 
 
 <div ng-show="activateOFF" class = "instructions-section">

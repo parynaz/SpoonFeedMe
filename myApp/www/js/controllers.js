@@ -276,6 +276,7 @@ var string;
 
     if (string.includes(name)){
       $scope.supplies[i].originalString = string.replace(name, '').replace(/[^\w\s]/gi, '');
+      if ($scope.supplies[i].originalString == "") $scope.supplies[i].originalString = amount + " " + $scope.supplies[i].unit;
     }
 
   }
@@ -346,10 +347,10 @@ else if($scope.fromSavedOrSearch == 'saved' || $scope.fromSavedOrSearch == 'sear
           $scope.servings = $scope.details.servings;
           $scope.timeRequired = $scope.details.readyInMinutes;
 
-          $scope.calories = $scope.details.nutrition.nutrients[0].amount;
-          $scope.fat = $scope.details.nutrition.nutrients[1].amount;
-          $scope.protein = $scope.details.nutrition.nutrients[7].amount;
-          $scope.carbs = $scope.details.nutrition.nutrients[3].amount;
+          $scope.calories = Math.round($scope.details.nutrition.nutrients[0].amount);
+          $scope.fat = Math.round($scope.details.nutrition.nutrients[1].amount);
+          $scope.protein = Math.round($scope.details.nutrition.nutrients[7].amount);
+          $scope.carbs = Math.round($scope.details.nutrition.nutrients[3].amount);
           $scope.supplies = $scope.details.extendedIngredients;
 
           //Won't show any details that aren't rendered
@@ -639,6 +640,8 @@ var string;
 
     if (string.includes(name)){
       $scope.supplies[i].originalString = string.replace(name, '').replace(/[^\w\s]/gi, '');
+      if ($scope.supplies[i].originalString == "") $scope.supplies[i].originalString = amount + " " + $scope.supplies[i].unit;
+
     }
 
   }
