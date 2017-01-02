@@ -256,6 +256,32 @@ var substring = "https://spoonacular.com/recipeImages/";
 
 
 .controller('RecipeDetailsCtrl', function($scope, $stateParams, $location, $anchorScroll, $ionicLoading, $state, RecipeDetails, StorageService) {
+
+$scope.fixSteps = function(steps){
+
+//fix the steps
+steps.splice((steps.length) - 1, 1);
+
+$scope.steps = [];
+
+for(var i=0; i < steps.length; i++){
+  $scope.steps[i] = steps[i].replace(/\//g, '').replace(/[^0-9a-zA-Z_]p[^0-9a-zA-Z_]/g, '');
+}
+
+var string;
+  for(var i = 0; i < $scope.supplies.length; i++){
+    string = $scope.supplies[i].originalString; //turn into string
+    name = $scope.supplies[i].name;
+    amount = $scope.supplies[i].amount.toString();
+
+    if (string.includes(name)){
+      $scope.supplies[i].originalString = string.replace(name, '').replace(/[^\w\s]/gi, '');
+    }
+
+  }
+
+}
+
     $ionicLoading.show({
     template: '<ion-spinner icon="android"></ion-spinner>',
     animation: 'fade-in'
@@ -282,80 +308,76 @@ else if($scope.fromSavedOrSearch == 'saved'){
   payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch)[$scope.recipeId];
 }
 
-  $scope.recipe = payload;
-  RecipeDetails.getDetails(payload.id).then(function(detailPayload){
-  $scope.details = detailPayload;
-  $scope.image = payload.image;
-
-  $scope.servings = $scope.details.servings;
-  $scope.timeRequired = $scope.details.readyInMinutes;
-
-  $scope.calories = $scope.details.nutrition.nutrients[0].amount;
-  $scope.fat = $scope.details.nutrition.nutrients[1].amount;
-  $scope.protein = $scope.details.nutrition.nutrients[7].amount;
-  $scope.carbs = $scope.details.nutrition.nutrients[3].amount;
-  $scope.supplies = $scope.details.extendedIngredients;
-
-  //Won't show any details that aren't rendered
-  if (!$scope.details.sourceName)
-    $scope.details.sourceName = "Go to Source";
-
-  $scope.sourceName = $scope.details.sourceName;
-
-
-  for(var i = 0; i < $scope.supplies.length; i++){
-    if ($scope.supplies[i].amount == 0.25){
-      $scope.supplies[i].amount = "1/4";
-    }
-    if ($scope.supplies[i].amount == 0.5){
-      $scope.supplies[i].amount = "1/2";
-    }
-    if ($scope.supplies[i].amount == 1.25){
-      $scope.supplies[i].amount = "1 and 1/4";
-    }
-  }
-
-
-  //ADD SERVICE FOR NO INSTRUCTION SEARCHES
-//   if($scope.details.instructions != null){
-//       $scope.instructions = $scope.details.instructions;
-//     }
-//     else{
-//       $scope.importRecipe = function() {
-//         $state.go('event.import');
-//       }
-//       $scope.instructionsNULL = true;
-//       var string = $scope.details.sourceUrl;
-//       $scope.instructions = string;
-// }
-
-$scope.instructions = $scope.details.instructions;
-//fix the steps
-
-steps = $scope.instructions.split(".");
-
-steps.splice((steps.length) - 1, 1);
-
-$scope.steps = [];
-
-for(var i=0; i < steps.length; i++){
-  $scope.steps[i] = steps[i].replace(/\//g, '').replace(/[^0-9a-zA-Z_]p[^0-9a-zA-Z_]/g, '');
+//if from saved; will have to look in local storage
+else {
+  payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch)[$scope.recipeId];
 }
 
+  $scope.recipe = payload;
 
+//for imported will just be the same as payload
+if($scope.fromSavedOrSearch == 'neither'){
+          $scope.image = payload.imageUrls[0];
+           steps = payload.text.split(".");
+            
+          $scope.servings = payload.servings;
+          $scope.timeRequired = payload.readyInMinutes;
+          $scope.supplies = payload.extendedIngredients;
 
-  $ionicLoading.hide();
+          //Won't show any details that aren't rendered
+          if (!payload.sourceName)
+            payload.sourceName = "Go to Source";
+            
+            $scope.sourceName = payload.sourceName;
+
+          //fix the steps
+          $scope.fixSteps(steps);
+
+          $ionicLoading.hide();
+  }  
+
+else if($scope.fromSavedOrSearch == 'saved' || $scope.fromSavedOrSearch == 'search'){
+    RecipeDetails.getDetails(payload.id, $scope.fromSavedOrSearch).then(function(detailPayload){
+    
+
+          $scope.details = detailPayload; 
+          $scope.image = payload.image;
+
+          $scope.servings = $scope.details.servings;
+          $scope.timeRequired = $scope.details.readyInMinutes;
+
+          $scope.calories = $scope.details.nutrition.nutrients[0].amount;
+          $scope.fat = $scope.details.nutrition.nutrients[1].amount;
+          $scope.protein = $scope.details.nutrition.nutrients[7].amount;
+          $scope.carbs = $scope.details.nutrition.nutrients[3].amount;
+          $scope.supplies = $scope.details.extendedIngredients;
+
+          //Won't show any details that aren't rendered
+          if (!$scope.details.sourceName)
+             $scope.details.sourceName = "Go to Source";
+          
+          $scope.sourceName = $scope.details.sourceName;
+          $scope.instructions = $scope.details.instructions;
+          steps = $scope.instructions.split(".");
+
+          //fix the steps
+          $scope.fixSteps(steps);
+
+          $ionicLoading.hide();
+
 });
-//payload is the specific Recipe
-//get extra information
-// RecipeDetails.getDetails(payload.id).then(function(detailPayload){
-//   $scope.details = detailPayload;
-//   });
-
-
+}
 
 //Will execute when user presses walkthrough button
 $scope.activateVoiceInstructions = function() {
+      //if user is turning off activation of voice do not continue
+  if($scope.activateOFF == true && $scope.activateON == false){
+    $scope.recognition.abort();      
+    console.log("stopped listening");
+    return;    
+  }   
+  
+
        //set the location.hash to the id of the element you wish to scroll to
   $location.hash('progress');
 
@@ -495,22 +517,17 @@ $scope.iconChange = function() {
 }
 
 $scope.saveRecipe = function(recipe) {
-  if($scope.fromSavedOrSearch == 'search'){
-      StorageService.saveRecipe(recipe);
-      $scope.button = "Saved";
-    }
-  else {
-    $scope.button = "Saved";
+  if(StorageService.alreadySaved(recipe, $scope.fromSavedOrSearch) == 0){
+    StorageService.saveRecipe(recipe, $scope.fromSavedOrSearch);
+  }
 }
-}
+
 
 $scope.savedRecipe = function() {
   if($scope.notSaved == true && $scope.saved == false){
     $scope.notSaved = false;
     $scope.saved = true;
   }     
-  else 
-    alert("Already saved!");
 }
 
 
@@ -530,7 +547,7 @@ $scope.$on('$ionicView.beforeEnter', function() {
   $scope.activateOFF = true;
   $scope.activateON = false;
 
-      if($scope.fromSavedOrSearch == 'search' && StorageService.alreadySaved($scope.recipe) == 0){
+      if($scope.fromSavedOrSearch == 'search' && StorageService.alreadySaved($scope.recipe, $scope.fromSavedOrSearch) == 0){
         $scope.notSaved = true;
         $scope.saved = false;
       }
@@ -556,9 +573,11 @@ $scope.$on("$ionicView.beforeLeave", function() {
 
 })
 
-.controller('ImportCtrl', function($scope, $ionicLoading, $sce, SearchService) {
+.controller('ImportCtrl', function($scope, $ionicLoading, $sce, $location, $anchorScroll, SearchService, StorageService) {
 $scope.walkthroughHTML = false;
 $scope.imported = false;
+$scope.fromSavedOrSearch = 'neither';
+
 var steps = [];
  $scope.import = function(query) {
     $ionicLoading.show({
@@ -568,11 +587,26 @@ var steps = [];
 
   SearchService.import(query).then(function(data){
     $scope.result = data;
+
+
+    //saved or not
+    $scope.activateOFF = true;
+    $scope.activateON = false;
+
+    if(StorageService.alreadySaved($scope.result, $scope.fromSavedOrSearch) == 0){
+        $scope.notSaved = true;
+        $scope.saved = false;
+      }
+    else{
+         $scope.notSaved = false;
+         $scope.saved = true;
+      }
+
+
     $scope.img = data.imageUrls[0];
     $scope.instructions = $sce.trustAsHtml(data.instructions);
     var steps = data.text.split(".");
-    steps.splice((steps.length) - 1, 1);
-    $scope.steps = steps;
+
     $scope.imported=true;
 
 
@@ -588,17 +622,26 @@ var steps = [];
     $scope.sourceName = $scope.result.sourceName;
 
 
-    for(var i = 0; i < $scope.supplies.length; i++){
-      if ($scope.supplies[i].amount == 0.25){
-        $scope.supplies[i].amount = "1/4";
-      }
-      if ($scope.supplies[i].amount == 0.5){
-        $scope.supplies[i].amount = "1/2";
-      }
-      if ($scope.supplies[i].amount == 1.25){
-        $scope.supplies[i].amount = "1 and 1/4";
-      }
+//fix the steps
+steps.splice((steps.length) - 1, 1);
+
+$scope.steps = [];
+
+for(var i=0; i < steps.length; i++){
+  $scope.steps[i] = steps[i].replace(/\//g, '').replace(/[^0-9a-zA-Z_]p[^0-9a-zA-Z_]/g, '').replace('-', ' ');
+}
+
+var string;
+  for(var i = 0; i < $scope.supplies.length; i++){
+    string = $scope.supplies[i].originalString; //turn into string
+    name = $scope.supplies[i].name;
+    amount = $scope.supplies[i].amount.toString();
+
+    if (string.includes(name)){
+      $scope.supplies[i].originalString = string.replace(name, '').replace(/[^\w\s]/gi, '');
     }
+
+  }
 
 
 
@@ -608,7 +651,17 @@ var steps = [];
 
 //Will execute when user presses walkthrough button
 $scope.activateVoiceInstructions = function() {
-       //set the location.hash to the id of the element you wish to scroll to
+
+  //if user is turning off activation of voice do not continue
+  if($scope.activateOFF == true && $scope.activateON == false){
+    $scope.recognition.abort();      
+    console.log("stopped listening");
+    return;    
+  }   
+
+  //set the location.hash to the id of the element you wish to scroll to
+
+
   $location.hash('progress');
 
   //call anchorscroll
@@ -745,14 +798,12 @@ $scope.iconChange = function() {
   $scope.$apply();
 }
 
-$scope.saveRecipe = function(recipe) {
-  if($scope.fromSavedOrSearch == 'search'){
-      StorageService.saveRecipe(recipe);
-      $scope.button = "Saved";
-    }
-  else {
-    $scope.button = "Saved";
-}
+$scope.saveRecipe = function() {
+  if(StorageService.alreadySaved($scope.result, $scope.fromSavedOrSearch) == 0){
+    StorageService.saveRecipe($scope.result, $scope.fromSavedOrSearch);
+  }
+  else
+      alert('Already Saved!');
 }
 
 $scope.savedRecipe = function() {
@@ -761,7 +812,7 @@ $scope.savedRecipe = function() {
     $scope.saved = true;
   }     
   else 
-    alert("Already saved!");
+    alert("Already saved nig!");
 }
 
 
@@ -776,20 +827,6 @@ $scope.activateVoice = function() {
   }
 }
 
-
-$scope.$on('$ionicView.beforeEnter', function() {
-  $scope.activateOFF = true;
-  $scope.activateON = false;
-
-      if($scope.fromSavedOrSearch == 'search' && StorageService.alreadySaved($scope.recipe) == 0){
-        $scope.notSaved = true;
-        $scope.saved = false;
-      }
-      else{
-         $scope.notSaved = false;
-         $scope.saved = true;
-      };
-});
 
 $scope.$on("$ionicView.enter", function() {
   window.plugins.insomnia.keepAwake();
@@ -807,11 +844,50 @@ $scope.$on("$ionicView.beforeLeave", function() {
 })
 
 .controller('SavedCtrl', function($scope, StorageService) {
-  $scope.showDelete = false;
+  $scope.showDelete == false; 
+
+  $scope.savedON = true;
+  $scope.savedOFF = false;
+
+  $scope.importedON = false;
+  $scope.importedOFF = true;
 
   $scope.$on("$ionicView.beforeEnter", function() {
-    $scope.saved = StorageService.getSavedRecipes();
+    $scope.saved = StorageService.getSavedRecipes('saved');
+    $scope.imported = StorageService.getSavedRecipes('neither');
   });
+
+  $scope.savedRecipes = function(){
+    $scope.buttonChange();
+    $scope.apply();
+  }
+
+  $scope.importedRecipes = function(){
+    $scope.buttonChange();
+    $scope.apply();
+  }
+
+$scope.buttonChange = function() {
+  if($scope.savedON == true && $scope.importedON == false){
+    //on imported recipes
+      $scope.savedON = false;
+      $scope.savedOFF = true;
+
+      $scope.importedON = true;
+      $scope.importedOFF = false;
+  }     
+  else{
+    //on saved recipes
+      $scope.savedON = true;
+      $scope.savedOFF = false;
+
+      $scope.importedON = false;
+      $scope.importedOFF = true;
+  }
+
+  $scope.$apply();
+}
+
 
   $scope.removeRecipes = function(){
     if ($scope.showDelete == false)
@@ -819,10 +895,9 @@ $scope.$on("$ionicView.beforeLeave", function() {
 
     else 
         $scope.showDelete = false;
-    
   }
 
   $scope.remove = function(recipe){
-    StorageService.removeSavedRecipe(recipe);
+    StorageService.removeSavedRecipe(recipe, $scope.fromSavedOrSearch);
   };
 });

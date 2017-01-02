@@ -1,6 +1,7 @@
 <ion-view>
   <ion-nav-title>
-   <p class = "hometitle">Saved Recipes</p>
+   <p class = "hometitle" ng-show="savedON">Saved Recipes</p>
+    <p class = "hometitle" ng-show="importedON">Imported Recipes</p>
   </ion-nav-title>
 
 <ion-nav-buttons side ="right">
@@ -11,19 +12,25 @@
 
 </ion-nav-buttons>
 
-
-
-
-
-
   <ion-content>
   <p class="menuPadding"></p>
+
+
+  <button class = "savedRecipesOFF-btn" ng-click="savedRecipes()" ng-show="savedOFF"><img class="savedRecipes-btn" ng-show="savedOFF" ng-src="img/save.svg"/><span class = "savedRecipes"ng-show="savedOFF">Saved Recipes</span></button>
+
+  <button class = "savedRecipesON-btn" ng-show = "savedON"><img class="savedRecipes-btn" ng-show="savedON" ng-src="img/save.svg"/><span class = "savedRecipes" ng-show="savedON">Saved Recipes</span></button>
+
+  <button class = "importedRecipesOFF-btn" ng-click="importedRecipes()" ng-show="importedOFF"><img class="savedRecipes-btn" ng-src="img/import.svg" ng-show="importedOFF"/><span class = "savedRecipes" ng-show="importedOFF">Imported Recipes</span></button>
+
+  <button class = "importedRecipesON-btn" ng-show="importedON"><img class="savedRecipes-btn" ng-src="img/import.svg" ng-show="importedON"/><span class = "savedRecipes" ng-show="importedON">Imported Recipes</span></button>
+
+
 
 <div class="row" style="flex-wrap: wrap;">
 		<div >
 
-
-<ion-list show-delete="showDelete">
+<!-- SAVED RECIPES -->
+<ion-list show-delete="showDelete" ng-show="savedON">
 	<ion-item ng-repeat="recipe in saved track by $index" href="#/event/saved/{{$index}}/saved">
 
 	<ion-delete-button class="ion-minus-circled" ng-click="remove(recipe)"></ion-delete-button>
@@ -35,9 +42,22 @@
 
 	 <p class="results-details">{{ recipe.resultsdetails }}</p>
 
-<!-- <button class="button-assertive" ng-click="remove(recipe)">
-Delete
-</button> -->
+
+</ion-item>
+</ion-list>
+
+<!-- IMPORTED RECIPES -->
+<ion-list show-delete="showDelete" ng-show="importedON">
+	<ion-item ng-repeat="recipe in imported track by $index" href="#/event/saved/{{$index}}/neither">
+
+	<ion-delete-button class="ion-minus-circled" ng-click="remove(recipe)"></ion-delete-button>
+
+	<img class="result-img" ng-src= "{{ recipe.image }}">
+
+	 <b><p class="results-title">{{ recipe.title }}  </p></b>
+
+	 <p class="results-details">{{ recipe.resultsdetails }}</p>
+
 
 </ion-item>
 </ion-list>

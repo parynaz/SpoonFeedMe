@@ -14,16 +14,17 @@
 <img class="recipe-detail-img" ng-src="{{ image }}">
 </ion-item>
 
-<div class = "recipe-detail">
- <b ng-show = "sourceName">Source: </b><p class="detail"><a href = "{{ details.sourceUrl }}"><i>{{ details.sourceName }}</i></a></p><br>
- <b ng-show = "servings">Servings: </b><p class="detail">{{ details.servings }}</p><br>
- <b ng-show = "timeRequired" = >Time Required: </b><p class="detail">{{ details.readyInMinutes }}</p><br>
+<ion-item class = "recipe-detail">
+ <p class = "detail-title" ng-show = "sourceName"><b>Source:</b></p><p class="detail"><a href = "{{ details.sourceUrl }}"><i>{{ sourceName }}</i></a></p><br>
+ <p class = "detail-title" ng-show = "servings"><b>Servings: </b></p><p class="detail">{{ servings }}</p><br>
+ <p class = "detail-title" ng-show = "timeRequired"><b>Time Required: </b></p><p class="detail">{{ timeRequired }}</p><br>
 
- <b ng-show = "calories">Calories: </b><p class="detail">{{ calories }}</p><br>
- <b ng-show = "protein">Protein(g): </b><p class="detail">{{ protein }}</p><br>
- <b ng-show = "fat">Fat(g): </b><p class="detail">{{ fat }}</p><br>
- <b ng-show = "carbs">Carbohydrates(g): </b><p class="detail">{{ carbs }}</p><br>
- </div>
+ <p class = "detail-title" ng-show = "calories"><b>Calories:</b> </p><p class="detail">{{ calories }}</p><br>
+ <p class = "detail-title" ng-show = "protein"><b>Protein(g): </b></p><p class="detail">{{ protein }}</p><br>
+ <p class = "detail-title" ng-show = "fat"><b>Fat(g): </b></p><p class="detail">{{ fat }}</p><br>
+ <p class = "detail-title" ng-show = "carbs"><b>Carbohydrates(g): </b></p><p class="detail">{{ carbs }}</p><br>
+
+ </ion-item>
  <br>
 
  <p class = "ingredients"><b>Ingredients : </p></b>
@@ -33,7 +34,7 @@
 
  	<img class = "ingredient-img" ng-src = "{{ ingredient.image }}">
  	<p class = "ingredient-name"><b>{{ ingredient.name }}</b></p><br>
- 	<p class = "ingredient-amount">{{ ingredient.amount }} {{ ingredient.unit }}</p>
+ 	<p class = "ingredient-amount">{{ ingredient.originalString }}</p>
 
 </ion-item>
 </div>

@@ -15,7 +15,7 @@
 <div class="bar bar-header item-input-inset myimportbar">
     <p class="urlLabel">URL: </p><label class="item-input-wrapper">
         <i></i>
-        <form class="importBox" ng-submit="submit()" style="width: 100%;">
+        <form class="importBox" ng-submit="import(url)" style="width: 100%;">
           <input class = "textbox" style="width: 100%" type="text" placeholder="Enter URL..." ng-model="url" name="url" autofocus>
       </form>
     </label>
@@ -36,16 +36,13 @@
 	<p class="import-title">{{ result.title }}</p>
 </ion-item>
 
-<!-- <div ng-bind-html="instructions"></div> -->
 
-<!-- <div ng-bind-html="walkthrough"></div>
- -->  
+<ion-item class = "recipe-detail">
+<p class = "detail-title" ng-show = "sourceName"><b>Source:</b></p><p class="detail"><a href = "{{ details.sourceUrl }}">{{ sourceName }}</a></p><br>
+<p class = "detail-title" ng-show = "servings"><b>Servings: </b></p><p class="detail">{{ servings }}</p><br>
+<p class = "detail-title" ng-show = "timeRequired"><b>Time Required: </b></p><p class="detail">{{ timeRequired }}</p><br>
 
-<div class = "recipe-detail">
- <b ng-show = "sourceName">Source: </b><p class="detail"><a href = "{{ result.sourceUrl }}"><i>{{ result.sourceName }}</i></a></p><br>
- <b ng-show = "servings">Servings: </b><p class="detail">{{ result.servings }}</p><br>
- <b ng-show = "timeRequired" = >Time Required: </b><p class="detail">{{ result.readyInMinutes }}</p><br>
-</div>
+</ion-item>
 
  <br>
 
@@ -56,7 +53,7 @@
 
   <img class = "ingredient-img" ng-src = "{{ ingredient.image }}">
   <p class = "ingredient-name"><b>{{ ingredient.name }}</b></p><br>
-  <p class = "ingredient-amount">{{ ingredient.amount }} {{ ingredient.unit }}</p>
+  <p class = "ingredient-amount">{{ ingredient.originalString }}</p>
 
 </ion-item>
 

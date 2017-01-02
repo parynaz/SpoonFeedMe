@@ -72,23 +72,56 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 
 
 	return {
-		getSavedRecipes: function() {
-			savedRecipes = $localstorage.getObject('savedRecipes');
-			if (savedRecipes.length > 0) return savedRecipes;
+		getSavedRecipes: function(from) {
+			if (from == 'neither'){
+				importedRecipes = $localstorage.getObject('importedRecipes');
+				if (importedRecipes.length > 0) return importedRecipes;
+			}
+			else {
+				savedRecipes = $localstorage.getObject('savedRecipes');
+				if (savedRecipes.length > 0) return savedRecipes;
+			}
+			
 		},
 
-		removeSavedRecipe: function(recipe) {
-			savedRecipes.splice(savedRecipes.indexOf(recipe), 1);
-			$localstorage.setObject('savedRecipes', savedRecipes);
+		removeSavedRecipe: function(recipe, from) {
+			if (from == 'neither'){
+				importedRecipes.splice(importedRecipes.indexOf(recipe), 1);
+				$localstorage.setObject('importedRecipes', importedRecipes);
+			}
+			else {
+				savedRecipes.splice(savedRecipes.indexOf(recipe), 1);
+				$localstorage.setObject('savedRecipes', savedRecipes);
+			}
+			
 		},
 
-		saveRecipe: function(recipe) {
-			savedRecipes.push(recipe);
-			$localstorage.setObject('savedRecipes', savedRecipes);
+		saveRecipe: function(recipe, from) {
+			if (from == 'neither'){
+				importedRecipes.push(recipe);
+				$localstorage.setObject('importedRecipes', importedRecipes);
+			}
+			else{
+				savedRecipes.push(recipe);
+				$localstorage.setObject('savedRecipes', savedRecipes);
+			}
+			
 		},
 
-		alreadySaved: function(recipe) {
-			savedRecipes = $localstorage.getObject('savedRecipes');
+		alreadySaved: function(recipe, from) {
+			if (from == 'neither'){
+				importedRecipes = $localstorage.getObject('importedRecipes');
+			
+			for(var i = 0; i < importedRecipes.length; i++){
+				if(importedRecipes[i].id == recipe.id) {
+					return 1;
+				}
+			}
+			return 0;
+		}
+			
+			else {
+				savedRecipes = $localstorage.getObject('savedRecipes');
 			
 			for(var i = 0; i < savedRecipes.length; i++){
 				if(savedRecipes[i].id == recipe.id) {
@@ -96,6 +129,8 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 				}
 			}
 			return 0;
+			}
+			
 		}
 	}
 })
@@ -124,15 +159,15 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 			if (savedOrSearch == 'search') {
 				return searchPayLoad;
 			}
-			else if (savedOrSearch == 'saved'){
-				saved = StorageService.getSavedRecipes();
+			else if (savedOrSearch == 'saved' || savedOrSearch == 'neither'){
+				saved = StorageService.getSavedRecipes(savedOrSearch);
 				return saved;
 			}
 		},
 
 		getDetails: function(id) {
 			return SearchService.details(id).then(function (results) {
-				searchDetails = results 
+				searchDetails = results; 
 				return searchDetails;
 			})
 		}
