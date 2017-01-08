@@ -11,9 +11,9 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ion
 
 //Custom FUNCTIONS
 .controller('MainCtrl', function($scope, $ionicSideMenuDelegate, $stateParams, $state) {
-   ionic.Platform.ready(function() {
-      $scope.recognition = new SpeechRecognition();
-    })
+   // ionic.Platform.ready(function() {
+   //    $scope.recognition = new SpeechRecognition();
+   //  })
   
   $scope.toggleLeft = function() {
     $ionicSideMenuDelegate.toggleLeft();
@@ -255,7 +255,7 @@ var substring = "https://spoonacular.com/recipeImages/";
 })
 
 
-.controller('RecipeDetailsCtrl', function($scope, $stateParams, $location, $anchorScroll, $ionicLoading, $state, RecipeDetails, StorageService) {
+.controller('RecipeDetailsCtrl', function($scope, $stateParams, $location, $anchorScroll, $ionicLoading, $state, $timeout, RecipeDetails, StorageService) {
 
 $scope.fixSteps = function(steps){
 
@@ -371,10 +371,16 @@ else if($scope.fromSavedOrSearch == 'saved' || $scope.fromSavedOrSearch == 'sear
 
 //Will execute when user presses walkthrough button
 $scope.activateVoiceInstructions = function() {
+
+  if($scope.activateOFF == false && $scope.activateON == true){
+    ionic.Platform.ready(function() {
+      $scope.recognition = new SpeechRecognition();
+    })
+  }
       //if user is turning off activation of voice do not continue
-  if($scope.activateOFF == true && $scope.activateON == false){
-    $scope.recognition.abort();      
-    console.log("stopped listening");
+  else if($scope.activateOFF == true && $scope.activateON == false){
+      $scope.recognition.abort();      
+      console.log("stopped listening");
     return;    
   }   
   
@@ -400,6 +406,7 @@ $scope.listening = false;
         $scope.recognition.onresult = $scope.handleVoiceInput;
         console.log("started listening");
         $scope.recognition.start();
+        $scope.recognition.mutedelay();
         $scope.listening = true;
         $scope.$apply();
       }, function(reason) {
@@ -436,15 +443,17 @@ $scope.prevStep = function() {
       }
 }
 
-$scope.voice = function() {
+$scope.voice= function(){
       var text = $scope.currentStep;
       var pace = 0.9;
+      $scope.recognition.unmute();
       window.TTS.speak({
         text: text,
         locale: 'en-GB',
         rate: pace
       }, function() {
         $scope.recognition.start();
+        $scope.recognition.mute(); //mute the sound after voice
         $scope.speaking = false;
         $scope.listening = true;
         $scope.$apply();
@@ -452,9 +461,8 @@ $scope.voice = function() {
         console.log("something wrong");
         alert(reason);
       });
-
-
 }
+
 
 
 $scope.handleVoiceInput = function(event) {
@@ -474,8 +482,10 @@ $scope.handleVoiceInput = function(event) {
               $scope.currentStepNum = "*";
               $scope.currentStep = "You are done!";
           }
-
-          $scope.recognition.abort();
+          //$scope.recognition.stop(); //unmute the sound before voice
+          
+          $scope.recognition.stop();
+          
           $scope.iconChange();
           $scope.voice();
           $scope.$apply();
@@ -489,13 +499,17 @@ $scope.handleVoiceInput = function(event) {
         } 
         else if ((heardValue == "back") || (heardValue == "previous")) {
           $scope.prevStep();
-          $scope.recognition.abort();
+          //$scope.recognition.stop(); //unmute the sound before voice
+          $scope.recognition.stop();
+          //$scope.recognition.unmute();
           $scope.iconChange();
           $scope.voice();
           $scope.$apply();
         } 
         else if ((heardValue == "read") || (heardValue == "repeat")) {
-          $scope.recognition.abort();
+          //$scope.recognition.stop(); //unmute the sound before voice
+          $scope.recognition.stop();
+          //$scope.recognition.unmute();
           $scope.speaking = true;
           $scope.listening = false;
           $scope.voice();
