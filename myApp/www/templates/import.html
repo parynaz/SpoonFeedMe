@@ -81,32 +81,32 @@
 </div>
 <br>
 
-<div ng-show="activateON">
-  <br>
-<p>Walkthrough</p>
-<ion-item class="item-text-wrap">
+<div id="walkthrough" ng-show="activateON">
+<br>
+<b>Instructions:</b>
+
+<ion-item class = "walkthrough">
+  <ion-item class="item-text-wrap">
    <img class="speaking" ng-show="speaking" ng-src="img/speaker.svg"/>
    <img class="listening" ng-show="listening" ng-src="img/listening.svg"/>   
 
    <p class = "step">{{currentStepNum}}. {{currentStep}}</p>
 
-</ion-item>
+  </ion-item>
 <br>
-<button class="col-50 button android-btn" ng-show="currentStepNum > 1" ng-click="prevStep()">Back</button>
-<button class="col-50 button android-btn" ng-show="currentStepNum < maxStepNum" ng-click="nextStep()">Next</button>
+<button class="back" ng-show="currentStepNum > 1" ng-click="prevStep()">Back</button>
+<button class="backInvisible" ng-show="currentStepNum <= 1">Back</button>
+<button class="next" ng-show="currentStepNum < maxStepNum" ng-click="nextStep()">Next</button>
 
       <div style = "text-align: center">
         <div id="page-wrapper">
           <p class="styled">
-            <meter id="progress" max="{{max}}" value="{{percentageThrough}}"></meter>
+            <meter class ="meter" id="progress" max="{{max}}" value="{{percentageThrough}}"></meter>
           </p>
         </div>
     </div>
 </div>
-
-
-</div>
- </ion-content>
 </ion-item>
-</ion-view>
 
+ </ion-content>
+</ion-view>

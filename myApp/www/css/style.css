@@ -426,7 +426,6 @@ img.speaking{
   float: left;
   margin-left: -2%;
   margin-right: 2%;
-  margin-bottom: 15%;
 }
 
 img.listening{
@@ -435,11 +434,36 @@ img.listening{
   float: left;
   margin-left: -2%;
   margin-right: 2%;
-  margin-bottom: 15%;
   margin-top: -1%;
 }
 p.step{
   margin-top: 3%;
+  margin-left: 12%;
+}
+
+button.back{
+float: left;
+margin-left: 1%;
+  color: white;
+  background-color: #189D09;
+  border: 1px solid #878987;
+}
+
+button.next{
+float: right;
+margin-right: 1%;
+  color: white;
+  background-color: #189D09;
+  border: 1px solid #878987;
+}
+
+button.backInvisible{
+  background: transparent;
+  color: transparent;
+  border: none !important;
+  float:left;
+  margin-left: 1%;
+
 }
 /*
 SAVED PAGE*/
