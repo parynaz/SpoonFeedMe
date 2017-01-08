@@ -1,0 +1,37 @@
+<ion-view view-title="home">
+  <ion-nav-title>
+   <p class = "maintitle">Settings</p>
+  </ion-nav-title>
+
+
+  <ion-content>
+
+<p class="homePadding"></p>
+
+
+<p><b>Voice Settings</b></p>
+<ion-item class="item-input item-select">
+    <div class="input-label">
+      Pace {{selectedPace.value}}
+    </div>
+
+<select data-ng-options="o.name for o in options" ng-change="paceChanged(selectedPace)" data-ng-model="selectedPace"></select>
+  </ion-item>
+
+
+ <ion-item class="item-input item-select">
+    <div class="input-label">
+      Language
+    </div>
+    <select>
+      <option ng-model="language" selected>English</option>
+      <option>80%</option>
+      <option>70%</option>
+      <option>60%</option>
+      <option>50%</option>
+    </select>
+  </ion-item>
+
+
+  </ion-content>
+</ion-view>

@@ -98,6 +98,25 @@ angular.module('SpoonReadMe', ['ionic', 'SpoonReadMe.controllers', 'SpoonReadMe.
       }
     })
 
+    .state('event.settings', {
+      url: "/settings",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/settings.html",
+          controller: "SettingsCtrl"
+        }
+      }
+    })
+
+    .state('event.help', {
+      url: "/help",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/help.html",
+          controller: "HelpCtrl"
+        }
+      }
+    })
   
   $urlRouterProvider.otherwise("/event/home");
 })

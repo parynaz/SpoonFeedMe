@@ -255,7 +255,12 @@ var substring = "https://spoonacular.com/recipeImages/";
 })
 
 
-.controller('RecipeDetailsCtrl', function($scope, $stateParams, $location, $anchorScroll, $ionicLoading, $state, $timeout, RecipeDetails, StorageService) {
+.controller('RecipeDetailsCtrl', function($scope, $stateParams, $location, $anchorScroll, $ionicLoading, $state, $timeout, RecipeDetails, StorageService, Settings) {
+
+//SETTINGS
+
+$scope.pace = Settings.getSavedPace().value;
+
 
 $scope.fixSteps = function(steps){
 
@@ -371,7 +376,7 @@ else if($scope.fromSavedOrSearch == 'saved' || $scope.fromSavedOrSearch == 'sear
 
 $scope.voiceCustom= function(text){
       var text = text;
-      var pace = 0.9;
+      var pace = $scope.pace;
       $scope.recognition.unmute();
       window.TTS.speak({
         text: text,
@@ -417,7 +422,7 @@ $scope.listening = false;
       $scope.getSteps();
             
       var text = "Hello. Please say Read to begin";
-      var pace = 0.9;
+      var pace = $scope.pace;
       window.TTS.speak({
         text: text,
         locale: 'en-GB',
@@ -488,7 +493,7 @@ $scope.voiceIngredients= function(ingredients){
       var ingredientsString = ingredients.toString();
 
       var text = ingredientsString;
-      var pace = 0.9;
+      var pace = $scope.pace;
       $scope.recognition.unmute();
       window.TTS.speak({
         text: text,
@@ -676,7 +681,9 @@ $scope.$on("$ionicView.beforeLeave", function() {
 
 })
 
-.controller('ImportCtrl', function($scope, $ionicLoading, $sce, $location, $anchorScroll, SearchService, StorageService) {
+.controller('ImportCtrl', function($scope, $ionicLoading, $sce, $location, $anchorScroll, SearchService, StorageService, Settings) {
+//SETTINGS
+$scope.pace = Settings.getSavedPace();
 $scope.walkthroughHTML = false;
 $scope.imported = false;
 $scope.fromSavedOrSearch = 'neither';
@@ -785,7 +792,7 @@ $scope.listening = false;
       $scope.getSteps();
             
       var text = "Hello. Please say Read to begin";
-      var pace = 0.9;
+      var pace = $scope.pace;
       window.TTS.speak({
         text: text,
         locale: 'en-GB',
@@ -832,8 +839,8 @@ $scope.prevStep = function() {
 }
 
 $scope.voice = function() {
-      var text = + $scope.currentStep;
-      var pace = 0.9;
+      var text = $scope.currentStep;
+      var pace = $scope.pace;
       $scope.recognition.unmute();
       window.TTS.speak({
         text: text,
@@ -854,7 +861,7 @@ $scope.voice = function() {
 
 $scope.voiceCustom= function(text){
       var text = text;
-      var pace = 0.9;
+      var pace = $scope.pace;
       $scope.recognition.unmute();
       window.TTS.speak({
         text: text,
@@ -878,7 +885,7 @@ $scope.voiceIngredients= function(ingredients){
       var ingredientsString = ingredients.toString();
 
       var text = ingredientsString;
-      var pace = 0.9;
+      var pace = $scope.pace;
       $scope.recognition.unmute();
       window.TTS.speak({
         text: text,
@@ -1113,4 +1120,44 @@ $scope.buttonChange = function() {
   $scope.remove = function(recipe){
     StorageService.removeSavedRecipe(recipe, $scope.fromSavedOrSearch);
   };
+})
+
+.controller('SettingsCtrl', function($scope, Settings) {
+
+
+$scope.options = [{ name: "100%", value: 1.0 }, 
+                  { name: "90%", value: 0.9 }, 
+                  { name: "80%", value: 0.8 }, 
+                  { name: "70%", value: 0.7 },
+                  { name: "60%", value: 0.6 }];
+
+var pace = Settings.getSavedPace(); //if previously saved a pace will load that; otherwise will load default
+
+  for(var i = 0; i < $scope.options.length; i++){
+    if (pace.value == $scope.options[i].value){
+      $scope.selectedPace = $scope.options[i];
+      break;
+    }
+      
+  }
+
+$scope.paceChanged = function(selected){
+    console.log("PACECHANGED");
+
+    var newPace = selected;
+
+    Settings.saveNewPace(newPace);
+}
+
+
+})
+
+.controller('HelpCtrl', function($scope) {
+
 });
+
+
+
+
+
+

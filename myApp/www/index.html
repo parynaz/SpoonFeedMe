@@ -121,6 +121,20 @@
               </a>
             </ion-item> 
 
+            <ion-item nav-clear menu-close style="border: none;background-color: #ddd;">
+              <a ui-sref="event.settings" ui-sref-active="current" class="item item-icon-left mymenubar">
+              <i><img class="menu-home" src="img/settings.svg"/></i>
+              <p class="menuTitle">Settings</p>
+              </a>
+            </ion-item> 
+
+            <ion-item nav-clear menu-close style="border: none;background-color: #ddd;">
+              <a ui-sref="event.help" ui-sref-active="current" class="item item-icon-left mymenubar">
+              <i><img class="menu-home" src="img/help.svg"/></i>
+              <p class="menuTitle">Help</p>
+              </a>
+            </ion-item> 
+
             </ul>
           </ion-content>
         </ion-side-menu>
@@ -145,7 +159,11 @@
     </script>
 
 
+    <script src="templates/settings.html" type="text/ng-template">
+    </script>
 
+    <script src="templates/help.html" type="text/ng-template">
+    </script>
 
 
 
