@@ -270,19 +270,27 @@ steps.splice((steps.length) - 1, 1);
 $scope.steps = [];
 
 for(var i=0; i < steps.length; i++){
-  $scope.steps[i] = steps[i].replace(/\//g, '').replace(/[^0-9a-zA-Z_]p[^0-9a-zA-Z_]/g, '');
+  $scope.steps[i] = steps[i].replace(/[^0-9a-zA-Z_]p[^0-9a-zA-Z_]/g, '');
 }
 
 var string;
+
   for(var i = 0; i < $scope.supplies.length; i++){
     string = $scope.supplies[i].originalString; //turn into string
     name = $scope.supplies[i].name;
     amount = $scope.supplies[i].amount.toString();
 
     if (string.includes(name)){
-      $scope.supplies[i].originalString = string.replace(name, '').replace(/[^\w\s]/gi, '');
-      if ($scope.supplies[i].originalString == "") $scope.supplies[i].originalString = amount + " " + $scope.supplies[i].unit;
+      // $scope.supplies[i].originalString = string.replace(name, '').replace(/[^\w\s\\]/gi, '');
+      $scope.supplies[i].originalString = string.replace(name, '');
+
+      if ($scope.supplies[i].originalString == "") {
+        $scope.supplies[i].originalString = amount + " " + $scope.supplies[i].unit;
+      } 
     }
+
+    var original = $scope.supplies[i].originalString;
+    $scope.supplies[i].unitShort = original.replace($scope.supplies[i].unit, $scope.supplies[i].unitLong);
 
   }
 
@@ -511,12 +519,67 @@ $scope.voiceIngredients= function(ingredients){
       });
 }
 
+$scope.isThisIncluded = function(heardValue){
+  var ingredients = [];
+  var ingredient;
+  var ingredientWords = [];
+  var amount;
+  var string;
+  var foundSomething = false;
+
+
+      for(var i = 0; i < $scope.supplies.length; i++){
+
+          ingredient = $scope.supplies[i].name;
+          ingredientWords = ingredient.split(" ");
+          amount = $scope.supplies[i].unitShort;
+
+          //if they say "how much" exact ingredient
+          if (heardValue.includes("how much " + ingredient) || 
+              heardValue.includes("how much " + ingredient + "s") ||
+              heardValue.includes("how many " + ingredient) || 
+              heardValue.includes("how many " + ingredient + "s")) {
+
+                      string = amount + " " + ingredient;
+                      ingredients.push(string);
+                      $scope.ingredientsList = ingredients;
+                      foundSomething = true;
+                      }
+
+          else{
+                  for(var y = 0; y < ingredientWords.length; y++){
+                      if ((heardValue.includes("how much " + ingredientWords[y])) ||
+                         (heardValue.includes("how much " + ingredientWords[y] + "s")) ||
+                         (heardValue.includes("how many " + ingredientWords[y])) ||
+                         (heardValue.includes("how many " + ingredientWords[y] + "s"))) {
+
+                      string = amount + " " + "of " + ingredient;
+                      ingredients.push(string);
+                      $scope.ingredientsList = ingredients;
+                      foundSomething = true;
+                      }
+                    }
+              }
+        } 
+
+      //make sure to return empty ingredient if not found
+      $scope.ingredientsList = ingredients;
+      return foundSomething;
+}
+
 
 
 $scope.handleVoiceInput = function(event) {
 
   var step;
   var num;
+  var ingredients = [];
+  var currentstep;
+  var ingredient;
+  var ingredientWords = [];
+  var amount;
+  var string;
+  
 
       if (event.results.length > 0) {  
         console.log("HEARD SOMETHING");
@@ -561,32 +624,82 @@ $scope.handleVoiceInput = function(event) {
           $scope.recognition.abort(); 
           console.log("stopped llistening");
         }
-        //How much of a certain ingredient
-        else if ((heardValue == "how much")) {
-          var ingredients = [];
-          var currentstep;
-          var ingredient;
-          var ingredientWords = [];
-          var amount;
-          var string;
 
-          for(var i = 0; i < $scope.supplies.length; i++){
+        else if ($scope.isThisIncluded(heardValue)) {
+
+          var ingredients = $scope.ingredientsList;
+
+          if (ingredients.length > 0){
+            //remove duplicates
+            for(var x = 0 ; x < ingredients.length; x++){
+                for(var y = x+1; y < ingredients.length ; y++){
+                  if(ingredients[x] == ingredients[y])
+                    ingredients.splice(x, 1);
+                }
+              }
+
+                console.log(ingredients);
+          $scope.recognition.stop();
+          $scope.iconChange();
+          $scope.voiceIngredients(ingredients);
+          $scope.$apply();
+          }
+          else{
+          var string = "Sorry, please look up ingredient manually";
+          $scope.recognition.stop();
+          $scope.iconChange();
+          $scope.voiceCustom(string);
+          $scope.$apply();
+          }
+
+        }
+
+        //How much of a certain ingredient
+        else if ((heardValue == "how much") || (heardValue == "how many")) {
+          
+
+        for(var i = 0; i < $scope.supplies.length; i++){
             currentstep = $scope.currentStep;
             ingredient = $scope.supplies[i].name;
             ingredientWords = ingredient.split(" ");
-            amount = $scope.supplies[i].originalString;
+            //amount = $scope.supplies[i].originalString;
+            amount = $scope.supplies[i].unitShort;
 
-            for(var y = 0; y < ingredientWords.length; y++){
-              if (currentstep.indexOf(ingredientWords[y]) != -1){
-              string = amount + " " + ingredient;
+            //check for duplicates
+
+            if (currentstep.includes(ingredient)) {
+
+             
+
+                string = amount + " " + ingredient;
+                ingredients.push(string);
+            }
+
+            else{
+              for(var y = 0; y < ingredientWords.length; y++){
+              if ((currentstep.includes(" " + ingredientWords[y])) || (currentstep.includes(" " + ingredientWords[y] + "s"))) {
+                  
+                  string = amount + " " + "of " + ingredient;
+                  //check for duplicates
+              
               ingredients.push(string);
             }
 
-            }
+          }
+            }    
             
           }
 
           if (ingredients.length > 0){
+            //remove duplicates
+            for(var x = 0 ; x < ingredients.length; x++){
+                for(var y = x+1; y < ingredients.length ; y++){
+                  if(ingredients[x] == ingredients[y])
+                    ingredients.splice(x, 1);
+                }
+              }
+
+          console.log(ingredients);
           $scope.recognition.stop();
           $scope.iconChange();
           $scope.voiceIngredients(ingredients);
@@ -683,7 +796,7 @@ $scope.$on("$ionicView.beforeLeave", function() {
 
 .controller('ImportCtrl', function($scope, $ionicLoading, $sce, $location, $anchorScroll, SearchService, StorageService, Settings) {
 //SETTINGS
-$scope.pace = Settings.getSavedPace();
+$scope.pace = Settings.getSavedPace().value;
 $scope.walkthroughHTML = false;
 $scope.imported = false;
 $scope.fromSavedOrSearch = 'neither';
@@ -738,7 +851,7 @@ steps.splice((steps.length) - 1, 1);
 $scope.steps = [];
 
 for(var i=0; i < steps.length; i++){
-  $scope.steps[i] = steps[i].replace(/\//g, '').replace(/[^0-9a-zA-Z_]p[^0-9a-zA-Z_]/g, '').replace('-', ' ');
+  $scope.steps[i] = steps[i].replace(/[^0-9a-zA-Z_]p[^0-9a-zA-Z_]/g, '').replace('-', ' ');
 }
 
 var string;
@@ -748,10 +861,13 @@ var string;
     amount = $scope.supplies[i].amount.toString();
 
     if (string.includes(name)){
-      $scope.supplies[i].originalString = string.replace(name, '').replace(/[^\w\s]/gi, '');
+      $scope.supplies[i].originalString = string.replace(name, '');
       if ($scope.supplies[i].originalString == "") $scope.supplies[i].originalString = amount + " " + $scope.supplies[i].unit;
 
     }
+
+    var original = $scope.supplies[i].originalString;
+    $scope.supplies[i].unitShort = original.replace($scope.supplies[i].unit, $scope.supplies[i].unitLong);
 
   }
 
@@ -903,11 +1019,64 @@ $scope.voiceIngredients= function(ingredients){
       });
 }
 
+$scope.isThisIncluded = function(heardValue){
+  var ingredients = [];
+  var ingredient;
+  var ingredientWords = [];
+  var amount;
+  var string;
+  var foundSomething = false;
+
+
+      for(var i = 0; i < $scope.supplies.length; i++){
+
+          ingredient = $scope.supplies[i].name;
+          ingredientWords = ingredient.split(" ");
+          amount = $scope.supplies[i].unitShort;
+
+          //if they say "how much" exact ingredient
+          if (heardValue.includes("how much " + ingredient) || 
+              heardValue.includes("how much " + ingredient + "s") ||
+              heardValue.includes("how many " + ingredient) || 
+              heardValue.includes("how many " + ingredient + "s")) {
+                      string = amount + " " + ingredient;
+                      ingredients.push(string);
+                      $scope.ingredientsList = ingredients;
+                      foundSomething = true;
+                      }
+
+          else{
+                  for(var y = 0; y < ingredientWords.length; y++){
+                      if ((heardValue.includes("how much " + ingredientWords[y])) ||
+                         (heardValue.includes("how much " + ingredientWords[y] + "s")) ||
+                         (heardValue.includes("how many " + ingredientWords[y])) ||
+                         (heardValue.includes("how many " + ingredientWords[y] + "s"))) {
+                              
+                      string = amount + " " + "of " + ingredient;
+                      ingredients.push(string);
+                      $scope.ingredientsList = ingredients;
+                      foundSomething = true;
+                      }
+                    }
+              }
+        } 
+
+      //make sure to return empty ingredient if not found
+      $scope.ingredientsList = ingredients;
+      return foundSomething;
+}
+
 
 $scope.handleVoiceInput = function(event) {
 
   var step;
   var num;
+  var ingredients = [];
+  var currentstep;
+  var ingredient;
+  var ingredientWords = [];
+  var amount;
+  var string;
 
       if (event.results.length > 0) {  
         console.log("HEARD SOMETHING");
@@ -955,31 +1124,74 @@ $scope.handleVoiceInput = function(event) {
           console.log("stopped llistening");
         }
         //How much of a certain ingredient
-        else if ((heardValue == "how much")) {
-          var ingredients = [];
-          var currentstep;
-          var ingredient;
-          var ingredientWords = [];
-          var amount;
-          var string;
+
+        else if ($scope.isThisIncluded(heardValue)) {
+
+          var ingredients = $scope.ingredientsList;
+
+          if (ingredients.length > 0){
+            //remove duplicates
+            for(var x = 0 ; x < ingredients.length; x++){
+                for(var y = x+1; y < ingredients.length ; y++){
+                  if(ingredients[x] == ingredients[y])
+                    ingredients.splice(x, 1);
+                }
+              }
+
+                console.log(ingredients);
+          $scope.recognition.stop();
+          $scope.iconChange();
+          $scope.voiceIngredients(ingredients);
+          $scope.$apply();
+          }
+          else{
+          var string = "Sorry, please look up ingredient manually";
+          $scope.recognition.stop();
+          $scope.iconChange();
+          $scope.voiceCustom(string);
+          $scope.$apply();
+          }
+
+        }
+
+        else if ((heardValue == "how much") || (heardValue == "how many")) {
 
           for(var i = 0; i < $scope.supplies.length; i++){
             currentstep = $scope.currentStep;
             ingredient = $scope.supplies[i].name;
             ingredientWords = ingredient.split(" ");
-            amount = $scope.supplies[i].originalString;
+            amount = $scope.supplies[i].unitShort;
 
-            for(var y = 0; y < ingredientWords.length; y++){
-              if (currentstep.indexOf(ingredientWords[y]) != -1){
-              string = amount + " " + ingredient;
+            //check for duplicates
+
+            if (currentstep.includes(ingredient)) {
+                string = amount + " " + ingredient;
+                ingredients.push(string);
+            }
+
+            else{
+              for(var y = 0; y < ingredientWords.length; y++){
+              if ((currentstep.includes(" " + ingredientWords[y])) || (currentstep.includes(" " + ingredientWords[y] + "s"))) {
+                  
+                  string = amount + " " + "of " + ingredient;
+                  //check for duplicates
+              
               ingredients.push(string);
             }
 
-            }
+          }
+            }    
             
           }
 
           if (ingredients.length > 0){
+            //remove duplicates
+            for(var x = 0 ; x < ingredients.length; x++){
+                for(var y = x+1; y < ingredients.length ; y++){
+                  if(ingredients[x] == ingredients[y])
+                    ingredients.splice(x, 1);
+                }
+              }
           $scope.recognition.stop();
           $scope.iconChange();
           $scope.voiceIngredients(ingredients);
