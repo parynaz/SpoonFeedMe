@@ -203,6 +203,10 @@ $scope.kinds_model = [];
   //If any filters are pressed, there will be a complex search (3 API calls)
   //If no filters are pressed, then there will be a simple recipe search (1 API call)
   $scope.getRecipe = function(query) {
+
+  //close the keyboard
+  cordova.plugins.Keyboard.close();
+
     $ionicLoading.show({
     template: '<ion-spinner icon="android"></ion-spinner>',
     animation: 'fade-in'
@@ -229,6 +233,10 @@ $scope.kinds_model = [];
 //For query only searches; the images need to have url added to them
 //Also some recipes don't have images so default image added for these
 $scope.getRecipeImage = function(recipe, from) {
+
+  //close the keyboard
+  cordova.plugins.Keyboard.close();
+
 var substring = "https://spoonacular.com/recipeImages/";
 
   for(var i = 0; i < recipe.length; i++){
@@ -803,6 +811,9 @@ $scope.fromSavedOrSearch = 'neither';
 
 var steps = [];
  $scope.import = function(query) {
+      //close the keyboard
+  cordova.plugins.Keyboard.close();
+  
     $ionicLoading.show({
     template: '<ion-spinner icon="android"></ion-spinner>',
     animation: 'fade-in'
