@@ -34,10 +34,11 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ion
 })
 
 
-.controller('SearchCtrl', function($scope, $ionicLoading, $ionicPopup, $window, RecipeDetails) {
+.controller('SearchCtrl', function($scope, $stateParams, $ionicLoading, $ionicPopup, $window, RecipeDetails) {
   //The results to be rendered
   $scope.result = "";
   $scope.searchResultsReturned = false;
+  $scope.numberOfResults = 0;
 
   $scope.submit = function(){
       $scope.getRecipe(this.query);    
@@ -205,7 +206,7 @@ $scope.kinds_model = [];
   $scope.getRecipe = function(query) {
 
   //close the keyboard
-  cordova.plugins.Keyboard.close();
+  //cordova.plugins.Keyboard.close();
 
     $ionicLoading.show({
     template: '<ion-spinner icon="android"></ion-spinner>',
@@ -215,27 +216,27 @@ $scope.kinds_model = [];
     if($scope.filterOption == true){
       RecipeDetails.getFromSearchFiltered(query, $scope.selectedDiet, $scope.selectedCuisine, $scope.selectedAllergy, $scope.selectedKind, $scope.calories.min, $scope.calories.max, $scope.carbs.min, $scope.carbs.max, $scope.fat.min, $scope.fat.max, $scope.protein.min, $scope.protein.max).then(function(data){
         $scope.result = data.results;
-        $scope.getRecipeImage($scope.result, "filter");
+        $scope.getRecipeDetails($scope.result, "filter");
         $scope.searchResultsReturned = true;
+        $scope.numberOfResults = data.totalResults;
+        $scope.query = query;
         $ionicLoading.hide();
       })
     }else 
 
   RecipeDetails.getFromSearch(query).then(function(data){
     $scope.result = data.results;
-    $scope.getRecipeImage($scope.result, "nofilter");
-
+    $scope.getRecipeDetails($scope.result, "nofilter");
     $scope.searchResultsReturned = true;
+    $scope.numberOfResults = data.totalResults;
+    $scope.query = query;
     $ionicLoading.hide();
   });
 }
 
 //For query only searches; the images need to have url added to them
 //Also some recipes don't have images so default image added for these
-$scope.getRecipeImage = function(recipe, from) {
-
-  //close the keyboard
-  cordova.plugins.Keyboard.close();
+$scope.getRecipeDetails = function(recipe, from) {
 
 var substring = "https://spoonacular.com/recipeImages/";
 
@@ -243,22 +244,21 @@ var substring = "https://spoonacular.com/recipeImages/";
     if (from == "nofilter" && recipe[i].imageUrls.length == 0){
       recipe[i].image = "https://static.pexels.com/photos/3329/food-kitchen-cutting-board-cooking.jpg";
     }
-    else {
+    else if (from == "filter"){
+      recipe[i].resultsdetails = "Calories: " + recipe[i].calories;
       var stringID = recipe[i].id;
       recipe[i].image = (substring + stringID + '-636x393.jpg'); 
-
-      //set details
-      if(from == "nofilter"){
-        recipe[i].resultsdetails = "Time Required: " + recipe[i].readyInMinutes;
-      }
-      else if(from == "filter"){
-        recipe[i].resultsdetails = "Calories: " + recipe[i].calories;
+    }
+    else if (from == "nofilter"){
+      recipe[i].resultsdetails = "Time Required: " + recipe[i].readyInMinutes;
+      var stringID = recipe[i].id;
+      recipe[i].image = (substring + stringID + '-636x393.jpg'); 
       }
       
     }
 
   }
-}
+
 
 })
 
@@ -277,9 +277,13 @@ steps.splice((steps.length) - 1, 1);
 
 $scope.steps = [];
 
+
 for(var i=0; i < steps.length; i++){
-  $scope.steps[i] = steps[i].replace(/[^0-9a-zA-Z_]p[^0-9a-zA-Z_]/g, '');
+  $scope.steps[i] = steps[i].replace(/[^0-9a-zA-Z_]p[^0-9a-zA-Z_]/g, '').replace(/[^0-9a-zA-Z_]HTML[^0-9a-zA-Z_]/g, '').replace(/\s\s+/g, ' ').replace(/[^0-9a-zA-Z_\/\s]/g, '');
+      console.log("after");
 }
+
+
 
 var string;
 
@@ -322,17 +326,17 @@ $scope.fromSavedOrSearch = $stateParams.fromSavedOrSearch;
 
 //if from search; will be getting the results
 if($scope.fromSavedOrSearch == 'search'){
-  payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch).results[$scope.recipeId];
+  payload = RecipeDetails.getRecipes('search').results[$scope.recipeId];
 
 }
 //if from saved; will have to look in local storage
 else if($scope.fromSavedOrSearch == 'saved'){
-  payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch)[$scope.recipeId];
+  payload = RecipeDetails.getRecipes('saved')[$scope.recipeId];
 }
 
 //if from saved; will have to look in local storage
 else {
-  payload = RecipeDetails.getRecipes($scope.fromSavedOrSearch)[$scope.recipeId];
+  payload = RecipeDetails.getRecipes('neither')[$scope.recipeId];
 }
 
   $scope.recipe = payload;
@@ -379,7 +383,19 @@ else if($scope.fromSavedOrSearch == 'saved' || $scope.fromSavedOrSearch == 'sear
              $scope.details.sourceName = "Go to Source";
           
           $scope.sourceName = $scope.details.sourceName;
-          $scope.instructions = $scope.details.instructions;
+
+          // if($scope.fromSavedOrSearch == 'searchWithFilters'){ //minor difference
+          //   var instructions = [];
+          //   var step;
+          //   for(var i = 0; i < $scope.details.analyzedInstructions; i++){
+          //     for(var x = 0; x < $scope.details.analyzedInstructions[i].steps)
+          //     step = $scope.details.analyzedInstructions[i].steps[x].step;
+          //     instructions.push(step);
+          //   }
+
+            $scope.instructions = $scope.details.instructions;
+          
+
           steps = $scope.instructions.split(".");
 
           //fix the steps
@@ -862,7 +878,7 @@ steps.splice((steps.length) - 1, 1);
 $scope.steps = [];
 
 for(var i=0; i < steps.length; i++){
-  $scope.steps[i] = steps[i].replace(/[^0-9a-zA-Z_]p[^0-9a-zA-Z_]/g, '').replace('-', ' ');
+  $scope.steps[i] = steps[i].replace(/[^0-9a-zA-Z_]p[^0-9a-zA-Z_]/g, '').replace('-', ' ').replace(/[^0-9a-zA-Z_]HTML[^0-9a-zA-Z_]/g, '').replace(/\s\s+/g, ' ').replace(/[^0-9a-zA-Z_\/\s]/g, '');
 }
 
 var string;
@@ -1299,6 +1315,7 @@ $scope.$on("$ionicView.beforeLeave", function() {
     $scope.saved = StorageService.getSavedRecipes('saved');
     $scope.imported = StorageService.getSavedRecipes('neither');
   });
+
 
   $scope.savedRecipes = function(){
     $scope.buttonChange();

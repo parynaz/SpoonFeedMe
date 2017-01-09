@@ -33,13 +33,13 @@
 
  <p class = "ingredients"><b>Ingredients : </p></b>
 
-
+<ion-item class = "ingredients">
  <ion-item class="item-text-wrap" ng-repeat = "ingredient in supplies">
 
  	<img class = "ingredient-img" ng-src = "{{ ingredient.image }}">
  	<p class = "ingredient-name"><b>{{ ingredient.name }}</b></p><br>
  	<p class = "ingredient-amount">{{ ingredient.originalString }}</p>
-
+</ion-item>
 </ion-item>
 </div>
 
@@ -51,10 +51,12 @@
 
 
 <div ng-show="activateOFF" class = "instructions-section">
+<br>
 
-<b>Instructions:</b>
+<p class = "ingredients"><b>Instructions : </p></b>
+<ion-item class = "regularInstructions">
  <ion-item class="item-text-wrap" ng-repeat = "step in steps">{{$index + 1}}. {{ step }}</p>
-
+</ion-item>
 </ion-item>
 </div>
 

@@ -23,21 +23,27 @@
 </ion-nav-buttons>
  <ion-content>
 
-  <p class="searchPadding"></p>
 
 
 <div class="row" ng-show = "searchResultsReturned" infinite-scroll="myPagingFunction()" infinite-scroll-distance = "3" style="flex-wrap: wrap;">
 
+<ion-item class = "results">
+<p class = "results"><b>Number of Results: </b>{{ numberOfResults }}</p>
+<br>
+<p ng-show = "query" class = "resultsLabel"><b>Showing recipes for </b>"{{query}}"</p>
+</ion-item>
+<br>
 
-	<ion-item ng-repeat="recipe in result" href="#/event/search/{{$index}}/search">
+	<ion-item class = "searchList" ng-repeat="recipe in result" href="#/event/search/{{$index}}/search">
 
-	
+	<ion-item class = "item-text-wrap">
 	<img class="result-img" ng-src= "{{ recipe.image }}">
 
 	 <b><p class="results-title">{{ recipe.title }}  </p></b>
 
 	 <p class="results-details">{{ recipe.resultsdetails }}</p>
 
+</ion-item>
 	
 
 </ion-item>

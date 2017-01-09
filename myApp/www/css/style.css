@@ -144,7 +144,7 @@ img.filter-btn{
 }
 
 p.searchPadding {
-  padding-top: 1cm;
+  padding-top: 0.5cm;
 }
 
 form.searchBox {
@@ -179,6 +179,14 @@ button.searchpage-button{
   margin-top: 7px;
 
 }
+
+p.results{
+  text-align: right;
+}
+
+p.resultsLabel{
+  text-align: left;
+}
 p.filterLabel{
   margin-top: 15px;
   font-size: 10px;
@@ -192,26 +200,52 @@ ion-item.item{
 img.result-img {
   width: 50%;
   height: 50%;
-  border: 2px solid green;
+  border: none;
+  float: left;
  
 }
 
+ion-item.savedList{
+  border: none;  
+
+}
+
+ion-item.item-text-wrap{
+  border-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
+
+}
+
+ion-item.importedList{
+  width: 110%;
+  margin-left: -1.5%;
+}
+
+ion-item.searchList{
+  border: none;
+  
+}
+
+ion-item.results{
+  border: none;
+
+}
+
 p.results-title{
-  text-align:left;
+  text-align:center;
   float: right;
   font-size: 60%;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
-  width: 50%;
+ 
+  
+  width: 48%;
 }
 
 p.results-details{
   text-align:center;
   font-size: 60%;
-  width:50%;
-  display: inline-block;
-  padding-left: 10px;
+  width: 50%;
+  float: left;
+  
 }
 
 div.filterOption{
@@ -333,8 +367,13 @@ button.walkthroughON-btn{
   margin-left: 1%;
 }
 
+ion-item.ingredients{
+  border: none;
+}
 
-
+ion-item.walkthrough{
+  border: none;
+}
 
 img.voice-btn{
   float: left;
@@ -388,10 +427,6 @@ p.carbs-title{
 
 
 
-ion-item.item-text-wrap{
-  border: 2px solid #878987;
-  margin-left: 0.01%;
-}
 
 img.ingredient-img{
   width: 60px;
@@ -411,13 +446,8 @@ p.ingredient-amount{
   text-align: right; width: 100%; padding-left: 40%;
 }
 
-
-
-div.instructions-section{
-  margin-top: 2%;
-}
-p.instructions{
-  word-wrap: break-word;
+ion-item.regularInstructions{
+  border: none;
 }
 
 img.speaking{
