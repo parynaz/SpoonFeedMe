@@ -9,27 +9,27 @@
 <p class="homePadding"></p>
 
 
-<p><b>Voice Settings</b></p>
+<p class = "voiceSettings"><b>Voice Settings</b></p>
+<button class="settingsVoice" ng-click="playVoice()" ng-show="testingOff"><img class = "test" ng-src="img/play.svg"/><b class = "test-label">Test Voice</b></button>
+<button class="settingsVoice" ng-click="playVoice()" ng-show="testingOn"><img class = "testing" ng-src="img/playgreen.svg"/><b class = "testing-label">Testing...</b></button>
+
 <ion-item class="item-input item-select">
     <div class="input-label">
-      Pace {{selectedPace.value}}
+      Pace
     </div>
 
-<select data-ng-options="o.name for o in options" ng-change="paceChanged(selectedPace)" data-ng-model="selectedPace"></select>
+<select data-ng-options="o.name for o in paceOptions" ng-change="paceChanged(selectedPace)" data-ng-model="selectedPace"></select>
   </ion-item>
 
 
- <ion-item class="item-input item-select">
+<ion-item class="item-input item-select">
     <div class="input-label">
-      Language
+      Voice
     </div>
-    <select>
-      <option ng-model="language" selected>English</option>
-      <option>80%</option>
-      <option>70%</option>
-      <option>60%</option>
-      <option>50%</option>
-    </select>
+
+
+
+<select data-ng-options="o.name for o in voiceOptions" ng-change="voiceChanged(selectedVoice)" data-ng-model="selectedVoice"></select>
   </ion-item>
 
 

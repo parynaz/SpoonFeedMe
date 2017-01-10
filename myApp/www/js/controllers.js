@@ -271,7 +271,9 @@ var substring = "https://spoonacular.com/recipeImages/";
 
 //SETTINGS
 
-$scope.pace = Settings.getSavedPace().value;
+$scope.pace = Settings.getSavedSetting('pace').value;
+$scope.spokenVoice = Settings.getSavedSetting('voice').value;
+
 
 
 $scope.fixSteps = function(steps){
@@ -418,7 +420,7 @@ $scope.voiceCustom= function(text){
       $scope.recognition.unmute();
       window.TTS.speak({
         text: text,
-        locale: 'en-GB',
+        locale: $scope.spokenVoice,
         rate: pace
       }, function() {
         $scope.recognition.start();
@@ -463,7 +465,7 @@ $scope.listening = false;
       var pace = $scope.pace;
       window.TTS.speak({
         text: text,
-        locale: 'en-GB',
+        locale: $scope.spokenVoice,
         rate: pace
       }, function() {
         $scope.recognition.onresult = $scope.handleVoiceInput;
@@ -512,7 +514,7 @@ $scope.voice= function(){
       $scope.recognition.unmute();
       window.TTS.speak({
         text: text,
-        locale: 'en-GB',
+        locale: $scope.spokenVoice,
         rate: pace
       }, function() {
         $scope.recognition.start();
@@ -535,7 +537,7 @@ $scope.voiceIngredients= function(ingredients){
       $scope.recognition.unmute();
       window.TTS.speak({
         text: text,
-        locale: 'en-GB',
+        locale: $scope.spokenVoice,
         rate: pace
       }, function() {
         $scope.recognition.start();
@@ -826,7 +828,8 @@ $scope.$on("$ionicView.beforeLeave", function() {
 
 .controller('ImportCtrl', function($scope, $ionicLoading, $sce, $location, $anchorScroll, SearchService, StorageService, Settings) {
 //SETTINGS
-$scope.pace = Settings.getSavedPace().value;
+$scope.pace = Settings.getSavedSetting('pace').value;
+$scope.spokenVoice = Settings.getSavedSetting('voice').value;
 $scope.walkthroughHTML = false;
 $scope.imported = false;
 $scope.fromSavedOrSearch = 'neither';
@@ -944,7 +947,7 @@ $scope.listening = false;
       var pace = $scope.pace;
       window.TTS.speak({
         text: text,
-        locale: 'en-GB',
+        locale: $scope.spokenVoice,
         rate: pace
       }, function() {
         $scope.recognition.onresult = $scope.handleVoiceInput;
@@ -993,7 +996,7 @@ $scope.voice = function() {
       $scope.recognition.unmute();
       window.TTS.speak({
         text: text,
-        locale: 'en-GB',
+        locale: $scope.spokenVoice,
         rate: pace
       }, function() {
         $scope.recognition.start();
@@ -1014,7 +1017,7 @@ $scope.voiceCustom= function(text){
       $scope.recognition.unmute();
       window.TTS.speak({
         text: text,
-        locale: 'en-GB',
+        locale: $scope.spokenVoice,
         rate: pace
       }, function() {
         $scope.recognition.start();
@@ -1038,7 +1041,7 @@ $scope.voiceIngredients= function(ingredients){
       $scope.recognition.unmute();
       window.TTS.speak({
         text: text,
-        locale: 'en-GB',
+        locale: $scope.spokenVoice,
         rate: pace
       }, function() {
         $scope.recognition.start();
@@ -1267,8 +1270,6 @@ $scope.saveRecipe = function() {
   if(StorageService.alreadySaved($scope.result, $scope.fromSavedOrSearch) == 0){
     StorageService.saveRecipe($scope.result, $scope.fromSavedOrSearch);
   }
-  else
-      alert('Already Saved!');
 }
 
 $scope.savedRecipe = function() {
@@ -1276,8 +1277,6 @@ $scope.savedRecipe = function() {
     $scope.notSaved = false;
     $scope.saved = true;
   }     
-  else 
-    alert("Already saved nig!");
 }
 
 
@@ -1370,31 +1369,72 @@ $scope.buttonChange = function() {
 
 .controller('SettingsCtrl', function($scope, Settings) {
 
+$scope.$on('$ionicView.beforeEnter', function() {
+$scope.testingOff = true;
+$scope.testingOn = false;
+})
 
-$scope.options = [{ name: "100%", value: 1.0 }, 
+
+$scope.paceOptions = [{ name: "100%", value: 1.0 }, 
                   { name: "90%", value: 0.9 }, 
                   { name: "80%", value: 0.8 }, 
                   { name: "70%", value: 0.7 },
                   { name: "60%", value: 0.6 }];
 
-var pace = Settings.getSavedPace(); //if previously saved a pace will load that; otherwise will load default
+$scope.voiceOptions = [{ name: "English - United Kingdom", value: 'en-GB' }, 
+                  { name: "English - United States", value: 'en-US' }];
 
-  for(var i = 0; i < $scope.options.length; i++){
-    if (pace.value == $scope.options[i].value){
-      $scope.selectedPace = $scope.options[i];
+var pace = Settings.getSavedSetting('pace'); //if previously saved a pace will load that; otherwise will load default
+var voice = Settings.getSavedSetting('voice'); //if previously saved a pace will load that; otherwise will load default
+
+
+//defaulting pace
+  for(var i = 0; i < $scope.paceOptions.length; i++){
+    if (pace.value == $scope.paceOptions[i].value){
+      $scope.selectedPace = $scope.paceOptions[i];
+      break;
+    }   
+  }
+//defaulting voice
+  for(var i = 0; i < $scope.voiceOptions.length; i++){
+    if (voice.value == $scope.voiceOptions[i].value){
+      $scope.selectedVoice = $scope.voiceOptions[i];
       break;
     }
-      
   }
 
 $scope.paceChanged = function(selected){
-    console.log("PACECHANGED");
-
     var newPace = selected;
-
-    Settings.saveNewPace(newPace);
+    Settings.saveNewSetting('pace', newPace);
 }
 
+$scope.voiceChanged = function(selected){
+    var newVoice = selected;
+    Settings.saveNewSetting('voice', newVoice);
+}
+
+$scope.playVoice = function(){
+var pace = Settings.getSavedSetting('pace').value;
+var voice = Settings.getSavedSetting('voice').value;
+$scope.testingOff = false;
+$scope.testingOn = true;
+
+      var text = "Hello. This is how I will sound when I am reading something to you.";
+      
+      window.TTS.speak({
+        text: text,
+        locale: voice,
+        rate: pace
+      }, function() {
+          $scope.testingOff = true;
+          $scope.testingOn = false;
+          $scope.$apply();
+
+      }, function(reason) {
+        alert(reason);
+      });
+  
+}
 
 })
 

@@ -224,26 +224,47 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 .factory('Settings', function($localstorage) {
 	var savedPace = $localstorage.getObject('savedPace');
 
-	var options = [{ name: "100%", value: 1.0 }, 
+	var savedVoice = $localstorage.getObject('savedVoice');
+
+
+	var paceOptions = [{ name: "100%", value: 1.0 }, 
                   { name: "90%", value: 0.9 }, 
                   { name: "80%", value: 0.8 }, 
                   { name: "70%", value: 0.7 },
                   { name: "60%", value: 0.6 }];
 
+    var voiceOptions = [{ name: "English - United Kingdom", value: 'en-GB' }, 
+                  { name: "English - United States", value: 'en-US'}];
 	
 	var defaultPace = $localstorage.getObject('defaultPace');
+
+	var defaultVoice = $localstorage.getObject('defaultVoice');
+
 	
-	$localstorage.setObject('defaultPace', options[1]);
+	$localstorage.setObject('defaultPace', paceOptions[1]);
+	$localstorage.setObject('defaultVoice', voiceOptions[0]);
 
 		return {
-		getSavedPace: function() {
+		getSavedSetting: function(setting) {
+
+			if (setting == 'pace'){
 				savedPace = $localstorage.getObject('savedPace');
 				defaultPace = $localstorage.getObject('defaultPace');
 				if (savedPace.length > 0 && savedPace[0].value != defaultPace.value){
-					console.log('insanity');
 					return savedPace[0];
 				} 
 				else return defaultPace;
+			}
+
+			else if(setting == 'voice'){
+				savedVoice = $localstorage.getObject('savedVoice');
+				defaultVoice = $localstorage.getObject('defaultVoice');
+				if (savedVoice.length > 0 && savedVoice[0].value != defaultVoice.value){
+					return savedVoice[0];
+				} 
+				else return defaultVoice;
+			}
+				
 		},
 
 		getDefaultPace: function(){
@@ -252,11 +273,22 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 				else console.log("can't");
 		},
 
-		saveNewPace: function(pace){
+		saveNewSetting: function(setting, newValue){
+
+			if(setting == 'pace'){
 				var paceArray = [];
-				paceArray.push(pace);
+				paceArray.push(newValue);
 
 				$localstorage.setObject('savedPace', paceArray);
+			}
+
+			else if(setting == 'voice'){
+				var voiceArray = [];
+				voiceArray.push(newValue);
+
+				$localstorage.setObject('savedVoice', voiceArray);
+			}
+				
 		}
 	}
 
