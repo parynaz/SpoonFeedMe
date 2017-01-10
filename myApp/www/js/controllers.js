@@ -630,12 +630,16 @@ $scope.handleVoiceInput = function(event) {
           $scope.voice();
           $scope.$apply();
 
+          
+
           if ($scope.done == true){
               $scope.currentStep = step;
               $scope.currentStepNum = num;
               $scope.done = false;
           }
-
+          //call anchorscroll
+          $anchorScroll();
+        
         } 
         else if ((heardValue == "back") || (heardValue == "previous")) {
           $scope.prevStep();
@@ -643,6 +647,8 @@ $scope.handleVoiceInput = function(event) {
           $scope.iconChange();
           $scope.voice();
           $scope.$apply();
+          //call anchorscroll
+          $anchorScroll();
         } 
         else if ((heardValue == "read") || (heardValue == "repeat")) {
           $scope.recognition.stop();
@@ -1138,6 +1144,9 @@ $scope.handleVoiceInput = function(event) {
               $scope.done = false;
           }
 
+          //call anchorscroll
+          $anchorScroll();
+
         } 
         else if ((heardValue == "back") || (heardValue == "previous")) {
           $scope.prevStep();
@@ -1145,6 +1154,8 @@ $scope.handleVoiceInput = function(event) {
           $scope.iconChange();
           $scope.voice();
           $scope.$apply();
+          //call anchorscroll
+          $anchorScroll();
         } 
         else if ((heardValue == "read") || (heardValue == "repeat")) {
           $scope.recognition.stop();
