@@ -40,6 +40,9 @@ angular.module('SpoonReadMe.controllers', ['ionic', 'SpoonReadMe.services', 'ion
   $scope.searchResultsReturned = false;
   $scope.numberOfResults = 0;
 
+  $scope.filterOptionOn = false;
+  $scope.filterOptionOff = true;
+
   $scope.submit = function(){
       $scope.getRecipe(this.query);    
   }
@@ -141,7 +144,7 @@ $scope.kinds_model = [];
   $scope.selectedCuisine = [];
   $scope.selectedAllergy = [];
   $scope.selectedKind = [];
-  $scope.filterOption = false;
+
 
   $scope.dietssettings = {
     showCheckAll: false,
@@ -173,7 +176,8 @@ $scope.kinds_model = [];
                     $scope.carbs.min > 0 || $scope.carbs.max < 10000 ||
                       $scope.fat.min > 0 || $scope.fat.max < 10000 ||
                         $scope.protein.min > 0 || $scope.protein.max < 10000)
-        $scope.filterOption = true;
+        $scope.filterOptionOn = true;
+        $scope.filterOptionOff = false;
 
       for(var i = 0; i < $scope.diets_model.length; i++){
         $scope.selectedDiet.push($scope.diets_model[i].id);
@@ -302,6 +306,8 @@ var string;
     }
 
     var original = $scope.supplies[i].originalString;
+    $scope.supplies[i].originalString = original.replace(/\s\s+/g, ' '); //remove excess white spaces
+    
     $scope.supplies[i].unitShort = original.replace($scope.supplies[i].unit, $scope.supplies[i].unitLong);
 
   }
@@ -828,7 +834,7 @@ $scope.fromSavedOrSearch = 'neither';
 var steps = [];
  $scope.import = function(query) {
       //close the keyboard
-  cordova.plugins.Keyboard.close();
+  //cordova.plugins.Keyboard.close();
   
     $ionicLoading.show({
     template: '<ion-spinner icon="android"></ion-spinner>',

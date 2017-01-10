@@ -38,7 +38,7 @@
 
 <ion-item class= "recipe-img">
 	<img class="import-img" ng-src= "{{ img }}">
-	<p class="import-title">{{ result.title }}</p>
+	<p class="import-title"><b>{{ result.title }}</b></p>
 </ion-item>
 
 
@@ -51,16 +51,17 @@
 
  <br>
 
- <p class = "ingredients"><b>Ingredients : </p></b>
+ <p class = "ingredients"><b>Ingredients</p></b>
 
-
- <ion-item class = "ingredients" ng-repeat = "ingredient in supplies">
+<ion-item class = "ingredients">
+ <ion-item class="item-text-wrap" ng-repeat = "ingredient in supplies">
 
   <img class = "ingredient-img" ng-src = "{{ ingredient.image }}">
-  <p class = "ingredient-name"><b>{{ ingredient.name }}</b></p><br>
+  <p class = "ingredient-name"><b>{{ ingredient.name }}</b></p>
   <p class = "ingredient-amount">{{ ingredient.originalString }}</p>
-
 </ion-item>
+</ion-item>
+</div>
 
 
 <br>
@@ -71,26 +72,27 @@
 
 
 <div ng-show="activateOFF" class = "instructions-section">
+<br>
 
-
-<b>Instructions:</b>
- <ion-item class="item-text-wrap" ng-repeat = "step in steps">{{$index + 1}}. {{ step }}</p>
+<p class = "ingredients"><b>Instructions</p></b>
+<ion-item class = "regularInstructions">
+ <ion-item class="item-text-wrap" ng-repeat = "step in steps"><b>{{$index + 1}}.</b> {{ step }}</p>
 </ion-item>
-
-
+</ion-item>
 </div>
+
 <br>
 
 <div id="walkthrough" ng-show="activateON">
 <br>
-<b>Instructions:</b>
+<b>Instructions</b>
 
 <ion-item class = "walkthrough">
   <ion-item class="item-text-wrap">
    <img class="speaking" ng-show="speaking" ng-src="img/speaker.svg"/>
    <img class="listening" ng-show="listening" ng-src="img/listening.svg"/>   
 
-   <p class = "step">{{currentStepNum}}. {{currentStep}}</p>
+   <p class = "step"><b>{{currentStepNum}}.</b> {{currentStep}}</p>
 
   </ion-item>
 <br>

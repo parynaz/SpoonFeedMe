@@ -18,6 +18,12 @@
 <img class="recipe-detail-img" ng-src="{{ image }}">
 </ion-item>
 
+
+  <ion-item class="item-text-wrap">
+    <p class = "recipe-title"><b>{{ recipe.title }}</b></p>
+  </ion-item>
+
+
 <ion-item class = "recipe-detail">
  <p class = "detail-title" ng-show = "sourceName"><b>Source:</b></p><p class="detail"><a ng-href = "{{ details.sourceUrl }}"><i>{{ sourceName }}</i></a></p><br>
  <p class = "detail-title" ng-show = "servings"><b>Servings: </b></p><p class="detail">{{ servings }}</p><br>
@@ -31,13 +37,13 @@
  </ion-item>
  <br>
 
- <p class = "ingredients"><b>Ingredients : </p></b>
+ <p class = "ingredients"><b>Ingredients</p></b>
 
 <ion-item class = "ingredients">
  <ion-item class="item-text-wrap" ng-repeat = "ingredient in supplies">
 
  	<img class = "ingredient-img" ng-src = "{{ ingredient.image }}">
- 	<p class = "ingredient-name"><b>{{ ingredient.name }}</b></p><br>
+ 	<p class = "ingredient-name"><b>{{ ingredient.name }}</b></p>
  	<p class = "ingredient-amount">{{ ingredient.originalString }}</p>
 </ion-item>
 </ion-item>
@@ -53,34 +59,27 @@
 <div ng-show="activateOFF" class = "instructions-section">
 <br>
 
-<p class = "ingredients"><b>Instructions : </p></b>
+<p class = "ingredients"><b>Instructions</p></b>
 <ion-item class = "regularInstructions">
- <ion-item class="item-text-wrap" ng-repeat = "step in steps">{{$index + 1}}. {{ step }}</p>
+ <ion-item class="item-text-wrap" ng-repeat = "step in steps"><b>{{$index + 1}}.</b> {{ step }}</p>
 </ion-item>
 </ion-item>
 </div>
 
 
 
-
- <div ng-show="instructionsNULL">
- 	<p>Take the link above and import the recipe to walkthrough the recipe as usual</p>
- 	<button  ng-click="importRecipe()">Import this Recipe</button>
- </div>
-
-
 <br>
 
 <div id="walkthrough" ng-show="activateON">
 <br>
-<b>Instructions:</b>
+<b>Instructions</b>
 
 <ion-item class = "walkthrough">
   <ion-item class="item-text-wrap">
    <img class="speaking" ng-show="speaking" ng-src="img/speaker.svg"/>
    <img class="listening" ng-show="listening" ng-src="img/listening.svg"/>   
 
-   <p class = "step">{{currentStepNum}}. {{currentStep}}</p>
+   <p class = "step"><b>{{currentStepNum}}.</b> {{currentStep}}</p>
 
   </ion-item>
 <br>

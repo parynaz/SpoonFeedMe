@@ -213,7 +213,7 @@ ion-item.savedList{
 ion-item.item-text-wrap{
   border-color: rgba(0, 0, 0, 0);
   background-color: rgba(0, 0, 0, 0);
-
+  margin-top: -5%;
 }
 
 ion-item.importedList{
@@ -223,6 +223,7 @@ ion-item.importedList{
 
 ion-item.searchList{
   border: none;
+
   
 }
 
@@ -294,13 +295,15 @@ p.importParagraph{
 img.import-img{
   width: 50%;
   height: 50%;
-  border: 2px solid green;
+  border: none;
   margin-left: 25%;
 }
 
 p.import-title{
   text-align: center;
-  word-wrap: break-word;
+  font-size: 100%;
+  color: #189D09;
+  margin-top: 3%;
 
 }
 
@@ -309,7 +312,7 @@ p.import-title{
 img.recipe-detail-img{
   width: 50%;
   height: 50%;
-  border: 2px solid green;
+  border: none;
   margin-left: 25%;
   margin-top: 3%;
 }
@@ -414,7 +417,7 @@ p.detail{
 }
 
 p.detail-title{
-  float: left; width: 50%;
+  float: left; width: 50%; font-size: 80%;
 }
 
 p.carbs-detail{
@@ -422,17 +425,24 @@ p.carbs-detail{
 }
 
 p.carbs-title{
-  float: left; width: 65%;
+  float: left; width: 65%;font-size: 80%;
 }
 
 
 
 
 img.ingredient-img{
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   float: left;
 
+}
+
+p.recipe-title{
+  text-align: center;
+  font-size: 100%;
+  margin-top: -5%;
+  color: #189D09;
 }
 p.ingredients{
   text-align: center;
@@ -440,10 +450,17 @@ p.ingredients{
 
 p.ingredient-name{
   text-align: right;
+  font-size: 90%;
+ /* text-align: right;
+  float:right;*/
 }
 p.ingredient-amount{
-  word-wrap: break-word;
-  text-align: right; width: 100%; padding-left: 40%;
+  text-align: right;
+  margin-left: 15%;
+  font-size: 70%;
+  margin-top: -2%;
+/*  float: right;
+  text-align: right; width: 100%; padding-left: 40%;*/
 }
 
 ion-item.regularInstructions{

@@ -17,7 +17,9 @@
 </div> 
 
 <button class="searchpage-button" title="Search Recipes" ng-click="getRecipe(query)"><img ng-src="img/search.svg"/></button>
-<button class="filter-button" title="Filter" ng-click="showPopup(query)"><img class = "filter-btn" ng-src="img/filter.svg"/></button>
+<button class="filter-button" title="Filter" ng-click="showPopup(query)" ng-show="filterOptionOff"><img class = "filter-btn" ng-src="img/filter.svg"/></button>
+<button class="filter-button" title="Filter" ng-click="showPopup(query)" ng-show="filterOptionOn"><img class = "filter-btn" ng-src="img/filtergreen.svg"/></button>
+
 <p class="filterLabel"> FILTERS</p>
 
 </ion-nav-buttons>
@@ -31,6 +33,7 @@
 <p class = "results"><b>Number of Results: </b>{{ numberOfResults }}</p>
 <br>
 <p ng-show = "query" class = "resultsLabel"><b>Showing recipes for </b>"{{query}}"</p>
+
 </ion-item>
 <br>
 
