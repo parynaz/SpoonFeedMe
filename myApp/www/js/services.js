@@ -178,10 +178,9 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 
 
 .factory('Settings', function($localstorage) {
-	var savedPace = $localstorage.getObject('savedPace');
-
-	var savedVoice = $localstorage.getObject('savedVoice');
-
+	var savedPace;
+	var savedVoice;
+	var savedGuide;
 
 	var paceOptions = [{ name: "100%", value: 1.0 }, 
                   { name: "90%", value: 0.9 }, 
@@ -192,14 +191,21 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
     var voiceOptions = [{ name: "English - United Kingdom", value: 'en-GB' }, 
                   { name: "English - United States", value: 'en-US' }];
 
-	
+	var guideOptions = [{ name: "Still open guide every time", value: false }, 
+                  { name: "Don't open guide every time", value: true }];
+
+
+
 	var defaultPace = $localstorage.getObject('defaultPace');
 
 	var defaultVoice = $localstorage.getObject('defaultVoice');
 
-	
+	var defaultGuide = $localstorage.getObject('defaultGuide');
+
+
 	$localstorage.setObject('defaultPace', paceOptions[1]);
 	$localstorage.setObject('defaultVoice', voiceOptions[0]);
+	$localstorage.setObject('defaultGuide', guideOptions[0]);
 
 		return {
 		getSavedSetting: function(setting) {
@@ -207,20 +213,36 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 			if (setting == 'pace'){
 				savedPace = $localstorage.getObject('savedPace');
 				defaultPace = $localstorage.getObject('defaultPace');
-				if (savedPace.length > 0 && savedPace[0].value != defaultPace.value){
+				if (savedPace.length > 0){
+					if(savedPace[0].value != defaultPace.value)
 					return savedPace[0];
 				} 
-				else return defaultPace;
+				return defaultPace;
 			}
 
 			else if(setting == 'voice'){
 				savedVoice = $localstorage.getObject('savedVoice');
 
 				defaultVoice = $localstorage.getObject('defaultVoice');
-				if (savedVoice.length > 0 && savedVoice[0].value != defaultVoice.value){
+				if (savedVoice.length > 0){
+					if(savedVoice[0].value != defaultVoice.value)
 					return savedVoice[0];
 				} 
-				else return defaultVoice;
+				return defaultVoice;
+			}
+
+			else if(setting == 'guide'){
+				savedGuide = $localstorage.getObject('savedGuide');
+
+				// savedGuide.splice(savedGuide.indexOf(0), 1);
+				// $localstorage.setObject('savedGuide', savedGuide);
+
+				defaultGuide = $localstorage.getObject('defaultGuide');
+				if (savedGuide.length > 0){
+					if(savedGuide[0].value != defaultGuide.value)
+					return savedGuide[0];
+				} 
+				return defaultGuide;
 			}
 				
 		},
@@ -245,6 +267,13 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 				voiceArray.push(newValue);
 
 				$localstorage.setObject('savedVoice', voiceArray);
+			}
+
+			else if(setting == 'guide'){
+				var guideArray = [];
+				guideArray.push(newValue);
+
+				$localstorage.setObject('savedGuide', guideArray);
 			}
 				
 		}

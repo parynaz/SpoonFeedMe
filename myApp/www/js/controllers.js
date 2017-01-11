@@ -267,13 +267,60 @@ var substring = "https://spoonacular.com/recipeImages/";
 })
 
 
-.controller('RecipeDetailsCtrl', function($scope, $stateParams, $location, $anchorScroll, $ionicScrollDelegate, $ionicLoading, $state, $timeout, RecipeDetails, StorageService, Settings) {
+.controller('RecipeDetailsCtrl', function($scope, $stateParams, $location, $anchorScroll, $ionicScrollDelegate, $ionicLoading, $state, $ionicPopup, RecipeDetails, StorageService, Settings) {
 
 //SETTINGS
 
 $scope.pace = Settings.getSavedSetting('pace').value;
 $scope.spokenVoice = Settings.getSavedSetting('voice').value;
 
+
+
+//HELP
+$scope.guideOptions = [{ name: "Still open guide every time", value: false }, 
+                  { name: "Don't open guide every time", value: true }];
+
+
+$scope.guideMeNot = Settings.getSavedSetting('guide').value;
+$scope.guideUnchecked = !$scope.guideMeNot
+$scope.guideChecked = $scope.guideMeNot;
+
+  $scope.help = function(){
+
+  var myPopup = $ionicPopup.show({
+    templateUrl: 'templates/help-popup.html',
+    title: 'Voice Guide',
+    subTitle: 'List of words you can say',
+    scope: $scope,
+    buttons: [
+    {text: '<b>Got it</b>',
+    type: 'button-positive',
+    onTap: function(e) {
+    }
+  }
+  ]
+  });
+
+  myPopup.then(function() {
+    
+  });
+
+  }
+
+  $scope.changeGuide = function(selected){
+
+    var objectToSave;
+
+    for(var i = 0; i < $scope.guideOptions.length; i++){
+      if(selected == $scope.guideOptions[i].value)
+        objectToSave = $scope.guideOptions[i];
+    }
+
+    $scope.guideUnchecked = !selected;
+    $scope.guideChecked = selected;
+
+    Settings.saveNewSetting('guide', objectToSave);
+  }
 
 
 $scope.fixSteps = function(steps){
@@ -405,6 +452,10 @@ else if($scope.fromSavedOrSearch == 'saved' || $scope.fromSavedOrSearch == 'sear
           $scope.fixSteps(steps);
 
           $ionicLoading.hide();
+
+          if($scope.guideMeNot == false){
+            $scope.help();
+          }
 
 });
 }
@@ -841,7 +892,7 @@ $scope.$on("$ionicView.beforeLeave", function() {
 
 })
 
-.controller('ImportCtrl', function($scope, $ionicLoading, $sce, $location, $anchorScroll, SearchService, StorageService, Settings) {
+.controller('ImportCtrl', function($scope, $ionicLoading, $ionicScrollDelegate, $sce, $location, $anchorScroll, SearchService, StorageService, Settings) {
 //SETTINGS
 $scope.pace = Settings.getSavedSetting('pace').value;
 $scope.spokenVoice = Settings.getSavedSetting('voice').value;
@@ -994,11 +1045,6 @@ $scope.getSteps = function() {
 }
 
 $scope.nextStep = function() {
-    $location.hash('progress');
-
-  //call anchorscroll
-  $anchorScroll();    
-
   if ($scope.currentStepNum < $scope.maxStepNum) {
         $scope.currentStepNum += 1;
         $scope.currentStep = $scope.steps[$scope.currentStepNum - 1];
@@ -1007,19 +1053,16 @@ $scope.nextStep = function() {
       else if ($scope.currentStepNum == $scope.maxStepNum){
         $scope.done = true;
       }
+  $ionicScrollDelegate.scrollBottom();
 }
 
 $scope.prevStep = function() {
-  $location.hash('progress');
-
-  //call anchorscroll
-  $anchorScroll();      
-
   if ($scope.currentStepNum > 1) {
         $scope.currentStepNum -= 1;
         $scope.currentStep = $scope.steps[$scope.currentStepNum - 1];
         $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
       }
+    $ionicScrollDelegate.scrollBottom();
 }
 
 $scope.voice = function() {
@@ -1419,8 +1462,12 @@ $scope.paceOptions = [{ name: "100%", value: 1.0 },
 $scope.voiceOptions = [{ name: "English - United Kingdom", value: 'en-GB' }, 
                   { name: "English - United States", value: 'en-US' }];
 
+$scope.guideOptions = [{ name: "Still open guide every time", value: false }, 
+                  { name: "Don't open guide every time", value: true }];
+
 var pace = Settings.getSavedSetting('pace'); //if previously saved a pace will load that; otherwise will load default
-var voice = Settings.getSavedSetting('voice'); //if previously saved a pace will load that; otherwise will load default
+var voice = Settings.getSavedSetting('voice'); //if previously saved a voice will load that; otherwise will load default
+var guide = Settings.getSavedSetting('guide'); //if previously saved a guide choice will load that; otherwise will load default
 
 //defaulting pace
   for(var i = 0; i < $scope.paceOptions.length; i++){
@@ -1437,6 +1484,14 @@ var voice = Settings.getSavedSetting('voice'); //if previously saved a pace will
     }
   }
 
+  //defaulting guide
+  for(var i = 0; i < $scope.guideOptions.length; i++){
+    if (guide.value == $scope.guideOptions[i].value){
+      $scope.selectedGuideChoice = $scope.guideOptions[i];
+      break;
+    }
+  }
+
 $scope.paceChanged = function(selected){
     var newPace = selected;
     Settings.saveNewSetting('pace', newPace);
@@ -1445,6 +1500,11 @@ $scope.paceChanged = function(selected){
 $scope.voiceChanged = function(selected){
     var newVoice = selected;
     Settings.saveNewSetting('voice', newVoice);
+}
+
+$scope.guideChanged = function(selected){
+    var newGuide = selected;
+    Settings.saveNewSetting('guide', newGuide);
 }
 
 $scope.playVoice = function(){
@@ -1472,7 +1532,8 @@ $scope.testingOn = true;
 
 })
 
-.controller('HelpCtrl', function($scope) {
+.controller('HelpCtrl', function($scope, $ionicPopup, Settings) {
+
 
 });
 

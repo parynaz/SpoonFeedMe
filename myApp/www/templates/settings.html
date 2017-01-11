@@ -33,5 +33,15 @@
   </ion-item>
 
 
+<ion-item class="item-input item-select">
+    <div class="input-label">
+      Guide at Start Up
+    </div>
+
+
+
+<select data-ng-options="o.name for o in guideOptions" ng-change="guideChanged(selectedGuideChoice)" data-ng-model="selectedGuideChoice"></select>
+  </ion-item>
+
   </ion-content>
 </ion-view>

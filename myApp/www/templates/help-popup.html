@@ -1,0 +1,28 @@
+<img class="pop-btn" ng-src="img/helpred.svg"/>
+
+
+<div class = "help-instructions">
+	<img class="bullet" ng-src="img/bullet.svg"/><p class = "help"> This app can read the instructions of the recipe out loud to you!</p>
+	<img class="bullet" ng-src="img/bullet.svg"/><p class = "help"> You can begin using this feature by clicking <b class = "activate">'Activate Voice'</b></p>
+	<img class="bullet" ng-src="img/bullet.svg"/><p class = "help"> Then you can control everything with your voice</p>
+ </div>
+
+ 
+	<p class = "voiceOptionsTitle"><b>Try saying the following:</b></p>
+
+	<b class="voiceOptions">Read/Repeat</b><p class = "voiceOptions"> Read the current step </p>
+	<b class="voiceOptions">Next</b> <p class = "voiceOptions">Read and Display next step</p>
+	<b class="voiceOptions">Back/Previous</b> <p class = "voiceOptions">Read and Display the last step</p>
+	<b class="voiceOptions">Finish/Quit/Stop</b> <p class = "voiceOptions">Stop voice activation</p>
+	<b class="voiceOptions">How much/How many</b> <p class = "voiceOptions">Read the quantity of any ingredients in current step </p>
+	<b class="voiceOptions">How much/How many {Ingredient}</b><p class = "voiceOptions"> Read the quantity of specified ingredient in current step</p>
+</p>
+
+<label class="guideCheck">
+	<input class = "guide" type="checkbox" ng-show="guideUnchecked" ng-model="guideMeNot" ng-click="changeGuide(guideMeNot)"/>
+	<input class = "guide" type="checkbox" ng-show="guideChecked" ng-checked="guideChecked"/>
+	Don't show me this at start of voice control again
+</label>
+
+
+	

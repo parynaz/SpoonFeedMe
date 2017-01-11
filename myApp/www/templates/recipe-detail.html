@@ -42,7 +42,7 @@
 <ion-item class = "ingredients">
  <ion-item class="item-text-wrap" ng-repeat = "ingredient in supplies">
 
- 	<img class = "ingredient-img" ng-src = "{{ ingredient.image }}">
+ 	<img class = "ingredient-img" ng-src = "{{ ingredient.image }}"/>
  	<p class = "ingredient-name"><b>{{ ingredient.name }}</b></p>
  	<p class = "ingredient-amount">{{ ingredient.originalString }}</p>
 </ion-item>
@@ -54,6 +54,8 @@
 <button class = "walkthroughOFF-btn" ng-click="activateVoice(); activateVoiceInstructions();" ng-show="activateOFF"><img class="voice-btn" ng-show="activateOFF" ng-src="img/voice.svg"/><span class="activateVoice" ng-show="activateOFF">Activate Voice</span></button>
 
 <button class = "walkthroughON-btn" ng-click="activateVoice(); activateVoiceInstructions();" ng-show="activateON"><img class="voiceON-btn" ng-show="activateON" ng-src="img/voice.svg"/><span class="activateVoice" ng-show="activateON">Activated</span></button>
+
+<button class = "help-btn" ng-click="help()"><img class="help-btn" ng-src="img/helpred.svg"/></button>
 
 
 <div ng-show="activateOFF" class = "instructions-section">
