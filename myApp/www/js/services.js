@@ -176,51 +176,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 
 })
 
-// .factory('Settings', function($localstorage) {
-// 	var options = [{ name: "100%", value: 1.0 }, 
-//                   { name: "90%", value: 0.9 }, 
-//                   { name: "80%", value: 0.8 }, 
-//                   { name: "70%", value: 0.7 },
-//                   { name: "60%", value: 0.6 }];
 
-// 	$localstorage.setObject('savedPace', savedPaceDefault);
-	
-// 	savedPace = $localstorage.getObject('savedPace');
-	
-
-// 	//set the default pace
-// 	var savedPaceDefault = options[1];
-
-	
-
-// 	return{
-// 		saveSelectedPace: function(pace){
-// 			console.log("in saved services");
-// 			console.log(pace);
-
-// 			if (saved.)
-// 			//make sure it's a different setting
-// 			$localstorage.setObject('savedPace', pace);
-// 		},
-
-// 		getSavedPace: function(){
-			
-
-// 			console.log("savedPace value");
-// 			console.log(savedPace);
-// 			console.log(defaultPace);
-
-// 			//if default has been changed
-// 			if (savedPace.length > 1) {
-// 				 return savedPace;
-// 			}
-
-// 			else return savedPaceDefault;
-// 		}
-// 	}
-
-
-// })
 .factory('Settings', function($localstorage) {
 	var savedPace = $localstorage.getObject('savedPace');
 
@@ -234,7 +190,8 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
                   { name: "60%", value: 0.6 }];
 
     var voiceOptions = [{ name: "English - United Kingdom", value: 'en-GB' }, 
-                  { name: "English - United States", value: 'en-US'}];
+                  { name: "English - United States", value: 'en-US' }];
+
 	
 	var defaultPace = $localstorage.getObject('defaultPace');
 
@@ -258,6 +215,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 
 			else if(setting == 'voice'){
 				savedVoice = $localstorage.getObject('savedVoice');
+
 				defaultVoice = $localstorage.getObject('defaultVoice');
 				if (savedVoice.length > 0 && savedVoice[0].value != defaultVoice.value){
 					return savedVoice[0];

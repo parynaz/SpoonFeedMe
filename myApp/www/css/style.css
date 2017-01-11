@@ -201,7 +201,7 @@ img.result-img {
   width: 50%;
   height: 50%;
   border: none;
-  float: left;
+ 
  
 }
 
@@ -214,6 +214,8 @@ ion-item.item-text-wrap{
   border-color: rgba(0, 0, 0, 0);
   background-color: rgba(0, 0, 0, 0);
   margin-top: -5%;
+  width: 111%;
+
 }
 
 ion-item.importedList{
@@ -242,11 +244,11 @@ p.results-title{
 }
 
 p.results-details{
-  text-align:center;
-  font-size: 60%;
-  width: 50%;
-  float: left;
   
+  font-size: 60%;
+  text-align:center;
+  float: left;
+
 }
 
 div.filterOption{
@@ -319,8 +321,7 @@ img.recipe-detail-img{
 
 ion-item.recipe-img{
   border:none;
-  margin-bottom: 3%;
-  word-wrap: break-word;
+ 
 }
 
 button.notSaved-btn{
@@ -372,10 +373,7 @@ button.walkthroughON-btn{
 
 ion-item.ingredients{
   border: none;
-}
-
-ion-item.walkthrough{
-  border: none;
+  width: 90%;
 }
 
 img.voice-btn{
@@ -437,11 +435,16 @@ img.ingredient-img{
   float: left;
 
 }
+ion-item.recipe-name{
+  border: transparent;
+  width: 90%;
 
+}
 p.recipe-title{
+  padding-top: 5%;
   text-align: center;
   font-size: 100%;
-  margin-top: -5%;
+  margin-top: -7%;
   color: #189D09;
 }
 p.ingredients{
@@ -451,6 +454,7 @@ p.ingredients{
 p.ingredient-name{
   text-align: right;
   font-size: 90%;
+  margin-right: 1%;
  /* text-align: right;
   float:right;*/
 }
@@ -459,12 +463,14 @@ p.ingredient-amount{
   margin-left: 15%;
   font-size: 70%;
   margin-top: -2%;
+  margin-right: 1%;
 /*  float: right;
   text-align: right; width: 100%; padding-left: 40%;*/
 }
 
-ion-item.regularInstructions{
+ion-item.Instructions{
   border: none;
+  width: 90%;
 }
 
 img.speaking{
@@ -511,6 +517,13 @@ button.backInvisible{
   float:left;
   margin-left: 1%;
 
+}
+
+button.source-btn{
+  background: transparent;
+  color: blue;
+  border: none !important;
+  text-decoration: underline;
 }
 /*
 SAVED PAGE*/

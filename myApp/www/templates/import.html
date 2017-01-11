@@ -43,7 +43,7 @@
 
 
 <ion-item class = "recipe-detail">
-<p class = "detail-title" ng-show = "sourceName"><b>Source:</b></p><p class="detail"><a ng-href = "{{ details.sourceUrl }}">{{ sourceName }}</a></p><br>
+<p class = "detail-title" ng-show = "sourceName"><b>Source:</b></p><p class="detail"><button class = "source-btn" ng-click="openSource()">{{ sourceName }}</button></p><br>
 <p class = "detail-title" ng-show = "servings"><b>Servings: </b></p><p class="detail">{{ servings }}</p><br>
 <p class = "detail-title" ng-show = "timeRequired"><b>Time Required: </b></p><p class="detail">{{ timeRequired }} minutes</p><br>
 
@@ -75,7 +75,7 @@
 <br>
 
 <p class = "ingredients"><b>Instructions</p></b>
-<ion-item class = "regularInstructions">
+<ion-item class = "Instructions">
  <ion-item class="item-text-wrap" ng-repeat = "step in steps"><b>{{$index + 1}}.</b> {{ step }}</p>
 </ion-item>
 </ion-item>
@@ -87,7 +87,7 @@
 <br>
 <b>Instructions</b>
 
-<ion-item class = "walkthrough">
+<ion-item class = "Instructions">
   <ion-item class="item-text-wrap">
    <img class="speaking" ng-show="speaking" ng-src="img/speaker.svg"/>
    <img class="listening" ng-show="listening" ng-src="img/listening.svg"/>   

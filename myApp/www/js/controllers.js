@@ -210,7 +210,7 @@ $scope.kinds_model = [];
   $scope.getRecipe = function(query) {
 
   //close the keyboard
-  //cordova.plugins.Keyboard.close();
+  cordova.plugins.Keyboard.close();
 
     $ionicLoading.show({
     template: '<ion-spinner icon="android"></ion-spinner>',
@@ -267,7 +267,7 @@ var substring = "https://spoonacular.com/recipeImages/";
 })
 
 
-.controller('RecipeDetailsCtrl', function($scope, $stateParams, $location, $anchorScroll, $ionicLoading, $state, $timeout, RecipeDetails, StorageService, Settings) {
+.controller('RecipeDetailsCtrl', function($scope, $stateParams, $location, $anchorScroll, $ionicScrollDelegate, $ionicLoading, $state, $timeout, RecipeDetails, StorageService, Settings) {
 
 //SETTINGS
 
@@ -285,8 +285,8 @@ $scope.steps = [];
 
 
 for(var i=0; i < steps.length; i++){
-  $scope.steps[i] = steps[i].replace(/[^0-9a-zA-Z_]p[^0-9a-zA-Z_]/g, '').replace(/[^0-9a-zA-Z_]HTML[^0-9a-zA-Z_]/g, '').replace(/\s\s+/g, ' ').replace(/[^0-9a-zA-Z_\/\s]/g, '');
-      console.log("after");
+  $scope.steps[i] = steps[i].replace(/[^0-9a-zA-Z_]p[^0-9a-zA-Z_]/g, '').replace(/[^0-9a-zA-Z_]HTML[^0-9a-zA-Z_]/g, '').replace(/\s\s+/g, ' ').replace(/[^-0-9a-zA-Z_:\/\s]/g, '');
+      
 }
 
 
@@ -299,12 +299,12 @@ var string;
     amount = $scope.supplies[i].amount.toString();
 
     if (string.includes(name)){
-      // $scope.supplies[i].originalString = string.replace(name, '').replace(/[^\w\s\\]/gi, '');
-      $scope.supplies[i].originalString = string.replace(name, '');
+      $scope.supplies[i].originalString = string.replace(name, '');     
+    }
 
-      if ($scope.supplies[i].originalString == "") {
+    //string could be just empty
+    if ($scope.supplies[i].originalString == "") {
         $scope.supplies[i].originalString = amount + " " + $scope.supplies[i].unit;
-      } 
     }
 
     var original = $scope.supplies[i].originalString;
@@ -364,6 +364,8 @@ if($scope.fromSavedOrSearch == 'neither'){
             
             $scope.sourceName = payload.sourceName;
 
+            $scope.sourceUrl = payload.sourceUrl;
+
           //fix the steps
           $scope.fixSteps(steps);
 
@@ -392,19 +394,12 @@ else if($scope.fromSavedOrSearch == 'saved' || $scope.fromSavedOrSearch == 'sear
           
           $scope.sourceName = $scope.details.sourceName;
 
-          // if($scope.fromSavedOrSearch == 'searchWithFilters'){ //minor difference
-          //   var instructions = [];
-          //   var step;
-          //   for(var i = 0; i < $scope.details.analyzedInstructions; i++){
-          //     for(var x = 0; x < $scope.details.analyzedInstructions[i].steps)
-          //     step = $scope.details.analyzedInstructions[i].steps[x].step;
-          //     instructions.push(step);
-          //   }
-
             $scope.instructions = $scope.details.instructions;
           
 
           steps = $scope.instructions.split(".");
+
+          $scope.sourceUrl = $scope.details.sourceUrl;
 
           //fix the steps
           $scope.fixSteps(steps);
@@ -414,6 +409,9 @@ else if($scope.fromSavedOrSearch == 'saved' || $scope.fromSavedOrSearch == 'sear
 });
 }
 
+$scope.openSource = function(){
+  window.open($scope.sourceUrl, '_blank','heigth=600,width=600');
+}
 $scope.voiceCustom= function(text){
       var text = text;
       var pace = $scope.pace;
@@ -489,8 +487,11 @@ $scope.getSteps = function() {
   $scope.max = ($scope.maxStepNum / $scope.maxStepNum) * 100;
 }
 
+
 $scope.nextStep = function() {
-      if ($scope.currentStepNum < $scope.maxStepNum) {
+ 
+
+  if ($scope.currentStepNum < $scope.maxStepNum) {
         $scope.currentStepNum += 1;
         $scope.currentStep = $scope.steps[$scope.currentStepNum - 1];
         $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
@@ -498,14 +499,20 @@ $scope.nextStep = function() {
       else if ($scope.currentStepNum == $scope.maxStepNum){
         $scope.done = true;
       }
+
+   $ionicScrollDelegate.scrollBottom();
+
 }
 
 $scope.prevStep = function() {
-      if ($scope.currentStepNum > 1) {
+
+  if ($scope.currentStepNum > 1) {
         $scope.currentStepNum -= 1;
         $scope.currentStep = $scope.steps[$scope.currentStepNum - 1];
         $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
       }
+
+       $ionicScrollDelegate.scrollBottom();
 }
 
 $scope.voice= function(){
@@ -616,7 +623,7 @@ $scope.handleVoiceInput = function(event) {
       if (event.results.length > 0) {  
         console.log("HEARD SOMETHING");
         var heardValue = event.results[0][0].transcript;
-        if (heardValue == "next") {
+        if (heardValue == "next" || heardValue.includes("next"))  {
           $scope.nextStep();
 
           if ($scope.done == true){
@@ -637,26 +644,28 @@ $scope.handleVoiceInput = function(event) {
               $scope.currentStepNum = num;
               $scope.done = false;
           }
-          //call anchorscroll
-          $anchorScroll();
-        
+
+          
+ 
         } 
-        else if ((heardValue == "back") || (heardValue == "previous")) {
+        else if ((heardValue == "back") ||
+                 (heardValue == "previous") || 
+                  (heardValue.includes("back")) ||
+                    (heardValue.includes("previous"))) {
           $scope.prevStep();
           $scope.recognition.stop();
           $scope.iconChange();
           $scope.voice();
           $scope.$apply();
-          //call anchorscroll
-          $anchorScroll();
+
         } 
-        else if ((heardValue == "read") || (heardValue == "repeat")) {
+        else if ((heardValue == "read") || (heardValue.includes("read"))) {
           $scope.recognition.stop();
           $scope.iconChange();
           $scope.voice();
           $scope.$apply();
         }
-        else if ((heardValue == "finish") || (heardValue == "quit")) {
+        else if ((heardValue == "finish") || (heardValue == "quit") || (heardValue == "stop") ) {
           $scope.activateVoice(); 
           $scope.$apply();
           $scope.recognition.abort(); 
@@ -843,12 +852,14 @@ $scope.fromSavedOrSearch = 'neither';
 var steps = [];
  $scope.import = function(query) {
       //close the keyboard
-  //cordova.plugins.Keyboard.close();
+  cordova.plugins.Keyboard.close();
   
     $ionicLoading.show({
     template: '<ion-spinner icon="android"></ion-spinner>',
     animation: 'fade-in'
       });
+
+  $scope.sourceUrl = query;
 
   SearchService.import(query).then(function(data){
     $scope.result = data;
@@ -893,7 +904,7 @@ steps.splice((steps.length) - 1, 1);
 $scope.steps = [];
 
 for(var i=0; i < steps.length; i++){
-  $scope.steps[i] = steps[i].replace(/[^0-9a-zA-Z_]p[^0-9a-zA-Z_]/g, '').replace('-', ' ').replace(/[^0-9a-zA-Z_]HTML[^0-9a-zA-Z_]/g, '').replace(/\s\s+/g, ' ').replace(/[^0-9a-zA-Z_\/\s]/g, '');
+  $scope.steps[i] = steps[i].replace(/[^0-9a-zA-Z_]p[^0-9a-zA-Z_]/g, '').replace(/[^0-9a-zA-Z_]HTML[^0-9a-zA-Z_]/g, '').replace(/\s\s+/g, ' ').replace(/[^-0-9a-zA-Z:_\/\s]/g, '');
 }
 
 var string;
@@ -904,9 +915,12 @@ var string;
 
     if (string.includes(name)){
       $scope.supplies[i].originalString = string.replace(name, '');
-      if ($scope.supplies[i].originalString == "") $scope.supplies[i].originalString = amount + " " + $scope.supplies[i].unit;
-
     }
+
+    if ($scope.supplies[i].originalString == "") {
+       $scope.supplies[i].originalString = amount + " " + $scope.supplies[i].unit;
+    }
+       
 
     var original = $scope.supplies[i].originalString;
     $scope.supplies[i].unitShort = original.replace($scope.supplies[i].unit, $scope.supplies[i].unitLong);
@@ -919,7 +933,9 @@ var string;
   });
 }
 
-
+$scope.openSource = function(){
+  window.open($scope.sourceUrl, '_blank','heigth=600,width=600');
+}
 //Will execute when user presses walkthrough button
 $scope.activateVoiceInstructions = function() {
 
@@ -978,7 +994,12 @@ $scope.getSteps = function() {
 }
 
 $scope.nextStep = function() {
-      if ($scope.currentStepNum < $scope.maxStepNum) {
+    $location.hash('progress');
+
+  //call anchorscroll
+  $anchorScroll();    
+
+  if ($scope.currentStepNum < $scope.maxStepNum) {
         $scope.currentStepNum += 1;
         $scope.currentStep = $scope.steps[$scope.currentStepNum - 1];
         $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
@@ -989,7 +1010,12 @@ $scope.nextStep = function() {
 }
 
 $scope.prevStep = function() {
-      if ($scope.currentStepNum > 1) {
+  $location.hash('progress');
+
+  //call anchorscroll
+  $anchorScroll();      
+
+  if ($scope.currentStepNum > 1) {
         $scope.currentStepNum -= 1;
         $scope.currentStep = $scope.steps[$scope.currentStepNum - 1];
         $scope.percentageThrough = ($scope.currentStepNum / $scope.maxStepNum) * 100;
@@ -1123,7 +1149,7 @@ $scope.handleVoiceInput = function(event) {
       if (event.results.length > 0) {  
         console.log("HEARD SOMETHING");
         var heardValue = event.results[0][0].transcript;
-        if (heardValue == "next") {
+        if (heardValue == "next" || heardValue.includes("next")) {
           $scope.nextStep();
 
           if ($scope.done == true){
@@ -1144,27 +1170,25 @@ $scope.handleVoiceInput = function(event) {
               $scope.done = false;
           }
 
-          //call anchorscroll
-          $anchorScroll();
-
         } 
-        else if ((heardValue == "back") || (heardValue == "previous")) {
+        else if ((heardValue == "back") ||
+                 (heardValue == "previous") || 
+                  (heardValue.includes("back")) ||
+                    (heardValue.includes("previous"))) {
           $scope.prevStep();
           $scope.recognition.stop();
           $scope.iconChange();
           $scope.voice();
           $scope.$apply();
-          //call anchorscroll
-          $anchorScroll();
         } 
-        else if ((heardValue == "read") || (heardValue == "repeat")) {
+        else if ((heardValue == "read") || (heardValue == "repeat") || (heardValue.includes("read")) || (heardValue.includes("repeat"))) {
           $scope.recognition.stop();
           $scope.speaking = true;
           $scope.listening = false;
           $scope.voice();
           $scope.$apply();
         }
-        else if ((heardValue == "finish") || (heardValue == "quit")) {
+        else if ((heardValue == "finish") || (heardValue == "quit") || (heardValue == "stop")) {
           $scope.activateVoice(); 
           $scope.$apply();
           $scope.recognition.abort(); 
@@ -1373,8 +1397,8 @@ $scope.buttonChange = function() {
         $scope.showDelete = false;
   }
 
-  $scope.remove = function(recipe){
-    StorageService.removeSavedRecipe(recipe, $scope.fromSavedOrSearch);
+  $scope.remove = function(recipe, from){
+    StorageService.removeSavedRecipe(recipe, from);
   };
 })
 
@@ -1397,7 +1421,6 @@ $scope.voiceOptions = [{ name: "English - United Kingdom", value: 'en-GB' },
 
 var pace = Settings.getSavedSetting('pace'); //if previously saved a pace will load that; otherwise will load default
 var voice = Settings.getSavedSetting('voice'); //if previously saved a pace will load that; otherwise will load default
-
 
 //defaulting pace
   for(var i = 0; i < $scope.paceOptions.length; i++){

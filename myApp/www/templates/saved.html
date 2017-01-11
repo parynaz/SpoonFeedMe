@@ -32,8 +32,8 @@
 <!-- SAVED RECIPES -->
 <ion-list class = "savedList" show-delete="showDelete" ng-show="savedON">
 	<ion-item class = "savedList" ng-repeat="recipe in saved track by $index" href="#/event/saved/{{$index}}/saved">
-	
-	<ion-delete-button class="ion-minus-circled" ng-click="remove(recipe)"></ion-delete-button>
+	<ion-item class = "item-text-wrap">
+	<ion-delete-button class="ion-minus-circled" ng-click="remove(recipe, 'saved')"></ion-delete-button>
 
 	<img class="result-img" ng-src= "{{ recipe.image }}">
 
@@ -41,6 +41,7 @@
 
 	 <p class="results-details">{{ recipe.resultsdetails }}</p>
 
+	</ion-item>
 
 </ion-item>
 </ion-list>
@@ -48,15 +49,15 @@
 <!-- IMPORTED RECIPES -->
 <ion-list class = "savedList" show-delete="showDelete" ng-show="importedON">
 	<ion-item class = "savedList" ng-repeat="recipe in imported track by $index" href="#/event/saved/{{$index}}/neither">
-
-	<ion-delete-button class="ion-minus-circled" ng-click="remove(recipe)"></ion-delete-button>
+	<ion-item class = "item-text-wrap">
+	<ion-delete-button class="ion-minus-circled" ng-click="remove(recipe, 'neither')"></ion-delete-button>
 
 	<img class="result-img" ng-src= "{{ recipe.image }}">
-
+ 	<p class="results-details">{{ recipe.resultsdetails }}</p>
 	 <b><p class="results-title">{{ recipe.title }}  </p></b>
 
-	 <p class="results-details">{{ recipe.resultsdetails }}</p>
-
+	
+</ion-item>
 
 </ion-item>
 </ion-list>
