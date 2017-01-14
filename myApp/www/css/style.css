@@ -695,12 +695,12 @@ div.help-instructions{
 p.help{
   font-family: arial;
   font-size: 70%;
-  
+  margin-left: -3%;
 
 }
 img.bullet{
   width: 5%;
-  margin-left: -8%;
+  margin-left: -11%;
   float: left;
 
 }

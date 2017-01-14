@@ -2,7 +2,7 @@
 <widget id="com.ionicframework.myapp522146" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Spoon Read Me</name>
   <description>
-        An Ionic Framework and Cordova project which enables the user to have recipes read out to them while they cook hands-free.
+        A recipe reader which enables the user to have recipes read out to them while they cook hands-free.
     </description>
   <author email="p.adamy@live.ca" href="http://example.com.com/">
       Parynaz Adamy
