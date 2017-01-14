@@ -11,18 +11,21 @@ p, button, b, ion-item{
 */
 .mynavbar{
   height: 55px !important;
+  background-color: #3B88F0;
 }
 p.maintitle{
   font-size: 110%;
   padding-top: 8px;
   float: left;
   width: 110%;
+  color: white;
 }
 
 
 p.hometitle{
   font-size: 110%;
   padding-top: 8px;
+  color: white;
 }
 
 button.menu-button{
@@ -52,8 +55,11 @@ img.menu-home{
 }
 
 .mymenu{
-  height: 100px;  
+  height: 100px;
+  background-color: #ddd;
+  padding-left: 25%;
 }
+
 
 img.menu-img{
   width:50%;
@@ -65,16 +71,17 @@ p.menuPadding {
 }
 
 p.MainMenuPadding{
-  padding-top: 1cm;
+  padding-top: 1.5cm;
 }
 
 .current{
   background: #b0b0b0 !important;
-  margin-right: -10%;
+  padding-left: 29%;
   margin-left: -6%;
-  padding-right: 40%;
+  margin-right: -6.5%;
   font-weight: bold;
-}
+  
+  }
 
 .mymenubar{
   border: none;
@@ -85,9 +92,14 @@ p.menuTitle{
   font-size: 16px;
   text-align: left;
   display: inline;
-  margin-left: 20px;
+  margin-left: 40%;
 
+}
 
+img.menu{
+  background-color:  #ddd;
+  width: 50%;
+  margin-top: 2%;
 }
 
 
@@ -137,6 +149,17 @@ img.filter-btn{
   margin-right: 10px;
 }
 
+
+ ion-content.background {
+        background: url(img/bubblered.png) no-repeat center;
+        background-size: 100%;
+        background-color: #3B88F0;
+    }
+
+img.home-img{
+  width: 50%;
+  height: 50%;
+}
 /*SEARCH PAGE
 */
 .mysearchbar{
@@ -621,6 +644,7 @@ button.settingsVoice{
 
 p.voiceSettings{
   float: left;
+  padding-left: 3%;
 }
 b.testing-label{
   color: #189D09;
@@ -671,15 +695,18 @@ div.help-instructions{
 p.help{
   font-family: arial;
   font-size: 70%;
-  padding-left: 7%;
+  
 
 }
 img.bullet{
   width: 5%;
+  margin-left: -8%;
   float: left;
-  display: inline;
-  margin-top: 2%;
 
+}
+
+ion-item.help{
+  border: transparent;
 }
 b.activate{
   color: #3B88F0;
@@ -687,10 +714,12 @@ b.activate{
 p.voiceOptionsTitle{
  text-align: center;
  color: #3B88F0;
+ 
 }
 p.voiceOptions{
   font-size: 75%;
   font-family: arial;
+  margin-bottom: -1%;
 }
 b.voiceOptions{
   font-size: 85%;
@@ -705,9 +734,10 @@ label.guideCheck{
   font-size: 85%;
   text-align: center;
   color: #3B88F0;
-  border: 2px solid #3B88F0;
+  border: 1px solid #3B88F0;
   padding-top: 2%;
   padding-bottom: 2%;
+  margin-bottom: -4%;
 }
 
 input.guide{
@@ -718,6 +748,7 @@ input.guide{
   position: relative;
   top: -1px;
   *overflow: hidden;
+
 }
 
 .popup-title {

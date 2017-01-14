@@ -1,7 +1,7 @@
 <ion-view>
   <ion-nav-title>
-   <p class = "hometitle" ng-show="savedON">Saved Recipes</p>
-    <p class = "hometitle" ng-show="importedON">Imported Recipes</p>
+   <p class = "hometitle" ng-show="savedON"><b>Saved Recipes</b></p>
+    <p class = "hometitle" ng-show="importedON"><b>Imported Recipes</b></p>
   </ion-nav-title>
 
 <ion-nav-buttons side ="right">
@@ -32,9 +32,8 @@
 <!-- SAVED RECIPES -->
 <ion-list class = "savedList" show-delete="showDelete" ng-show="savedON">
 	<ion-item class = "savedList" ng-repeat="recipe in saved track by $index" href="#/event/saved/{{$index}}/saved">
-	<ion-item class = "item-text-wrap">
 	<ion-delete-button class="ion-minus-circled" ng-click="remove(recipe, 'saved')"></ion-delete-button>
-
+	<ion-item class = "item-text-wrap">
 	<img class="result-img" ng-src= "{{ recipe.image }}">
 
 	 <b><p class="results-title">{{ recipe.title }}  </p></b>
@@ -49,9 +48,8 @@
 <!-- IMPORTED RECIPES -->
 <ion-list class = "savedList" show-delete="showDelete" ng-show="importedON">
 	<ion-item class = "savedList" ng-repeat="recipe in imported track by $index" href="#/event/saved/{{$index}}/neither">
-	<ion-item class = "item-text-wrap">
 	<ion-delete-button class="ion-minus-circled" ng-click="remove(recipe, 'neither')"></ion-delete-button>
-
+	<ion-item class = "item-text-wrap">
 	<img class="result-img" ng-src= "{{ recipe.image }}">
  	<p class="results-details">{{ recipe.resultsdetails }}</p>
 	 <b><p class="results-title">{{ recipe.title }}  </p></b>

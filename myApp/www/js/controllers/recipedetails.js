@@ -32,7 +32,7 @@ $scope.guideChecked = $scope.guideMeNot;
   var myPopup = $ionicPopup.show({
     templateUrl: 'templates/help-popup.html',
     title: 'Voice Guide',
-    subTitle: 'List of words you can say',
+    subTitle: 'First Activate Voice',
     scope: $scope,
     buttons: [
     {text: '<b>Got it</b>',
