@@ -8,6 +8,8 @@ var rename = require('gulp-rename');
 var sh = require('shelljs');
 var connect = require('gulp-connect');
 
+var karma = require('karma').server;
+
 var paths = {
   sass: ['./scss/**/*.scss'],
   www : ['www/**/*.*']
@@ -65,5 +67,14 @@ gulp.task('connect', function() {
     root: 'www',
     port: '1881',
     livereload: true
+  });
+});
+
+gulp.task('test', function(done) {
+  karma.start({
+    configFile: __dirname + "/tests/my.conf.js",
+    singleRun: true
+  }, function() {
+    done();
   });
 });
