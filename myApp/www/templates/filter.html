@@ -1,94 +1,71 @@
 
-<p><b>Calories</b></p>
+<p class = "filter-label">Nutrition</p>
 
-<div class="cals"> 
-	<table cellspacing="0" cellpadding="0" class="nutrients">
-		<tr>
-			<td>
-				<label>Min:</label>
-				<input type="text" ng-model="calories.min" style="border: 1px solid black;width:50px;height:20px;"/>
-			</td>
+<div class= "nutrition">
+<p class = "nutrition-filter-label">Calories</p>
 
-			<td>
-				<label>Max:</label>
-				<input type="text" ng-model="calories.max" style="border: 1px solid black;width:50px;height:20px;"/>
-			</td>
-		</tr>
-	</table>
-</div>	
+<label class = "max">Max:
+<input type="text" ng-model="calories.max" style="border: 1px solid black;width:50px;height:20px;"/></label>
 
-<br>
-<p><b>Carbs(g)</b></p>
-
-<div class="carbs">
-	<table cellspacing="0" cellpadding="0" class="nutrients">
-		<tr>
-			<td>
-				<label>Min(g):</label>
-				<input type="text" ng-model="carbs.min" style="border: 1px solid black;width:50px;height:20px;"/>
-			</td>
-
-			<td>
-				<label>Max(g)</label>
-				<input type="text" ng-model="carbs.max" style="border: 1px solid black;width:50px;height:20px;"/>
-			</td>
-		</tr>
-	</table>
+<label class = "min">Min:
+<input type="text" ng-model="calories.min" style="border: 1px solid black;width:50px;height:20px;"/></label>
 </div>
 
-<br>
-<p><b>Fat(g)</b></p>
-<div class="fats"> 
-	<table cellspacing="0" cellpadding="0" class="nutrients">
-		<tr>
-			<td>
-				<label>Min(g):</label>
-				<input type="text" ng-model="fat.min" style="border: 1px solid black;width:50px;height:20px;"/>
-			</td>
+<div class = "nutrition">
+<p class = "nutrition-filter-label">Carbs</p>
 
-			<td>
-				<label>Max(g):</label>
-				<input type="text" ng-model="fat.max" style="border: 1px solid black;width:50px;height:20px;"/>
-			</td>
-		</tr>
-	</table>
+<label class = "max">Max
+<input type="text" ng-model="carbs.max" style="border: 1px solid black;width:50px;height:20px;"/></label>
+
+<label class = "min">Min:
+<input type="text" ng-model="carbs.min" style="border: 1px solid black;width:50px;height:20px;"/></label>
 </div>
 
-<br>
-<p><b>Protein(g)</b></p>
-<div class="protein"> 
-	<table cellspacing="0" cellpadding="0" class="nutrients">
-		<tr>
-			<td>
-				<label>Min(g):</label>
-				<input type="text" ng-model="protein.min" style="border: 1px solid black;width:50px;height:20px;"/>
-			</td>
+<div class = "nutrition">
+<p class = "nutrition-filter-label">Fat</p>
 
-			<td>
-				<label>Max(g):</label>
-				<input type="text" ng-model="protein.max" style="border: 1px solid black;width:50px;height:20px;"/>
-			</td>
-		</tr>
-	</table>
+<label class = "max">Max:
+<input type="text" ng-model="fat.max" style="border: 1px solid black;width:50px;height:20px;"/></label>
+<label class = "min">Min:
+<input type="text" ng-model="fat.min" style="border: 1px solid black;width:50px;height:20px;"/></label>
+
+
+
 </div>
 
+<div class= "nutrition">
+
+<p class = "nutrition-filter-label">Protein</p>
+
+<label class = "max">Max:
+<input type="text" ng-model="protein.max" style="border: 1px solid black;width:50px;height:20px;"/></label>
+<label class = "min">Min:
+<input type="text" ng-model="protein.min" style="border: 1px solid black;width:50px;height:20px;"/></label>
+
+
+
+</div> 
+
+
+<div class = "other">
+
+<p class = "filter-label">Diet</p>
+
+<div class="filter-dropdown" ng-dropdown-multiselect="" options="diets" selected-model="diets_model" checkboxes="true" extra-settings="dietssettings" ></div>
 <br>
-<p><b>Diet</b></p>
+<p class = "filter-label">Cuisine</p>
 
-<div ng-dropdown-multiselect="" options="diets" selected-model="diets_model" checkboxes="true" extra-settings="dietssettings" ></div>
+<div class="filter-dropdown" ng-dropdown-multiselect="" options="cuisines" selected-model="cuisines_model" checkboxes="true" extra-settings="dietssettings" ></div>
+<br>
+<p class = "filter-label">Allergies</p>
 
-<p><b>Cuisine</b></p>
+<div class="filter-dropdown" ng-dropdown-multiselect="" options="allergies" selected-model="allergies_model" checkboxes="true" extra-settings="dietssettings" ></div>
+<br>
+<p class = "filter-label">Meal Type</p>
 
-<div ng-dropdown-multiselect="" options="cuisines" selected-model="cuisines_model" checkboxes="true" extra-settings="dietssettings" ></div>
+<div class="filter-dropdown" ng-dropdown-multiselect="" options="kinds" selected-model="kinds_model" checkboxes="true" extra-settings="dietssettings" ></div>
 
-<p><b>Allergies</b></p>
-
-<div ng-dropdown-multiselect="" options="allergies" selected-model="allergies_model" checkboxes="true" extra-settings="dietssettings" ></div>
-
-<p><b>Meal Type</b></p>
-
-<div ng-dropdown-multiselect="" options="kinds" selected-model="kinds_model" checkboxes="true" extra-settings="dietssettings" ></div>
-
+</div>
 
   </ion-content>
 </ion-view>

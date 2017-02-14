@@ -134,7 +134,7 @@ $scope.kinds_model = [];
   var myPopup = $ionicPopup.show({
     templateUrl: 'templates/filter.html',
     title: 'Filter Results',
-    subTitle: 'Do it',
+    subTitle: 'Nutrition, Diet, Cuisine, Allergies, Meal',
     scope: $scope,
     buttons: [
     {text: 'Cancel'},
