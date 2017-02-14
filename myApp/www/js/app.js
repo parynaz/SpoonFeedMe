@@ -24,6 +24,7 @@ angular.module('SpoonReadMe', ['ionic', 'SpoonReadMe.controllers', 'SpoonReadMe.
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
+
   });
 })
 
