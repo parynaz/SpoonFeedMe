@@ -191,7 +191,7 @@ $scope.kinds_model = [];
   //Pop up for error handling
     var errorPopup = $ionicPopup.show({
     templateUrl: template,
-    title: 'Something went wrong',
+    title: 'SOMETHING WENT WRONG',
     scope: $scope,
     buttons: [
     {text: '<b>Okay</b>',
@@ -255,7 +255,7 @@ $scope.kinds_model = [];
     //Error loading results
     if(data == "error"){
       $ionicLoading.hide();
-      $scope.errorHandler();
+      $scope.errorHandler("error");
     }
 
    if ($scope.result.length === 0){
