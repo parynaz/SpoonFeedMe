@@ -1,4 +1,4 @@
-angular.module('SpoonReadMe', ['ionic', 'SpoonReadMe.controllers', 'SpoonReadMe.services', 'SpoonReadMe.payPalService'])
+angular.module('SpoonReadMe', ['ionic', 'SpoonReadMe.controllers', 'SpoonReadMe.services'])
 
 //IONIC FUNCTIONS DO NOT TOUCH
 .run(function($ionicPlatform) {
