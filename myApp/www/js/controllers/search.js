@@ -192,6 +192,7 @@ $scope.kinds_model = [];
     animation: 'fade-in'
       });
 
+  //Filtered Search
     if($scope.filterOptionOn == true){
       RecipeDetails.getFromSearchFiltered(query, $scope.selectedDiet, $scope.selectedCuisine, $scope.selectedAllergy, $scope.selectedKind, $scope.calories.min, $scope.calories.max, $scope.carbs.min, $scope.carbs.max, $scope.fat.min, $scope.fat.max, $scope.protein.min, $scope.protein.max).then(function(data){
         $scope.result = data.results;
@@ -203,13 +204,24 @@ $scope.kinds_model = [];
       })
     }else 
 
+  //Query only earch
   RecipeDetails.getFromSearch(query).then(function(data){
     $scope.result = data.results;
+
+    //Error loading results alert
+    if(data == "error"){
+      $ionicLoading.hide();
+      alert("Something went wrong, please make sure you have internet access and try again.");
+    }
+
+    else{
     $scope.getRecipeDetails($scope.result, "nofilter");
     $scope.searchResultsReturned = true;
     $scope.numberOfResults = data.totalResults;
     $scope.query = query;
     $ionicLoading.hide();
+    }
+
   });
 }
 

@@ -14,6 +14,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 				},
 				function(error) {
 					console.log("Error", error.status);
+					return "error";
 				});
 		},
 		//Filtered search with filters ticked off
