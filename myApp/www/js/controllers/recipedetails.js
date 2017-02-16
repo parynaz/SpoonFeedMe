@@ -1,15 +1,7 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-
-//This is angular's way of creating an application; we are telling to include the ionic module which includes all of the ionic code
-//that will process the tags for the side menu 
 angular.module('SpoonReadMe.controllers')
 
 
-.controller('RecipeDetailsCtrl', function($scope, $stateParams, $location, $anchorScroll, $ionicScrollDelegate, $ionicLoading, $state, $ionicPopup, RecipeDetails, StorageService, Settings) {
+.controller('RecipeDetailsCtrl', function($scope, $stateParams, $location, $anchorScroll, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $state, $ionicPopup, RecipeDetails, StorageService, Settings) {
 
 //SETTINGS
 
@@ -49,6 +41,7 @@ $scope.guideChecked = $scope.guideMeNot;
 
   }
 
+//Users can choose to not be shown the help popup automatically again
   $scope.changeGuide = function(selected){
 
     var objectToSave;
@@ -105,10 +98,44 @@ var string;
 
 }
 
-    $ionicLoading.show({
+//error handling
+
+$scope.errorHandler = function(type){
+
+    var template;
+
+    if(type == "error") template = "templates/error.html";
+    else template = "templates/tryagain.html";
+
+  //Pop up for error handling
+    var errorPopup = $ionicPopup.show({
+    templateUrl: template,
+    title: 'SOMETHING WENT WRONG',
+    scope: $scope,
+    buttons: [
+    {text: '<b>Okay</b>',
+    type: 'button-positive',
+    onTap: function(e) {
+      //do nothing
+    }
+  }
+  ]
+  });
+
+  myPopup.then(function() {
+    //do nothing
+  });
+  };
+
+//----------------------------------------------//
+//END OF FUNCTIONS
+//RECIPE DETAILS PAGE LOADS ON ENTER
+
+
+$ionicLoading.show({
     template: '<ion-spinner icon="android"></ion-spinner>',
     animation: 'fade-in'
-      });
+});
 
 //Won't show walkthrough panel unless turned on
 $scope.instructionsNULL = false;
@@ -169,8 +196,20 @@ else if($scope.fromSavedOrSearch == 'saved' || $scope.fromSavedOrSearch == 'sear
     RecipeDetails.getDetails(payload.id, $scope.fromSavedOrSearch).then(function(detailPayload){
     
 
-          $scope.details = detailPayload; 
-          $scope.image = payload.image;
+          $scope.details = detailPayload;
+
+        if(detailPayload == "error"){
+          $ionicLoading.hide();
+          $scope.errorHandler("error");
+        }
+
+        if ($scope.details.length === 0){
+          $ionicLoading.hide();
+          $scope.errorHandler("empty");
+        }
+
+        else{
+         $scope.image = payload.image;
 
           $scope.servings = $scope.details.servings;
           $scope.timeRequired = $scope.details.readyInMinutes;
@@ -202,6 +241,8 @@ else if($scope.fromSavedOrSearch == 'saved' || $scope.fromSavedOrSearch == 'sear
           if($scope.guideMeNot == false){
             $scope.help();
           }
+
+        }
 
 });
 }

@@ -201,7 +201,7 @@
     },
     android : {
       banner : "ca-app-pub-7640666500532842/5030613410",
-      interstitial : "ca-app-pub-7640666500532842/3135077818"
+      //interstitial : "ca-app-pub-7640666500532842/3135077818"
     }
     };
  
@@ -209,7 +209,7 @@
  
     admob.setOptions({
     publisherId:      admobid.banner,
-    interstitialAdId: admobid.interstitial,
+    //interstitialAdId: admobid.interstitial,
     tappxIdiOs:       "/XXXXXXXXX/Pub-XXXX-iOS-IIII",
     tappxIdAndroid:   "/XXXXXXXXX/Pub-XXXX-Android-AAAA",
     tappxShare:       0.5
@@ -224,10 +224,10 @@
  
   function onAdLoaded(e) {
   if (e.adType === admob.AD_TYPE.INTERSTITIAL) {
-    admob.showInterstitialAd();
-    showNextInterstitial = setTimeout(function() {
-    admob.requestInterstitialAd();
-    }, 2 * 60 * 1000); // 2 minutes
+   // admob.showInterstitialAd();
+   // showNextInterstitial = setTimeout(function() {
+   // admob.requestInterstitialAd();
+   // }, 2 * 60 * 1000); // 2 minutes
   }
   }
  
@@ -249,7 +249,7 @@
   admob.createBannerView();
  
   // request an interstitial
-  admob.requestInterstitialAd();
+//  admob.requestInterstitialAd();
   }
  
 </script>

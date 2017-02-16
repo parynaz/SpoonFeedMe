@@ -8,7 +8,7 @@
 //that will process the tags for the side menu 
 angular.module('SpoonReadMe.controllers')
 
-.controller('ImportCtrl', function($scope, $ionicLoading, $ionicScrollDelegate, $sce, $location, $anchorScroll, SearchService, StorageService, Settings) {
+.controller('ImportCtrl', function($scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $sce, $location, $anchorScroll, SearchService, StorageService, Settings) {
 //SETTINGS
 $scope.pace = Settings.getSavedSetting('pace').value;
 $scope.spokenVoice = Settings.getSavedSetting('voice').value;
@@ -27,7 +27,7 @@ $scope.guideMeNot = Settings.getSavedSetting('guide').value;
 $scope.guideUnchecked = !$scope.guideMeNot
 $scope.guideChecked = $scope.guideMeNot;
 
-  $scope.help = function(){
+$scope.help = function(){
 
   var myPopup = $ionicPopup.show({
     templateUrl: 'templates/help-popup.html',
@@ -49,7 +49,7 @@ $scope.guideChecked = $scope.guideMeNot;
 
   }
 
-  $scope.changeGuide = function(selected){
+$scope.changeGuide = function(selected){
 
     var objectToSave;
 
@@ -63,6 +63,29 @@ $scope.guideChecked = $scope.guideMeNot;
 
     Settings.saveNewSetting('guide', objectToSave);
   }
+
+
+//Error handling
+
+
+  $scope.errorHandler = function(){
+
+  //Pop up for error handling
+    var errorPopup = $ionicPopup.show({
+    templateUrl: "templates/importerror.html",
+    title: 'SOMETHING WENT WRONG',
+    scope: $scope,
+    buttons: [
+    {text: '<b>Okay</b>',
+    type: 'button-positive',
+    onTap: function(e) {
+      //do nothing
+    }
+  }
+  ]
+  });
+
+  };
 
 
 var steps = [];
@@ -80,8 +103,13 @@ var steps = [];
   SearchService.import(query).then(function(data){
     $scope.result = data;
 
+    if(data == "error"){
+          $ionicLoading.hide();
+          $scope.errorHandler();
+    }
 
-    //saved or not
+    else{
+      //saved or not
     $scope.activateOFF = true;
     $scope.activateON = false;
 
@@ -149,12 +177,13 @@ var string;
             $scope.help();
     }
 
+    }
     
   });
 }
 
 $scope.openSource = function(){
-  window.open($scope.sourceUrl, '_blank','heigth=600,width=600');
+  cordova.InAppBrowser.open($scope.sourceUrl, '_self','heigth=600,width=600');
 }
 //Will execute when user presses walkthrough button
 $scope.activateVoiceInstructions = function() {
