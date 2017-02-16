@@ -192,7 +192,6 @@ $scope.kinds_model = [];
     var errorPopup = $ionicPopup.show({
     templateUrl: template,
     title: 'Something went wrong',
-    subTitle: 'An error occured attempting to complete your request',
     scope: $scope,
     buttons: [
     {text: '<b>Okay</b>',
@@ -232,7 +231,7 @@ $scope.kinds_model = [];
           $scope.errorHandler("error");
         }
 
-        if ($scope.result === null){
+        if ($scope.result.length === 0){
           $ionicLoading.hide();
           $scope.errorHandler("empty");
         }
@@ -259,7 +258,7 @@ $scope.kinds_model = [];
       $scope.errorHandler();
     }
 
-   if ($scope.result === null){
+   if ($scope.result.length === 0){
       $ionicLoading.hide();
       $scope.errorHandler("empty");
     }
