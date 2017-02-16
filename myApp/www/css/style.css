@@ -86,9 +86,9 @@ p.MainMenuPadding{
 
 .mymenubar{
   border: none;
+  margin-bottom: 3%;
   background-color: #ddd;
-  margin-left: -5.9%;
-  margin-right: -7%;
+
 }
 
 p.menuTitle{
@@ -821,4 +821,49 @@ button.dropdown-toggle.ng-binding.filterBtn{
   background-color: #3B88F0;
   color: white;
   font-weight: bold;
+}
+
+/*DONATE*/
+
+p.donatePadding{
+  margin-top: 2cm;
+}
+p.donate{
+
+    margin-left: 2%;
+    margin-right: 2%;
+    color:  #3B88F0;
+    font-weight: bold;
+    font-size: 120%;
+}
+
+ul.donatelist{
+  margin-left: 2%;
+  margin-right: 2%;
+
+}
+
+li.donatelist{
+  font-family: 'Indie Flower', cursive;
+  text-align: center;
+  font-weight: bold;
+}
+
+p.emailtransfer{
+  text-align: center;
+}
+
+div.paypal{
+  text-align: center;
+}
+
+p.donateend{
+  text-align: center;
+  font-family: 'Indie Flower', cursive;
+  font-weight: bold;
+}
+
+div.app{
+
+  margin-bottom: 5cm;
 }

@@ -47,7 +47,7 @@
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>    
 
-
+ <script type="text/javascript" src="js/paypal-mobile-js-helper.js"></script>
 
     <script type="text/javascript" src="lib/angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect.js"></script>
     <!-- your app's js -->
@@ -61,6 +61,9 @@
    <script src="js/controllers/saved.js"></script>
    <script src="js/controllers/search.js"></script>
    <script src="js/controllers/settings.js"></script>
+   <script src="js/controllers/donate.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 
   <script src="js/services.js"></script>
@@ -107,48 +110,42 @@
           <p class="MainMenuPadding"></p>
             <ul class="list">
 
-            <ion-item nav-clear menu-close style="border: none; background-color: #b0b0b0;">
-              <a ui-sref="event.home" ui-sref-active="current" class="item item-icon-left mymenubar">
+              <a nav-clear menu-close ui-sref="event.donate" ui-sref-active="current" class="item item-icon-left mymenubar">
+              <i><img class="menu-home" src="img/money.svg"/></i>
+              <p class="menuTitle">Donate</p>
+
+              </a>
+
+              <a nav-clear menu-close ui-sref="event.home" ui-sref-active="current" class="item item-icon-left mymenubar">
               <i><img class="menu-home" src="img/home.svg"/></i>
               <p class="menuTitle">Home</p>
 
               </a>
-            </ion-item> 
-
-            <ion-item nav-clear menu-close style="border: none;background-color: #b0b0b0;">
-              <a ui-sref="event.search" ui-sref-active="current" class="item item-icon-left mymenubar">
+        
+              <a nav-clear menu-close ui-sref="event.search" ui-sref-active="current" class="item item-icon-left mymenubar">
               <i><img class="menu-home" src="img/searchblack.svg"/></i>
               <p class="menuTitle">Search</p>
               </a>
-            </ion-item> 
-
-            <ion-item nav-clear menu-close style="border: none;background-color: #b0b0b0;">
-              <a ui-sref="event.import" ui-sref-active="current" class="item item-icon-left mymenubar">
+           
+              <a nav-clear menu-close ui-sref="event.import" ui-sref-active="current" class="item item-icon-left mymenubar">
               <i><img class="menu-home" src="img/importblack.svg"/></i>
               <p class="menuTitle">Import</p>
               </a>
-            </ion-item> 
-
-            <ion-item nav-clear menu-close style="border: none;background-color: #b0b0b0;">
-              <a ui-sref="event.saved" ui-sref-active="current" class="item item-icon-left mymenubar">
+            
+              <a nav-clear menu-close ui-sref="event.saved" ui-sref-active="current" class="item item-icon-left mymenubar">
               <i><img class="menu-home" src="img/savedblack.svg"/></i>
               <p class="menuTitle">Saved</p>
               </a>
-            </ion-item> 
-
-            <ion-item nav-clear menu-close style="border: none;background-color: #b0b0b0;">
-              <a ui-sref="event.settings" ui-sref-active="current" class="item item-icon-left mymenubar">
+            
+              <a nav-clear menu-close ui-sref="event.settings" ui-sref-active="current" class="item item-icon-left mymenubar">
               <i><img class="menu-home" src="img/settings.svg"/></i>
               <p class="menuTitle">Settings</p>
               </a>
-            </ion-item> 
-
-            <ion-item nav-clear menu-close style="border: none;background-color: #b0b0b0;">
-              <a ui-sref="event.help" ui-sref-active="current" class="item item-icon-left mymenubar">
+           
+              <a nav-clear menu-close ui-sref="event.help" ui-sref-active="current" class="item item-icon-left mymenubar">
               <i><img class="menu-home" src="img/help.svg"/></i>
               <p class="menuTitle">Help</p>
               </a>
-            </ion-item> 
 
             </ul>
           </ion-content>

@@ -1,4 +1,4 @@
-angular.module('SpoonReadMe', ['ionic', 'SpoonReadMe.controllers', 'SpoonReadMe.services'])
+angular.module('SpoonReadMe', ['ionic', 'SpoonReadMe.controllers', 'SpoonReadMe.services', 'SpoonReadMe.payPalService'])
 
 //IONIC FUNCTIONS DO NOT TOUCH
 .run(function($ionicPlatform) {
@@ -29,6 +29,15 @@ angular.module('SpoonReadMe', ['ionic', 'SpoonReadMe.controllers', 'SpoonReadMe.
       url: "/event",
       abstract: true,
       templateUrl: "templates/event-menu.html"
+    })
+     .state('event.donate', {
+      url: "/donate",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/donate.html",
+          controller: "DonateCtrl"
+        }
+      }
     })
     .state('event.home', {
       url: "/home",
@@ -105,8 +114,8 @@ angular.module('SpoonReadMe', ['ionic', 'SpoonReadMe.controllers', 'SpoonReadMe.
           controller: "HelpCtrl"
         }
       }
-    })
+    });
   
   $urlRouterProvider.otherwise("/event/home");
-})
+});
 

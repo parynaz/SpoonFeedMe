@@ -248,7 +248,7 @@ else if($scope.fromSavedOrSearch == 'saved' || $scope.fromSavedOrSearch == 'sear
 }
 
 $scope.openSource = function(){
-  window.open($scope.sourceUrl, '_blank','heigth=600,width=600');
+ cordova.InAppBrowser.open($scope.sourceUrl, '_self','heigth=600,width=600');
 }
 $scope.voiceCustom= function(text){
       var text = text;
@@ -523,7 +523,7 @@ $scope.handleVoiceInput = function(event) {
                 }
               }
 
-                console.log(ingredients);
+          //console.log(ingredients);
           $scope.recognition.stop();
           $scope.iconChange();
           $scope.voiceIngredients(ingredients);
@@ -584,7 +584,7 @@ $scope.handleVoiceInput = function(event) {
                 }
               }
 
-          console.log(ingredients);
+          //console.log(ingredients);
           $scope.recognition.stop();
           $scope.iconChange();
           $scope.voiceIngredients(ingredients);
