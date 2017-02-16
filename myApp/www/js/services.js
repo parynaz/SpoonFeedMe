@@ -2,11 +2,11 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 
 .factory('SearchService', function($http, sharedInformation) {
 	return {
-		//Search with no filters only the query provided
+		//Search with no filters. Only the query provided
 		search: function(query) {
 			$http.defaults.headers.common["X-Mashape-key"] = sharedInformation.getKey();
 
-			return $http.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search?", 
+			return $http.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search?",
 								{params: {'query': query, 'instructionsRequired': true, 'number' : 100 }}).then(
 				function(payload) {
 					var recipes = payload.data;
@@ -34,6 +34,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 				},
 				function(error) {
 					console.log("Error", error.status);
+					return "error";
 				});
 		}, 
 		//Returns Recipe details
@@ -48,6 +49,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 				},
 				function(error) {
 					console.log("Error", error.status);
+					return "error";
 				});
 		},
 		//Returns recipe data imported from a website or blog
@@ -62,6 +64,7 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 				},
 				function(error) {
 					console.log("Error", error.status);
+					return "error";
 				});
 		}
 	}
@@ -142,13 +145,14 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 	var saved;
 
 	return {
+		//Search with no filters. Only the query provided
 		getFromSearch: function(query) {
 			return SearchService.search(query).then(function (results) {
 				searchPayLoad = results;
 				return searchPayLoad;
 			});
 		},
-
+		//Filtered search with filters ticked off
 		getFromSearchFiltered: function(query, diet, cuisine, allergy, kind, calMin, calMax, carbMin, carbMax, fatMin, fatMax, proteinMin, proteinMax) {
 			return SearchService.filter(query, diet, cuisine, allergy, kind, calMin, calMax, carbMin, carbMax, fatMin, fatMax, proteinMin, proteinMax).then(function(results) {
 				searchPayLoad = results;

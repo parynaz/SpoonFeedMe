@@ -180,9 +180,39 @@ $scope.kinds_model = [];
 
   }
 
+
+  $scope.errorHandler = function(type){
+
+    var template;
+
+    if(type == "error") template = "templates/error.html";
+    else template = "templates/empty.html";
+
+  //Pop up for error handling
+    var errorPopup = $ionicPopup.show({
+    templateUrl: template,
+    title: 'Something went wrong',
+    subTitle: 'An error occured attempting to complete your request',
+    scope: $scope,
+    buttons: [
+    {text: '<b>Okay</b>',
+    type: 'button-positive',
+    onTap: function(e) {
+      //do nothing
+    }
+  }
+  ]
+  });
+
+  myPopup.then(function() {
+    //do nothing
+  });
+  };
+
   //If any filters are pressed, there will be a complex search (3 API calls)
   //If no filters are pressed, then there will be a simple recipe search (1 API call)
   $scope.getRecipe = function(query) {
+
 
   //close the keyboard
   cordova.plugins.Keyboard.close();
@@ -193,25 +223,45 @@ $scope.kinds_model = [];
       });
 
   //Filtered Search
-    if($scope.filterOptionOn == true){
+    if($scope.filterOptionOn === true){
       RecipeDetails.getFromSearchFiltered(query, $scope.selectedDiet, $scope.selectedCuisine, $scope.selectedAllergy, $scope.selectedKind, $scope.calories.min, $scope.calories.max, $scope.carbs.min, $scope.carbs.max, $scope.fat.min, $scope.fat.max, $scope.protein.min, $scope.protein.max).then(function(data){
         $scope.result = data.results;
+        
+        if(data == "error"){
+          $ionicLoading.hide();
+          $scope.errorHandler("error");
+        }
+
+        if ($scope.result === null){
+          $ionicLoading.hide();
+          $scope.errorHandler("empty");
+        }
+
+        else{
         $scope.getRecipeDetails($scope.result, "filter");
         $scope.searchResultsReturned = true;
         $scope.numberOfResults = data.totalResults;
         $scope.query = query;
         $ionicLoading.hide();
+        }
+
       })
-    }else 
+
+    }else
 
   //Query only earch
   RecipeDetails.getFromSearch(query).then(function(data){
     $scope.result = data.results;
 
-    //Error loading results alert
+    //Error loading results
     if(data == "error"){
       $ionicLoading.hide();
-      alert("Something went wrong, please make sure you have internet access and try again.");
+      $scope.errorHandler();
+    }
+
+   if ($scope.result === null){
+      $ionicLoading.hide();
+      $scope.errorHandler("empty");
     }
 
     else{
