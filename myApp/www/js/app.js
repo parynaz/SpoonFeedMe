@@ -57,11 +57,29 @@ angular.module('SpoonReadMe', ['ionic', 'SpoonReadMe.controllers', 'SpoonReadMe.
         }
       }
     })
+    .state('event.importphone', {
+      url: "/importfromphone",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/import-phone.html",
+          controller: "ImportCtrl"
+        }
+      }
+    })
     .state('event.import', {
       url: "/import",
       views: {
         'menuContent' :{
-          templateUrl: "templates/import.html",
+          templateUrl: "templates/import-url.html",
+          controller: "ImportCtrl"
+        }
+      }
+    })
+    .state('event.importmanual', {
+      url: "/importmanually",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/import-manual.html",
           controller: "ImportCtrl"
         }
       }

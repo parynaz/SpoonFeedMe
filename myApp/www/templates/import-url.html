@@ -1,4 +1,7 @@
-<ion-view>
+<ion-view hide-back-button="true">
+ <ion-nav-buttons side="left" >
+              <button class="menu-button" menu-toggle="left"><img class ="menu-btn" ng-src="img/menu.svg"/></button>
+</ion-nav-buttons>
   <ion-nav-title>
    <p class = "hometitle">Import Recipes</p>
   </ion-nav-title>
@@ -6,8 +9,8 @@
 
 <ion-tabs class="tabs-icon-top tabs-positive">
 
-  <ion-tab title="From URL" icon-on="ion-ios-world" icon-off="ion-ios-world">
-    <ion-content>
+  <ion-tab title="From URL" ng-click="importURL()" icon-on="ion-ios-world" icon-off="ion-ios-world">
+ <ion-content>
 
 <p class="importPadding"></p>
 
@@ -114,13 +117,14 @@
 </ion-item>
 
  </ion-content>
+
   </ion-tab>
 
-  <ion-tab title="From Phone" icon-on="ion-android-phone-portrait" icon-off="ion-android-phone-portrait">
+  <ion-tab title="From Phone" ng-click="importPhone()" icon-on="ion-android-phone-portrait" icon-off="ion-android-phone-portrait">
     <!-- Tab 2 content -->
   </ion-tab>
 
-  <ion-tab title="Manual Entry" icon-on="ion-edit" icon-off="ion-edit">
+  <ion-tab title="Manual Entry" ng-click="importManual()" icon-on="ion-edit" icon-off="ion-edit">
 
 
   </ion-tab>
@@ -128,3 +132,12 @@
 </ion-tabs>
 
 </ion-view>
+
+
+
+
+
+
+
+
+

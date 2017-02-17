@@ -8,7 +8,71 @@
 //that will process the tags for the side menu 
 angular.module('SpoonReadMe.controllers')
 
-.controller('ImportCtrl', function($scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $sce, $location, $anchorScroll, SearchService, StorageService, Settings) {
+.controller('ImportCtrl', function($scope, $ionicLoading, $state, $ionicPopup, $ionicTabsDelegate, $ionicScrollDelegate, $sce, $location, $anchorScroll, SearchService, StorageService, Settings) {
+
+
+
+$scope.$on("$ionicView.beforeEnter", function() {
+
+  var index;
+  
+  var state = $state.current.name;
+
+  if(state == 'event.import') index = 0;
+
+  else if(state == 'event.importphone') index = 1;
+
+  else if(state == 'event.importmanual') index = 2;
+
+   $ionicTabsDelegate.select(index);
+
+});
+
+
+$scope.importURL = function(){
+  $state.go('event.import');
+};
+
+$scope.importPhone = function(){
+  $state.go('event.importphone');
+};
+
+$scope.importManual = function(){
+  $state.go('event.importmanual');
+};
+
+
+//Manual entry
+if($state.current.name == 'event.importmanual'){
+
+}
+
+//Phone entry
+
+else if($state.current.name == 'event.importphone'){
+
+}
+
+
+//URL
+else if($state.current.name == 'event.import'){
+
+$scope.$on("$ionicView.enter", function() {
+  window.plugins.insomnia.keepAwake();
+
+});
+
+$scope.$on("$ionicView.beforeLeave", function() {
+
+  $scope.recognition.abort();      
+  console.log("stopped listening");
+
+  window.plugins.insomnia.allowSleepAgain();
+});
+
+
+
+
 //SETTINGS
 $scope.pace = Settings.getSavedSetting('pace').value;
 $scope.spokenVoice = Settings.getSavedSetting('voice').value;
@@ -16,7 +80,6 @@ $scope.walkthroughHTML = false;
 $scope.imported = false;
 $scope.fromSavedOrSearch = 'neither';
 
-//HELP
 
 //HELP
 $scope.guideOptions = [{ name: "Still open guide every time", value: false }, 
@@ -568,17 +631,7 @@ $scope.activateVoice = function() {
 }
 
 
-$scope.$on("$ionicView.enter", function() {
-  window.plugins.insomnia.keepAwake();
+}
 
-});
-
-$scope.$on("$ionicView.beforeLeave", function() {
-
-  $scope.recognition.abort();      
-  console.log("stopped listening");
-
-  window.plugins.insomnia.allowSleepAgain();
-});
 
 });

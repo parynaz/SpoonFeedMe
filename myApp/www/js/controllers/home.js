@@ -43,6 +43,16 @@ angular.module('SpoonReadMe.controllers')
   	$scope.closePopover();
   	$state.go('event.import');
   };
+
+  $scope.importPhone = function(){
+  	$scope.closePopover();
+  	$state.go('event.importphone');
+  };
+
+  $scope.importManual = function(){
+  	$scope.closePopover();
+  	$state.go('event.importmanual');
+  };
  
 });
 
