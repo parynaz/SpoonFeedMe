@@ -44,9 +44,8 @@
 	<ion-delete-button class="ion-minus-circled" ng-click="remove(recipe, 'neither')"></ion-delete-button>
 	<ion-item class = "item-text-wrap">
 	<img class="result-img" ng-src= "{{ recipe.image }}">
- 	<p class="results-details">{{ recipe.resultsdetails }}</p>
-	 <b><p class="results-title">{{ recipe.title }}  </p></b>
-
+ 	<b><p class="results-title">{{ recipe.title }}  </p></b>
+	<p class="results-details">Time Required: {{ recipe.readyInMinutes }} mins</p>
 	
 </ion-item>
 

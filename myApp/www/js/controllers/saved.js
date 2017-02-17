@@ -12,48 +12,11 @@ angular.module('SpoonReadMe.controllers')
 .controller('SavedCtrl', function($scope, StorageService) {
   $scope.showDelete == false; 
 
-  $scope.savedON = true;
-  $scope.savedOFF = false;
-
-  $scope.importedON = false;
-  $scope.importedOFF = true;
-
   $scope.$on("$ionicView.beforeEnter", function() {
     $scope.saved = StorageService.getSavedRecipes('saved');
     $scope.imported = StorageService.getSavedRecipes('neither');
   });
 
-
-  $scope.savedRecipes = function(){
-    $scope.buttonChange();
-    $scope.apply();
-  }
-
-  $scope.importedRecipes = function(){
-    $scope.buttonChange();
-    $scope.apply();
-  }
-
-$scope.buttonChange = function() {
-  if($scope.savedON == true && $scope.importedON == false){
-    //on imported recipes
-      $scope.savedON = false;
-      $scope.savedOFF = true;
-
-      $scope.importedON = true;
-      $scope.importedOFF = false;
-  }     
-  else{
-    //on saved recipes
-      $scope.savedON = true;
-      $scope.savedOFF = false;
-
-      $scope.importedON = false;
-      $scope.importedOFF = true;
-  }
-
-  $scope.$apply();
-}
 
 
   $scope.removeRecipes = function(){
