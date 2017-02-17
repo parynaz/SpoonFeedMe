@@ -109,6 +109,20 @@ img.menu{
 
 /*HOME PAGE
 */
+
+.import-popover{
+  height: 10%;
+  width: 40%;
+  background-color: #D3D3D3;
+}
+
+p.import-options{
+ background-color: #ddd;
+ margin-bottom: 1%;
+ text-align: center;
+}
+
+
 p.homePadding {
   padding-top: 1cm;
 }
@@ -467,7 +481,7 @@ img.ingredient-img{
   width: 40px;
   height: 40px;
   float:left;
-  display:inline;
+ 
   margin-left: -5%;
   margin-right: 3%;
 }
