@@ -1,6 +1,6 @@
 angular.module('SpoonReadMe.controllers')
 
-.controller('DonateCtrl', function($scope, PaypalService) {
+.controller('DonateCtrl', function($scope) {
 
 
 $scope.buttonPay = function(){

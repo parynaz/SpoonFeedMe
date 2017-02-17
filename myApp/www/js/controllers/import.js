@@ -113,7 +113,7 @@ var steps = [];
     $scope.activateOFF = true;
     $scope.activateON = false;
 
-    if(StorageService.alreadySaved($scope.result, $scope.fromSavedOrSearch) == 0){
+    if(StorageService.alreadySaved($scope.result, $scope.fromSavedOrSearch) === 0){
         $scope.notSaved = true;
         $scope.saved = false;
       }
@@ -161,7 +161,7 @@ var string;
       $scope.supplies[i].originalString = string.replace(name, '');
     }
 
-    if ($scope.supplies[i].originalString == "") {
+    if ($scope.supplies[i].originalString === "") {
        $scope.supplies[i].originalString = amount + " " + $scope.supplies[i].unit;
     }
        
@@ -173,7 +173,7 @@ var string;
 
     $ionicLoading.hide();
 
-    if($scope.guideMeNot == false){
+    if($scope.guideMeNot === false){
             $scope.help();
     }
 

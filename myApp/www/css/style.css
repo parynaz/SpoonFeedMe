@@ -453,10 +453,10 @@ p.carbs-title{
 
 
 ion-item.ingredients{
-  width: 80%;
+  width: 85%;
   padding-top: 5%;
   padding-right: 8%;
-  padding-left: 9%;
+  padding-left: 1%;
   margin-left: 10%;
   border:none;
 
@@ -468,8 +468,8 @@ img.ingredient-img{
   height: 40px;
   float:left;
   display:inline;
-  margin-left: -8%;
-  
+  margin-left: -5%;
+  margin-right: 3%;
 }
 
 p.ingredient-name{
