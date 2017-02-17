@@ -3,11 +3,13 @@
    <p class = "hometitle">Import Recipes</p>
   </ion-nav-title>
 
-<ion-nav-buttons side ="right"> 
-</ion-nav-buttons>
 
-<ion-content>
-<p class="menuPadding"></p>
+<ion-tabs class="tabs-icon-top tabs-positive">
+
+  <ion-tab title="From URL" icon-on="ion-ios-world" icon-off="ion-ios-world">
+    <ion-content>
+
+<p class="importPadding"></p>
 
 
 <p class="importParagraph">Enter any link to a website or blog with recipe instructions</p>
@@ -37,8 +39,8 @@
 
 
 <ion-item class= "recipe-img">
-	<img class="import-img" ng-src= "{{ img }}">
-	<p class="import-title"><b>{{ result.title }}</b></p>
+  <img class="import-img" ng-src= "{{ img }}">
+  <p class="import-title"><b>{{ result.title }}</b></p>
 </ion-item>
 
 
@@ -112,4 +114,17 @@
 </ion-item>
 
  </ion-content>
+  </ion-tab>
+
+  <ion-tab title="From Phone" icon-on="ion-android-phone-portrait" icon-off="ion-android-phone-portrait">
+    <!-- Tab 2 content -->
+  </ion-tab>
+
+  <ion-tab title="Manual Entry" icon-on="ion-edit" icon-off="ion-edit">
+
+
+  </ion-tab>
+
+</ion-tabs>
+
 </ion-view>

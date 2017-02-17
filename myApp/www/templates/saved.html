@@ -1,7 +1,6 @@
 <ion-view>
   <ion-nav-title>
-   <p class = "hometitle" ng-show="savedON">Saved Recipes</p>
-    <p class = "hometitle" ng-show="importedON">Imported Recipes</p>
+   <p class = "hometitle">Saved Recipes</p>
   </ion-nav-title>
 
 <ion-nav-buttons side ="right">
@@ -12,25 +11,19 @@
 
 </ion-nav-buttons>
 
+
+<ion-tabs class="tabs-icon-top tabs-positive">
+
+  <ion-tab title="All" icon-on="ion-bookmark" icon-off="ion-bookmark">
   <ion-content>
-  <p class="menuPadding"></p>
-
-
-  <button class = "savedRecipesOFF-btn" ng-click="savedRecipes()" ng-show="savedOFF"><img class="savedRecipes-btn" ng-show="savedOFF" ng-src="img/save.svg"/><span class = "savedRecipes"ng-show="savedOFF">Saved Recipes</span></button>
-
-  <button class = "savedRecipesON-btn" ng-show = "savedON"><img class="savedRecipes-btn" ng-show="savedON" ng-src="img/save.svg"/><span class = "savedRecipes" ng-show="savedON">Saved Recipes</span></button>
-
-  <button class = "importedRecipesOFF-btn" ng-click="importedRecipes()" ng-show="importedOFF"><img class="savedRecipes-btn" ng-src="img/import.svg" ng-show="importedOFF"/><span class = "savedRecipes" ng-show="importedOFF">Imported Recipes</span></button>
-
-  <button class = "importedRecipesON-btn" ng-show="importedON"><img class="savedRecipes-btn" ng-src="img/import.svg" ng-show="importedON"/><span class = "savedRecipes" ng-show="importedON">Imported Recipes</span></button>
-
+  <p class="tabPadding"></p>
 
 
 <div class="row" style="flex-wrap: wrap;">
 		<div >
 
 <!-- SAVED RECIPES -->
-<ion-list class = "savedList" show-delete="showDelete" ng-show="savedON">
+<ion-list class = "savedList" show-delete="showDelete">
 	<ion-item class = "savedList" ng-repeat="recipe in saved track by $index" href="#/event/saved/{{$index}}/saved">
 	<ion-delete-button class="ion-minus-circled" ng-click="remove(recipe, 'saved')"></ion-delete-button>
 	<ion-item class = "item-text-wrap">
@@ -46,7 +39,7 @@
 </ion-list>
 
 <!-- IMPORTED RECIPES -->
-<ion-list class = "savedList" show-delete="showDelete" ng-show="importedON">
+<ion-list class = "savedList" show-delete="showDelete">
 	<ion-item class = "savedList" ng-repeat="recipe in imported track by $index" href="#/event/saved/{{$index}}/neither">
 	<ion-delete-button class="ion-minus-circled" ng-click="remove(recipe, 'neither')"></ion-delete-button>
 	<ion-item class = "item-text-wrap">
@@ -66,4 +59,20 @@
 </div>
 
   </ion-content>
+
+</ion-content>
+  </ion-tab>
+
+  <ion-tab title="SpoonReadMe" icon-on="ion-spoon" icon-off="ion-spoon">
+    <!-- Tab 2 content -->
+  </ion-tab>
+
+  <ion-tab title="Imported" icon-on="ion-ios-download" icon-off="ion-ios-download">
+
+
+  </ion-tab>
+
+</ion-tabs>
+
 </ion-view>
+

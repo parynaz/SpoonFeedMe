@@ -299,10 +299,25 @@ div.filterOption{
 
 /*IMPORT PAGE
 */
+p.tabPadding{
+  padding-top: 30%;
+
+}
+p.importPadding{
+  padding-top: 50%;
+
+}
+
+.tabs-positive > .tabs{
+background-color: bar-positive !important;
+height: 13%;
+padding-top: 5%;
+}
 
 .myimportbar{
   
 }
+
 
 button.importpage-button{
   background-color: transparent;
