@@ -14,48 +14,36 @@ angular.module('SpoonReadMe.controllers')
 
 $scope.$on("$ionicView.beforeEnter", function() {
 
-  var index;
+  // var index;
   
-  var state = $state.current.name;
+  // var state = $state.current.name;
 
-  if(state == 'event.import') index = 0;
+  // if(state == 'event.import') index = 0;
 
-  else if(state == 'event.importphone') index = 1;
+  // else if(state == 'event.importphone') index = 1;
 
-  else if(state == 'event.importmanual') index = 2;
+  // else if(state == 'event.importmanual') index = 2;
 
-   $ionicTabsDelegate.select(index);
+  //  $ionicTabsDelegate.select(index);
+
+
 
 });
 
 
-$scope.importURL = function(){
-  $state.go('event.import');
-};
-
-$scope.importPhone = function(){
-  $state.go('event.importphone');
-};
-
-$scope.importManual = function(){
-  $state.go('event.importmanual');
-};
-
-
-//Manual entry
-if($state.current.name == 'event.importmanual'){
-
-}
-
-//Phone entry
-
-else if($state.current.name == 'event.importphone'){
-
-}
+$scope.descriptionChoices = [{id: 'choice1'}, {id: 'choice2'}];
+  
+  $scope.addNewChoice = function() {
+    var newItemNo = $scope.descriptionChoices.length+1;
+    $scope.descriptionChoices.push({'id':'choice'+newItemNo});
+  };
+    
+  $scope.removeChoice = function() {
+    var lastItem = $scope.descriptionChoices.length-1;
+    $scope.descriptionChoices.splice(lastItem);
+  };
 
 
-//URL
-else if($state.current.name == 'event.import'){
 
 $scope.$on("$ionicView.enter", function() {
   window.plugins.insomnia.keepAwake();
@@ -631,7 +619,7 @@ $scope.activateVoice = function() {
 }
 
 
-}
+
 
 
 });

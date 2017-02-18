@@ -9,7 +9,7 @@
 
 <ion-tabs class="tabs-icon-top tabs-positive">
 
-  <ion-tab title="From URL" ng-click="importURL()" icon-on="ion-ios-world" icon-off="ion-ios-world">
+  <ion-tab title="From URL" icon-on="ion-ios-world" icon-off="ion-ios-world">
  <ion-content>
 
 <p class="importPadding"></p>
@@ -120,11 +120,51 @@
 
   </ion-tab>
 
-  <ion-tab title="From Phone" ng-click="importPhone()" icon-on="ion-android-phone-portrait" icon-off="ion-android-phone-portrait">
+  <ion-tab title="From Phone" icon-on="ion-android-phone-portrait" icon-off="ion-android-phone-portrait">
     <!-- Tab 2 content -->
+    <ion-content>
+
+<p class="importPadding"></p>
+
+
+<p class="importParagraph">Enter any</p>
+
+</ion-content>
+
   </ion-tab>
 
-  <ion-tab title="Manual Entry" ng-click="importManual()" icon-on="ion-edit" icon-off="ion-edit">
+  <ion-tab title="Manual Entry" icon-on="ion-edit" icon-off="ion-edit">
+<ion-content>
+<p class="importPadding"></p>
+
+<div class="import-form">
+<p class="importParagraph">Manually enter in your recipe instructions</p>
+<form novalidate class="simple-form">
+
+  <p class="importParagraph">Labels</p>
+
+    <label>Title: <input type="text" ng-model="recipe.title" /></label><br />
+    <label>Servings: <input type="email" ng-model="recipe.servings" /></label><br />
+
+   <fieldset  data-ng-repeat="choice in descriptionChoices">
+      <input type="text" ng-model="descriptionChoices.label" name="" placeholder="Label">
+      <input type="text" ng-model="descriptionChoices.value" name="" placeholder="Value">
+      <button class="remove" ng-show="$last" ng-click="removeChoice()">-</button>
+   </fieldset>
+   <button class="addfields" ng-click="addNewChoice()">Add Label</button>
+
+
+    <input type="button" ng-click="reset()" value="Reset" />
+    <input type="submit" ng-click="update(user)" value="Save" />
+  </form>
+
+</div>
+
+<div class = "import-display" ng-show = "manualEntry">
+
+</div>  
+
+</ion-content>
 
 
   </ion-tab>
