@@ -282,9 +282,34 @@ angular.module('SpoonReadMe.services', ['SpoonReadMe.keys'])
 			}
 				
 		}
-	}
+	};
 
 })
+
+.factory('VariableExchange', function($localstorage) {
+	var savedVariable;
+	
+	return {
+		//Save a value
+		saveVariable: function(kind, value) {
+			$localstorage.setObject(kind, value);
+		},
+		//Return a value
+		getSavedValue: function(kind) {
+			var value = $localstorage.getObject(kind);
+			return value;
+		},
+
+		//Delete a value
+		deleteSavedValue: function(kind){
+			$localstorage.setObject(kind, -1);
+		}
+
+	};
+
+});
+
+
 
 angular.module('ionic.utils', [])
 

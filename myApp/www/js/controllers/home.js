@@ -8,11 +8,11 @@
 //that will process the tags for the side menu 
 angular.module('SpoonReadMe.controllers')
 
-.controller('HomeCtrl', function($scope, $state, $ionicPopover, SearchService) {
+.controller('HomeCtrl', function($scope, $state, $ionicPopover, SearchService, VariableExchange) {
   $scope.$on("$ionicView.beforeEnter", function() {
 
   // .fromTemplate() method
-  var template = '<ion-popover-view class="import-popover"><ion-content>  <p class = "import-options" ng-click="importURL()">Import from URL</p> <p class = "import-options" ng-click="importPhone()">Import from phone</p> <p class = "import-options" ng-click="importManual()">Import manually</p> </ion-content></ion-popover-view>';
+  var template = '<ion-popover-view class="import-popover"><ion-content>  <p class = "import-options" ng-click="import(0)">Import from URL</p> <p class = "import-options" ng-click="import(1)">Import from phone</p> <p class = "import-options" ng-click="import(2)">Import manually</p> </ion-content></ion-popover-view>';
 
 
   $scope.popover = $ionicPopover.fromTemplate(template, {
@@ -39,19 +39,10 @@ angular.module('SpoonReadMe.controllers')
     $state.go('event.search');
   };
 
-  $scope.importURL = function(){
+  $scope.import = function(index){
+    VariableExchange.saveVariable('import', index);
   	$scope.closePopover();
   	$state.go('event.import');
-  };
-
-  $scope.importPhone = function(){
-  	$scope.closePopover();
-  	$state.go('event.importphone');
-  };
-
-  $scope.importManual = function(){
-  	$scope.closePopover();
-  	$state.go('event.importmanual');
   };
  
 });

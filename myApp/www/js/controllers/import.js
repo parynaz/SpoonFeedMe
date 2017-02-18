@@ -8,25 +8,21 @@
 //that will process the tags for the side menu 
 angular.module('SpoonReadMe.controllers')
 
-.controller('ImportCtrl', function($scope, $ionicLoading, $state, $ionicPopup, $ionicTabsDelegate, $ionicScrollDelegate, $sce, $location, $anchorScroll, SearchService, StorageService, Settings) {
+.controller('ImportCtrl', function($scope, $ionicLoading, $state, $ionicPopup, $ionicTabsDelegate, $ionicScrollDelegate, $sce, $location, $anchorScroll, SearchService, StorageService, Settings, VariableExchange) {
 
 
 
 $scope.$on("$ionicView.beforeEnter", function() {
 
-  // var index;
-  
-  // var state = $state.current.name;
+  var index = VariableExchange.getSavedValue('import');
 
-  // if(state == 'event.import') index = 0;
+  if(index === -1 || index === 0){
+    $ionicTabsDelegate.select(0);
+  }
 
-  // else if(state == 'event.importphone') index = 1;
+  else $ionicTabsDelegate.select(index);
 
-  // else if(state == 'event.importmanual') index = 2;
-
-  //  $ionicTabsDelegate.select(index);
-
-
+  VariableExchange.deleteSavedValue('import');
 
 });
 
