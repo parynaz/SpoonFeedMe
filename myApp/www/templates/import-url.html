@@ -139,68 +139,32 @@
 
 <div class="import-form">
 <p class="importParagraph">Manually enter in your recipe instructions</p>
-<br>
 <form novalidate class="simple-form">
 
-  <p class="import-labels">Labels</p>
-  <div>
-    <label class= "import-input-title">Title </label><input type="text"  class= "import-input" ng-model="recipe.title" placeholder="Recipe Name"/><br />
-    <label class= "import-input-title">Servings </label><input type="email" class= "import-input" ng-model="recipe.servings" placeholder="Serves how many?"/><br />
-  </div>
+  <p class="importParagraph">Labels</p>
 
-    <div class = "additions" ng-repeat = "addition in descriptionAdditions">
-      <p class= "addition-label">{{ addition.label }}</p>
-      <p class= "addition-value">{{ addition.value }}
-      <button class = "remove-choice" ng-click="removeChoice('label', addition)"><img class="delete-btn" ng-src="img/less.svg"/></button></p>
-    </div>
+    <label class= "import-input-title">Title: <input type="text"  class= "import-input" ng-model="recipe.title" /></label><br />
+    <label class= "import-input-title">Servings: <input type="email" class= "import-input" ng-model="recipe.servings" /></label><br />
 
-    <br>
-   <fieldset  class = "description-addition" data-ng-repeat="choice in descriptionChoicesHolder">
-      <input type="text" class= "import-input-choice label" ng-model="description.label" name="" placeholder="Label">
-      <input type="text" class= "import-input-choice value" ng-model="description.value" name="" placeholder="Value">
-      <button type = "button" class="addfield" ng-click="addNewChoice('label')"><img class="add-field-btn" ng-src="img/more.svg"/></button>
+    <p ng-repeat = "input in descriptionChoices"
+    
+    <label class= "import-input-title">Servings: <input type="email" class= "import-input" ng-model="recipe.servings" /></label><br />
+
+    </p>  
+
+
+   <fieldset  class = "description-addition" data-ng-repeat="choice in descriptionChoices">
+      <input type="text" class= "import-input" ng-model="descriptionChoices.label" name="" placeholder="Label">
+      <input type="text" class= "import-input" ng-model="descriptionChoices.value" name="" placeholder="Value">
+      <button class="remove remove-choice" ng-show="$last" ng-click="removeChoice()">-</button>
    </fieldset>
-   <button class="addfields" ng-click="addNewChoiceOption('label')"><img class="add-btn" ng-src="img/add.svg"/><label class= "import-label">New</label></button>
-
-<br><br>
-<p class="import-labels">Ingredients</p>
-
-   <div class = "additions" ng-repeat = "addition in ingredientAdditions">
-      <p class= "addition-label">{{ addition.name }}</p>
-      <p class= "addition-value">{{ addition.amount }}
-      <button type = "button" class = "remove-choice" ng-click="removeChoice('ingredient', addition)"><img class="delete-btn" ng-src="img/less.svg"/></button></p>
-    </div>
-
-    <br>
-   <fieldset  class = "ingredient-addition" data-ng-repeat="choice in ingredientChoicesHolder">
-      <input type="text" class= "import-input-choice label" ng-model="ingredient.name" name="" placeholder="Name">
-      <input type="text" class= "import-input-choice value" ng-model="ingredient.amount" name="" placeholder="Amount">
-      <button  type = "button" class="addfield" ng-click="addNewChoice('ingredient')"><img class="add-field-btn" ng-src="img/more.svg"/></button>
-   </fieldset>
-   <button class="addfields" ng-click="addNewChoiceOption('ingredient')"><img class="add-btn" ng-src="img/add.svg"/><label class= "import-label">New</label></button>
-
-   <br><br>
-<p class="import-labels">Instruction Steps</p>
-
-   <div class = "additions" ng-repeat = "addition in stepAdditions">
-      <p class= "addition-label">{{ addition.number }}. </p>
-      <ion-item class= "item-text-wrap step">{{ addition.step }}</ion-item>
-      <button class = "remove-choice" ng-click="removeChoice('step', addition)"><img class="delete-btn" ng-src="img/less.svg"/></button>
-      <button class = "up-choice" ng-show="!$first" ng-click="moveStepUp(addition)"><img class="up-btn" ng-src="img/up.svg"/></button>
-      <button class = "down-choice" ng-show="!$last" ng-click="moveStepDown(addition)"><img class="down-btn" ng-src="img/down.svg"/></button>
-    </div>
-
-    <br>
-   <fieldset  class = "instruction-addition" data-ng-repeat="choice in stepChoicesHolder">
-      <input type="text" class= "import-input-choice label" ng-model="step.step" name="" placeholder="An instruction step">
-      <button type = "button" class="addfield" ng-click="addNewChoice('step')"><img class="add-field-btn" ng-src="img/more.svg"/></button>
-   </fieldset>
-   <button class="addfields" ng-click="addNewChoiceOption('step')"><img class="add-btn" ng-src="img/add.svg"/><label class= "import-label">New</label></button>
+   <button class="addfields" ng-click="addNewChoice()">Add Label</button>
 
 
-
+    <input type="button" ng-click="reset()" value="Reset" />
+    <input type="submit" ng-click="update(user)" value="Save" />
   </form>
-<p class="importPadding"></p><p class="importPadding"></p><p class="importPadding"></p>
+
 </div>
 
 <div class = "import-display" ng-show = "manualEntry">
@@ -208,6 +172,8 @@
 </div>  
 
 </ion-content>
+
+
   </ion-tab>
 
 </ion-tabs>

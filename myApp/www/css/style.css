@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Indie+Flower');
 
 
-p, button, b, ion-item{
+p, button, b, label, ion-item{
   font-family: ariel;
 }
 
@@ -365,6 +365,96 @@ p.import-title{
   margin-top: 3%;
 
 }
+
+
+/*IMPORT MANUAL
+*/
+p.import-labels{
+  text-align: center;
+  font-weight: bold;
+}
+
+input.import-input{
+  border: 1px solid black;
+  margin-left: 20%;
+  padding-left: 2%;
+  width: 60%;
+}
+
+label.import-input-title{
+  float: left;
+  margin-left: 5%;
+  margin-top: 2%;
+  font-weight: bold;
+}
+div.additions{
+  padding-top: 5%;
+}
+
+p.addition-label{
+  font-weight: bold;
+  margin-left: 5%;
+  margin-top: 1%;
+  float: left;
+}
+
+p.addition-value{
+  font-weight: bold;
+  margin-left: 20%;
+}
+
+button.remove-choice{
+  background-color: transparent;
+  border: none;
+}
+
+input.import-input-choice{
+  border: 1px solid black;
+  padding-left: 2%;
+}
+
+input.import-input-choice.label{
+  float: left;
+  margin-left: 2%;
+}
+
+input.import-input-choice.value{
+  display: inline;
+  margin-left: 2%;
+}
+
+img.delete-btn{
+
+  margin-bottom: -30%;
+}
+
+button.addfield{
+  width: 10%;
+  float: right;
+  background-color: transparent;
+  border: none;
+}
+
+img.add-field-btn{
+ 
+}
+button.addfields{
+  background-color: #ddd;
+  float: right;
+  width: 30%;
+  margin-right: 1%;
+}
+
+img.add-btn{
+  margin-bottom: -7%;
+}
+
+label.import-label{
+  padding-left: 2%;
+}
+
+
+
 
 /*RECIPE DETAILS
 */

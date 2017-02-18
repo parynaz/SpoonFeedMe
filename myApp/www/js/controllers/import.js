@@ -26,20 +26,146 @@ $scope.$on("$ionicView.beforeEnter", function() {
 
 });
 
+//Labels
+$scope.descriptionAdditions = [];
+$scope.descriptionChoicesHolder = [];
+$scope.descriptionChoicesHolder.length += 1;
+$scope.description = {'label': '', 'value': ''};
 
-$scope.descriptionChoices = [{id: 'choice1'}, {id: 'choice2'}];
-  
-  $scope.addNewChoice = function() {
-    var newItemNo = $scope.descriptionChoices.length+1;
-    $scope.descriptionChoices.push({'id':'choice'+newItemNo});
+//Ingredients
+$scope.ingredientAdditions = [];
+$scope.ingredientChoicesHolder = [];
+$scope.ingredientChoicesHolder.length += 1;
+$scope.ingredient = {'name': '', 'amount': ''};
+
+//Instructions
+$scope.stepAdditions = [];
+$scope.stepChoicesHolder = [];
+$scope.stepChoicesHolder.length += 1;
+$scope.step = {'number': '', 'step': ''};
+$scope.lastStepNum = 0;
+
+
+
+  $scope.addNewChoice = function(type) {
+
+    //label
+    if(type == "label"){
+      if($scope.description.label !== '' && $scope.description.value !== '')
+      $scope.descriptionAdditions.push({'label': $scope.description.label, 'value': $scope.description.value});
+      $scope.description.label = '';
+      $scope.description.value = '';
+    }
+    //Ingredient
+    else if(type == "ingredient"){
+      if($scope.ingredient.name !== '' && $scope.ingredient.amount !== '')
+      $scope.ingredientAdditions.push({'name': $scope.ingredient.name, 'amount': $scope.ingredient.amount});
+      $scope.ingredient.name = '';
+      $scope.ingredient.amount = '';
+    }
+    //Instruction
+    else if(type == "step"){
+      if($scope.step.step !== ''){
+        $scope.lastStepNum++;
+        $scope.stepAdditions.push({'number': $scope.lastStepNum, 'step': $scope.step.step});
+        $scope.step.step = '';
+      }
+    }
+
+  };
+
+  $scope.addNewChoiceOption = function(type){
+    //label
+    if(type == "label"){
+        $scope.descriptionChoicesHolder.length += 1;
+    }
+    //Ingredient
+    else if(type == "ingredient"){
+       $scope.ingredientChoicesHolder.length += 1;
+    }
+    //Instruction
+    else if(type == "step"){
+        $scope.stepChoicesHolder.length += 1;
+    }
   };
     
-  $scope.removeChoice = function() {
-    var lastItem = $scope.descriptionChoices.length-1;
-    $scope.descriptionChoices.splice(lastItem);
+  $scope.removeChoice = function(type, item) {
+    //label
+    if(type == "label"){
+      for(var i = 0; i < $scope.descriptionAdditions.length; i++){
+        if($scope.descriptionAdditions[i] == item)
+        $scope.descriptionAdditions.splice(i, 1);
+      }
+    }
+    //Ingredient
+    else if(type == "ingredient"){
+      for(var y = 0; y < $scope.ingredientAdditions.length; y++){
+        if($scope.ingredientAdditions[y] == item)
+        $scope.ingredientAdditions.splice(y, 1);
+    }
+  }
+    //Instruction
+    else if(type == "step"){
+      for(var x = 0; x < $scope.stepAdditions.length; x++){
+        if($scope.stepAdditions[x] == item){
+          //change the number sequence of all numbers downwards unless last item
+          if($scope.stepAdditions.length > 1){
+            for(var y = 1; y < $scope.stepAdditions.length - x; y++){
+               $scope.stepAdditions[x + y].number -= 1;
+            }
+            $scope.lastStepNum --;
+          }
+
+          //if last item, reset last number
+          else $scope.lastStepNum = 0;
+          $scope.stepAdditions.splice(x, 1);
+          
+        }
+      }
+    }
   };
 
 
+  $scope.moveStepUp = function(item){
+    //Get index (have to like this because index doesn't get updated with removals)
+    var index; 
+
+    for(var x = 0; x < $scope.stepAdditions.length; x++){
+        if($scope.stepAdditions[x] == item){
+          index = x;
+        }
+      }
+
+    //Hold on to the step it wants to replace
+    var holder = $scope.stepAdditions[index - 1].step;
+
+    //Move item up
+    $scope.stepAdditions[index - 1].step = $scope.stepAdditions[index].step;
+
+    //Move holder down
+    $scope.stepAdditions[index].step = holder;
+  };
+
+  $scope.moveStepDown = function(item){
+    //Get index (have to like this because index doesn't get updated with removals)
+    var index; 
+
+    for(var x = 0; x < $scope.stepAdditions.length; x++){
+        if($scope.stepAdditions[x] == item){
+          index = x;
+        }
+      }
+
+    //Hold on to the step it wants to replace
+    var holder = $scope.stepAdditions[index + 1].step;
+
+    //Move item down
+    $scope.stepAdditions[index + 1].step = $scope.stepAdditions[index].step;
+
+    //Move holder down
+    $scope.stepAdditions[index].step = holder;
+
+  };
 
 $scope.$on("$ionicView.enter", function() {
   window.plugins.insomnia.keepAwake();
