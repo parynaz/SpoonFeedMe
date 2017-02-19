@@ -15,7 +15,7 @@
 <p class="importPadding"></p>
 
 
-<p class="importParagraph">Enter any link to a website or blog with recipe instructions</p>
+<p class="importParagraph">Enter link to a website or blog</p>
 
 <div class="bar bar-header item-input-inset myimportbar">
     <p class="urlLabel">URL: </p><label class="item-input-wrapper">
@@ -29,7 +29,7 @@
 <button class="importpage-button" title="Import Recipes" ng-click="import(url)"><img ng-src="img/importblack.svg"/></button>
 <p class="importLabel"></p>
 </div>
-
+<p class = "subParagraph">For best results, ensure link has clear headings for ingredients and instructions</p>
 <div ng-show="imported">
 
 <button class = "walkthroughOFF-btn" ng-click="activateVoice(); activateVoiceInstructions();" ng-show="activateOFF"><img class="voice-btn" ng-show="activateOFF" ng-src="img/voice.svg"/><span class="activateVoice" ng-show="activateOFF">Activate Voice</span></button>
@@ -144,10 +144,10 @@
 
   <p class="import-labels">Labels</p>
   <div>
-    <label class= "import-input-title">Title </label><input type="text"  class= "import-input" ng-model="recipe.title" placeholder="Recipe Name"/><br />
-    <label class= "import-input-title">Servings </label><input type="email" class= "import-input" ng-model="recipe.servings" placeholder="Serves how many?"/><br />
+    <p class= "import-input-title">Title </p><input type="text"  class= "import-input" ng-model="recipe.title" placeholder="Recipe Name"/><br />
+    <p class= "import-input-title servings">Servings </p><input type="email" class= "import-input" ng-model="recipe.servings" placeholder="Serves how many?"/><br />
   </div>
-
+<br><br>
     <div class = "additions" ng-repeat = "addition in descriptionAdditions">
       <p class= "addition-label">{{ addition.label }}</p>
       <p class= "addition-value">{{ addition.value }}
@@ -156,9 +156,10 @@
 
     <br>
    <fieldset  class = "description-addition" data-ng-repeat="choice in descriptionChoicesHolder track by $index">
-      <input type="text" class= "import-input-choice label" ng-model="description.label" name="" placeholder="Label">
-      <input type="text" class= "import-input-choice value" ng-model="description.value" name="" placeholder="Value">
+      <input type="text" class= "import-input-choice label" ng-model="description.label" name="" placeholder="Label"/>
       <button type = "button" class="addfield" ng-click="addNewChoice('label')"><img class="add-field-btn" ng-src="img/more.svg"/></button>
+      <input type="text" class= "import-input-choice value" ng-model="description.value" name="" placeholder="Value"/>
+      
    </fieldset>
    <button class="addfields" ng-click="addNewChoiceOption('label')"><img class="add-btn" ng-src="img/add.svg"/><label class= "import-label">New</label></button>
 
@@ -174,8 +175,9 @@
     <br>
    <fieldset  class = "ingredient-addition" data-ng-repeat="choice in ingredientChoicesHolder track by $index">
       <input type="text" class= "import-input-choice label" ng-model="ingredient.name" name="" placeholder="Name">
-      <input type="text" class= "import-input-choice value" ng-model="ingredient.amount" name="" placeholder="Amount">
       <button  type = "button" class="addfield" ng-click="addNewChoice('ingredient')"><img class="add-field-btn" ng-src="img/more.svg"/></button>
+      <input type="text" class= "import-input-choice value" ng-model="ingredient.amount" name="" placeholder="Amount">
+      
    </fieldset>
    <button class="addfields" ng-click="addNewChoiceOption('ingredient')"><img class="add-btn" ng-src="img/add.svg"/><label class= "import-label">New</label></button>
 
@@ -192,7 +194,7 @@
 
     <br>
    <fieldset  class = "instruction-addition" data-ng-repeat="choice in stepChoicesHolder track by $index">
-      <input type="text" class= "import-input-choice label" ng-model="step.step" name="" placeholder="An instruction step">
+      <input type="text" class= "import-input-choice step" ng-model="step.step" name="" placeholder="An instruction step">
       <button type = "button" class="addfield" ng-click="addNewChoice('step')"><img class="add-field-btn" ng-src="img/more.svg"/></button>
    </fieldset>
    <button class="addfields" ng-click="addNewChoiceOption('step')"><img class="add-btn" ng-src="img/add.svg"/><label class= "import-label">New</label></button>
