@@ -155,7 +155,7 @@
     </div>
 
     <br>
-   <fieldset  class = "description-addition" data-ng-repeat="choice in descriptionChoicesHolder">
+   <fieldset  class = "description-addition" data-ng-repeat="choice in descriptionChoicesHolder track by $index">
       <input type="text" class= "import-input-choice label" ng-model="description.label" name="" placeholder="Label">
       <input type="text" class= "import-input-choice value" ng-model="description.value" name="" placeholder="Value">
       <button type = "button" class="addfield" ng-click="addNewChoice('label')"><img class="add-field-btn" ng-src="img/more.svg"/></button>
@@ -172,7 +172,7 @@
     </div>
 
     <br>
-   <fieldset  class = "ingredient-addition" data-ng-repeat="choice in ingredientChoicesHolder">
+   <fieldset  class = "ingredient-addition" data-ng-repeat="choice in ingredientChoicesHolder track by $index">
       <input type="text" class= "import-input-choice label" ng-model="ingredient.name" name="" placeholder="Name">
       <input type="text" class= "import-input-choice value" ng-model="ingredient.amount" name="" placeholder="Amount">
       <button  type = "button" class="addfield" ng-click="addNewChoice('ingredient')"><img class="add-field-btn" ng-src="img/more.svg"/></button>
@@ -191,7 +191,7 @@
     </div>
 
     <br>
-   <fieldset  class = "instruction-addition" data-ng-repeat="choice in stepChoicesHolder">
+   <fieldset  class = "instruction-addition" data-ng-repeat="choice in stepChoicesHolder track by $index">
       <input type="text" class= "import-input-choice label" ng-model="step.step" name="" placeholder="An instruction step">
       <button type = "button" class="addfield" ng-click="addNewChoice('step')"><img class="add-field-btn" ng-src="img/more.svg"/></button>
    </fieldset>

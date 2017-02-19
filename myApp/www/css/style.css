@@ -453,7 +453,9 @@ label.import-label{
   padding-left: 2%;
 }
 
-
+.item-text-wrap.step{
+  border: 1px solid red;
+}
 
 
 /*RECIPE DETAILS
