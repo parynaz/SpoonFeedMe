@@ -52,21 +52,70 @@
 </ion-item>
 </ion-list>
 
-
-
 </div>
 </div>
 
   </ion-content>
 
-</ion-content>
   </ion-tab>
 
   <ion-tab title="SpoonReadMe" icon-on="ion-spoon" icon-off="ion-spoon">
     <!-- Tab 2 content -->
+
+     <ion-content>
+  <p class="tabPadding"></p>
+
+
+<div class="row" style="flex-wrap: wrap;">
+		<div >
+
+<!-- SAVED RECIPES -->
+<ion-list class = "savedList" show-delete="showDelete">
+	<ion-item class = "savedList" ng-repeat="recipe in saved track by $index" href="#/event/saved/{{$index}}/saved">
+	<ion-delete-button class="ion-minus-circled" ng-click="remove(recipe, 'saved')"></ion-delete-button>
+	<ion-item class = "item-text-wrap">
+	<img class="result-img" ng-src= "{{ recipe.image }}">
+
+	 <b><p class="results-title">{{ recipe.title }}  </p></b>
+
+	 <p class="results-details">{{ recipe.resultsdetails }}</p>
+
+	</ion-item>
+
+</ion-item>
+</ion-list>
+
+</div>
+</div>
+  </ion-content>
+
   </ion-tab>
 
   <ion-tab title="Imported" icon-on="ion-ios-download" icon-off="ion-ios-download">
+ <ion-content>
+  <p class="tabPadding"></p>
+
+
+<div class="row" style="flex-wrap: wrap;">
+		<div >
+
+<!-- IMPORTED RECIPES -->
+<ion-list class = "savedList" show-delete="showDelete">
+	<ion-item class = "savedList" ng-repeat="recipe in imported track by $index" href="#/event/saved/{{$index}}/neither">
+	<ion-delete-button class="ion-minus-circled" ng-click="remove(recipe, 'neither')"></ion-delete-button>
+	<ion-item class = "item-text-wrap">
+	<img class="result-img" ng-src= "{{ recipe.image }}">
+ 	<b><p class="results-title">{{ recipe.title }}  </p></b>
+	<p class="results-details">Time Required: {{ recipe.readyInMinutes }} mins</p>
+	
+</ion-item>
+
+</ion-item>
+</ion-list>
+
+</div>
+</div>
+  </ion-content>
 
 
   </ion-tab>

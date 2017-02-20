@@ -29,10 +29,15 @@
  <p class = "detail-title" ng-show = "servings"><b>Servings: </b></p><p class="detail">{{ servings }}</p><br>
  <p class = "detail-title" ng-show = "timeRequired"><b>Time Required: </b></p><p class="detail">{{ timeRequired }} minutes</p><br>
 
+ <div ng-show = "labels" ng-repeat="label in labels">
+  <p class = "detail-title"><b>{{ label.label }}: </b></p><p class="detail">{{ label.value }}</p><br>
+</div>
+
  <p class = "detail-title" ng-show = "calories"><b>Calories:</b> </p><p class="detail">{{ calories }}</p><br>
  <p class = "detail-title" ng-show = "protein"><b>Protein(g): </b></p><p class="detail">{{ protein }}</p><br>
  <p class = "detail-title" ng-show = "fat"><b>Fat(g): </b></p><p class="detail">{{ fat }}</p><br>
  <p class = "carbs-title" ng-show = "carbs"><b>Carbohydrates(g): </b></p><p class="carbs-detail">{{ carbs }}</p><br>
+
 
  </ion-item>
  <br>

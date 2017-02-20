@@ -145,62 +145,63 @@
   <p class="import-labels">Labels</p>
   <div>
     <p class= "import-input-title">Title </p><input type="text"  class= "import-input" ng-model="recipe.title" placeholder="Recipe Name"/><br />
-    <p class= "import-input-title servings">Servings </p><input type="email" class= "import-input" ng-model="recipe.servings" placeholder="Serves how many?"/><br />
+    <p class= "import-input-title servings">Servings </p><input type="text" class= "import-input" ng-model="recipe.servings" placeholder="Serves how many?"/><br />
+    <p class= "import-input-title servings">Time (mins) </p><input type="text" class= "import-input" ng-model="recipe.time" placeholder="Minutes required to make?"/><br />
   </div>
-<br><br>
+<br><br><br>
     <div class = "additions" ng-repeat = "addition in descriptionAdditions">
       <p class= "addition-label">{{ addition.label }}</p>
-      <p class= "addition-value">{{ addition.value }}
-      <button class = "remove-choice" ng-click="removeChoice('label', addition)"><img class="delete-btn" ng-src="img/less.svg"/></button></p>
+      <button class = "remove-choice" ng-click="removeChoice('label', addition)"><img class="delete-btn" ng-src="img/less.svg"/></button>
+      <p class= "addition-value">{{ addition.value }}</p>
+      <div class = "added-additions" ng-show = "$last"></div>
     </div>
 
-    <br>
-   <fieldset  class = "description-addition" data-ng-repeat="choice in descriptionChoicesHolder track by $index">
+   <fieldset  class = "field-addition" data-ng-repeat="choice in descriptionChoicesHolder">
       <input type="text" class= "import-input-choice label" ng-model="description.label" name="" placeholder="Label"/>
       <button type = "button" class="addfield" ng-click="addNewChoice('label')"><img class="add-field-btn" ng-src="img/more.svg"/></button>
       <input type="text" class= "import-input-choice value" ng-model="description.value" name="" placeholder="Value"/>
-      
    </fieldset>
-   <button class="addfields" ng-click="addNewChoiceOption('label')"><img class="add-btn" ng-src="img/add.svg"/><label class= "import-label">New</label></button>
 
 <br><br>
 <p class="import-labels">Ingredients</p>
 
    <div class = "additions" ng-repeat = "addition in ingredientAdditions">
       <p class= "addition-label">{{ addition.name }}</p>
-      <p class= "addition-value">{{ addition.amount }}
-      <button type = "button" class = "remove-choice" ng-click="removeChoice('ingredient', addition)"><img class="delete-btn" ng-src="img/less.svg"/></button></p>
+      <button type = "button" class = "remove-choice" ng-click="removeChoice('ingredient', addition)"><img class="delete-btn" ng-src="img/less.svg"/></button>
+      <p class= "addition-value">{{ addition.originalString }}</p>
+      <div class = "added-additions" ng-show = "$last"></div>      
     </div>
 
-    <br>
-   <fieldset  class = "ingredient-addition" data-ng-repeat="choice in ingredientChoicesHolder track by $index">
+   <fieldset  class = "field-addition" data-ng-repeat="choice in ingredientChoicesHolder">
       <input type="text" class= "import-input-choice label" ng-model="ingredient.name" name="" placeholder="Name">
       <button  type = "button" class="addfield" ng-click="addNewChoice('ingredient')"><img class="add-field-btn" ng-src="img/more.svg"/></button>
-      <input type="text" class= "import-input-choice value" ng-model="ingredient.amount" name="" placeholder="Amount">
-      
+      <input type="text" class= "import-input-choice value" ng-model="ingredient.originalString" name="" placeholder="Amount">
    </fieldset>
-   <button class="addfields" ng-click="addNewChoiceOption('ingredient')"><img class="add-btn" ng-src="img/add.svg"/><label class= "import-label">New</label></button>
 
    <br><br>
 <p class="import-labels">Instruction Steps</p>
 
-   <div class = "additions" ng-repeat = "addition in stepAdditions">
-      <p class= "addition-label">{{ addition.number }}. </p>
-      <ion-item class= "item-text-wrap step">{{ addition.step }}</ion-item>
-      <button class = "remove-choice" ng-click="removeChoice('step', addition)"><img class="delete-btn" ng-src="img/less.svg"/></button>
-      <button class = "up-choice" ng-show="!$first" ng-click="moveStepUp(addition)"><img class="up-btn" ng-src="img/up.svg"/></button>
-      <button class = "down-choice" ng-show="!$last" ng-click="moveStepDown(addition)"><img class="down-btn" ng-src="img/down.svg"/></button>
-    </div>
 
-    <br>
-   <fieldset  class = "instruction-addition" data-ng-repeat="choice in stepChoicesHolder track by $index">
+   <div class = "additions" ng-repeat = "addition in stepAdditions">
+      <p class= "addition-number">{{ addition.number }}. <ion-item class= "item-text-wrap step">{{ addition.step }}</ion-item></p>
+      <button class = "remove-step-choice" ng-click="removeChoice('step', addition)"><img class="delete-btn" ng-src="img/less.svg"/></button>
+      <button class = "up-choice" ng-show="!$first" ng-click="moveStepUp(addition)"><img class="up-btn" ng-src="img/up.svg"/></button>
+      <button class = "up-choice" ng-show="$first"><img class="filler" ng-src="img/up.svg"/></button>
+      <button class = "down-choice" ng-show="!$last" ng-click="moveStepDown(addition)"><img class="down-btn" ng-src="img/down.svg"/></button>
+      <button class = "down-choice" ng-show="$last"><img class="filler" ng-src="img/down.svg"/></button>
+    <div class = "added-additions" ng-show = "$last"></div>
+</div>
+
+   <fieldset  class = "field-addition" data-ng-repeat="choice in stepChoicesHolder">
       <input type="text" class= "import-input-choice step" ng-model="step.step" name="" placeholder="An instruction step">
       <button type = "button" class="addfield" ng-click="addNewChoice('step')"><img class="add-field-btn" ng-src="img/more.svg"/></button>
    </fieldset>
-   <button class="addfields" ng-click="addNewChoiceOption('step')"><img class="add-btn" ng-src="img/add.svg"/><label class= "import-label">New</label></button>
 
+<br><br>
 
-
+    <input class = "reset" type="button" ng-click="reset()" value="Reset" />
+    <input class = "saveManual" type="button" ng-click="save()" value="Save" />
+  
   </form>
 <p class="importPadding"></p><p class="importPadding"></p><p class="importPadding"></p>
 </div>

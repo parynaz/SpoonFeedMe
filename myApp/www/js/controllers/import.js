@@ -10,6 +10,8 @@ angular.module('SpoonReadMe.controllers')
 
 .controller('ImportCtrl', function($scope, $ionicLoading, $state, $ionicPopup, $window, $ionicTabsDelegate, $ionicScrollDelegate, $sce, $location, $anchorScroll, SearchService, StorageService, Settings, VariableExchange) {
 
+
+
 $scope.$on("$ionicView.afterEnter", function() {
   function runads(){
   document.addEventListener("deviceready", onDeviceReady, false);
@@ -92,7 +94,11 @@ $scope.$on("$ionicView.beforeEnter", function() {
 
 });
 
+
+//MANUAL TAB
+
 //Labels
+$scope.recipe = {'title': '', 'servings': '', 'time': ''};
 $scope.descriptionAdditions = [];
 $scope.descriptionChoicesHolder = [];
 $scope.descriptionChoicesHolder.length += 1;
@@ -102,7 +108,7 @@ $scope.description = {'label': '', 'value': ''};
 $scope.ingredientAdditions = [];
 $scope.ingredientChoicesHolder = [];
 $scope.ingredientChoicesHolder.length += 1;
-$scope.ingredient = {'name': '', 'amount': ''};
+$scope.ingredient = {'name': '', 'originalString': '', 'image': ''};
 
 //Instructions
 $scope.stepAdditions = [];
@@ -117,17 +123,21 @@ $scope.lastStepNum = 0;
 
     //label
     if(type == "label"){
-      if($scope.description.label !== '' && $scope.description.value !== '')
-      $scope.descriptionAdditions.push({'label': $scope.description.label, 'value': $scope.description.value});
-      $scope.description.label = '';
-      $scope.description.value = '';
+      if($scope.description.label !== '' && $scope.description.value !== ''){
+        $scope.descriptionAdditions.push({'label': $scope.description.label, 'value': $scope.description.value});
+        $scope.description.label = '';
+        $scope.description.value = '';
+      }
+      
     }
     //Ingredient
     else if(type == "ingredient"){
-      if($scope.ingredient.name !== '' && $scope.ingredient.amount !== '')
-      $scope.ingredientAdditions.push({'name': $scope.ingredient.name, 'amount': $scope.ingredient.amount});
-      $scope.ingredient.name = '';
-      $scope.ingredient.amount = '';
+      if($scope.ingredient.name !== '' && $scope.ingredient.amount !== ''){
+        $scope.ingredientAdditions.push({'name': $scope.ingredient.name, 'originalString': $scope.ingredient.originalString, 'image': 'https://s21.postimg.org/q7wgz4vl3/491421_636x393.jpg'});
+        $scope.ingredient.name = '';
+        $scope.ingredient.originalString = '';
+      }
+      
     }
     //Instruction
     else if(type == "step"){
@@ -138,21 +148,6 @@ $scope.lastStepNum = 0;
       }
     }
 
-  };
-
-  $scope.addNewChoiceOption = function(type){
-    //label
-    if(type == "label"){
-        $scope.descriptionChoicesHolder.length += 1;
-    }
-    //Ingredient
-    else if(type == "ingredient"){
-       $scope.ingredientChoicesHolder.length += 1;
-    }
-    //Instruction
-    else if(type == "step"){
-        $scope.stepChoicesHolder.length += 1;
-    }
   };
     
   $scope.removeChoice = function(type, item) {
@@ -233,10 +228,82 @@ $scope.lastStepNum = 0;
 
   };
 
-$scope.$on("$ionicView.enter", function() {
-  window.plugins.insomnia.keepAwake();
+  //RESET
+  $scope.reset = function(){
+    $scope.recipe.title = '';
+    $scope.recipe.servings = '';
+    $scope.recipe.time = '';
 
-});
+    $scope.description.label = '';
+    $scope.description.value = '';
+    $scope.descriptionAdditions = [];
+    
+    $scope.ingredientAdditions = [];
+    $scope.ingredient.name = '';
+    $scope.ingredient.originalString = '';
+
+    $scope.stepAdditions = [];
+    $scope.step.step = '';
+  };
+
+
+  $scope.saveConfirmation = function(){
+    var savedPopup = $ionicPopup.show({
+    templateUrl: "templates/save-confirmation.html",
+    title: 'Success!',
+    subTitle: 'Your recipe has been saved',
+    scope: $scope,
+    buttons: [
+    {text: '<b>Okay</b>',
+    type: 'button-positive',
+    onTap: function(e) {
+      //do nothing
+    }
+  }
+  ]
+  });
+
+  savedPopup.then(function() {
+    var manualDelegateNumber = 2;
+    VariableExchange.saveVariable('saved', manualDelegateNumber);
+    $state.go('event.saved');
+  });
+  };
+
+
+  //SAVE ALL INFORMATION AND REDIRECT
+  $scope.save = function(){
+    $scope.saveResult = {'importedManually': 'yes', 'image': '', 'readyInMinutes': '', 'servings': '', 'labels': [], 'ingredients': [], 'title': '', 'steps': []};
+
+    $scope.saveResult.image = 'https://s21.postimg.org/q7wgz4vl3/491421_636x393.jpg'; //default
+    $scope.saveResult.title = $scope.recipe.title;
+    $scope.saveResult.readyInMinutes = $scope.recipe.time;
+    $scope.saveResult.servings = $scope.recipe.servings;
+
+
+    for(var i = 0; i < $scope.descriptionAdditions.length; i++){
+      $scope.saveResult.labels[i] = $scope.descriptionAdditions[i];
+    }
+
+    for(var i = 0; i < $scope.ingredientAdditions.length; i++){
+      $scope.saveResult.ingredients[i] = $scope.ingredientAdditions[i];    }
+
+    for(var i = 0; i < $scope.stepAdditions.length; i++){
+      $scope.saveResult.steps[i] = $scope.stepAdditions[i].step;
+    }
+    
+    StorageService.saveRecipe($scope.saveResult, 'neither');
+
+    $scope.saveConfirmation();
+  }
+
+
+
+
+
+
+
+
 
 $scope.$on("$ionicView.beforeLeave", function() {
 
@@ -331,6 +398,9 @@ var steps = [];
  $scope.import = function(query) {
       //close the keyboard
   cordova.plugins.Keyboard.close();
+
+ window.plugins.insomnia.keepAwake();
+
   
     $ionicLoading.show({
     template: '<ion-spinner icon="android"></ion-spinner>',
@@ -578,15 +648,16 @@ $scope.isThisIncluded = function(heardValue){
 
       for(var i = 0; i < $scope.supplies.length; i++){
 
-          ingredient = $scope.supplies[i].name;
+          ingredient = $scope.supplies[i].name.toUpperCase();
+          heardValue = heardValue.toUpperCase();
           ingredientWords = ingredient.split(" ");
           amount = $scope.supplies[i].unitShort;
 
           //if they say "how much" exact ingredient
-          if (heardValue.includes("how much " + ingredient) || 
-              heardValue.includes("how much " + ingredient + "s") ||
-              heardValue.includes("how many " + ingredient) || 
-              heardValue.includes("how many " + ingredient + "s")) {
+          if (heardValue.includes("HOW MUCH " + ingredient) || 
+              heardValue.includes("HOW MUCH " + ingredient + "s") ||
+              heardValue.includes("HOW MANY " + ingredient) || 
+              heardValue.includes("HOW MANY " + ingredient + "s")) {
                       string = amount + " " + ingredient;
                       ingredients.push(string);
                       $scope.ingredientsList = ingredients;
@@ -595,10 +666,10 @@ $scope.isThisIncluded = function(heardValue){
 
           else{
                   for(var y = 0; y < ingredientWords.length; y++){
-                      if ((heardValue.includes("how much " + ingredientWords[y])) ||
-                         (heardValue.includes("how much " + ingredientWords[y] + "s")) ||
-                         (heardValue.includes("how many " + ingredientWords[y])) ||
-                         (heardValue.includes("how many " + ingredientWords[y] + "s"))) {
+                      if ((heardValue.includes("HOW MUCH " + ingredientWords[y])) ||
+                         (heardValue.includes("HOW MUCH " + ingredientWords[y] + "s")) ||
+                         (heardValue.includes("HOW MANY " + ingredientWords[y])) ||
+                         (heardValue.includes("HOW MANY " + ingredientWords[y] + "s"))) {
                               
                       string = amount + " " + "of " + ingredient;
                       ingredients.push(string);
@@ -689,7 +760,7 @@ $scope.handleVoiceInput = function(event) {
                 }
               }
 
-                console.log(ingredients);
+            
           $scope.recognition.stop();
           $scope.iconChange();
           $scope.voiceIngredients(ingredients);
@@ -708,8 +779,8 @@ $scope.handleVoiceInput = function(event) {
         else if ((heardValue == "how much") || (heardValue == "how many")) {
 
           for(var i = 0; i < $scope.supplies.length; i++){
-            currentstep = $scope.currentStep;
-            ingredient = $scope.supplies[i].name;
+            currentstep = $scope.currentStep.toUpperCase();
+            ingredient = $scope.supplies[i].name.toUpperCase();
             ingredientWords = ingredient.split(" ");
             amount = $scope.supplies[i].unitShort;
 

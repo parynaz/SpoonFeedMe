@@ -9,10 +9,22 @@
 angular.module('SpoonReadMe.controllers')
 
 
-.controller('SavedCtrl', function($scope, StorageService) {
-  $scope.showDelete == false; 
+.controller('SavedCtrl', function($scope, $ionicTabsDelegate, StorageService, VariableExchange) {
+  
 
   $scope.$on("$ionicView.beforeEnter", function() {
+    var index = VariableExchange.getSavedValue('saved');
+
+    if(index === -1 || index === 0){
+    $ionicTabsDelegate.select(0);
+    }
+
+    else $ionicTabsDelegate.select(index);
+
+    VariableExchange.deleteSavedValue('saved');
+
+
+    $scope.showDelete == false; 
     $scope.saved = StorageService.getSavedRecipes('saved');
     $scope.imported = StorageService.getSavedRecipes('neither');
   });

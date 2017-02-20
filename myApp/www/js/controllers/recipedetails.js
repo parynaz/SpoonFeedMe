@@ -167,7 +167,19 @@ else {
 
 //for imported will just be the same as payload
 if($scope.fromSavedOrSearch == 'neither'){
-          $scope.image = payload.imageUrls[0];
+  if(payload.importedManually === "yes"){
+    $scope.image = payload.image;
+    $scope.steps = payload.steps;
+    $scope.supplies = payload.ingredients;
+    $scope.servings = payload.servings;
+    $scope.timeRequired = payload.readyInMinutes;
+    $scope.labels = payload.labels;
+    $ionicLoading.hide();
+
+  }
+  else{
+
+    $scope.image = payload.imageUrls[0];
            steps = payload.text.split(".");
             
           $scope.servings = payload.servings;
@@ -190,6 +202,8 @@ if($scope.fromSavedOrSearch == 'neither'){
            if($scope.guideMeNot == false){
             $scope.help();
           }
+  }
+          
   }  
 
 else if($scope.fromSavedOrSearch == 'saved' || $scope.fromSavedOrSearch == 'search'){
@@ -286,11 +300,7 @@ $scope.activateVoiceInstructions = function() {
   }   
   
 
-       //set the location.hash to the id of the element you wish to scroll to
-  $location.hash('progress');
-
-  //call anchorscroll
-  $anchorScroll();
+   $ionicScrollDelegate.scrollBottom();
 
 $scope.speaking = false;
 $scope.listening = false;
@@ -307,7 +317,7 @@ $scope.listening = false;
         $scope.recognition.onresult = $scope.handleVoiceInput;
         console.log("started listening");
         $scope.recognition.start();
-        $scope.recognition.mutedelay();
+        $scope.recognition.mute();
         $scope.listening = true;
         $scope.$apply();
       }, function(reason) {
@@ -407,15 +417,22 @@ $scope.isThisIncluded = function(heardValue){
 
       for(var i = 0; i < $scope.supplies.length; i++){
 
-          ingredient = $scope.supplies[i].name;
-          ingredientWords = ingredient.split(" ");
+        if($scope.recipe.importedManually === "yes"){
+          amount = $scope.supplies[i].originalString;
+        }
+        else{
           amount = $scope.supplies[i].unitShort;
+        }
+          //convert to uppercase to eliminate case differences
+          ingredient = $scope.supplies[i].name.toUpperCase();
+          heardValue = heardValue.toUpperCase();
+          ingredientWords = ingredient.split(" ");
 
           //if they say "how much" exact ingredient
-          if (heardValue.includes("how much " + ingredient) || 
-              heardValue.includes("how much " + ingredient + "s") ||
-              heardValue.includes("how many " + ingredient) || 
-              heardValue.includes("how many " + ingredient + "s")) {
+          if (heardValue.includes("HOW MUCH " + ingredient) || 
+              heardValue.includes("HOW MUCH " + ingredient + "s") ||
+              heardValue.includes("HOW MANY " + ingredient) || 
+              heardValue.includes("HOW MANY " + ingredient + "s")) {
 
                       string = amount + " " + ingredient;
                       ingredients.push(string);
@@ -425,10 +442,10 @@ $scope.isThisIncluded = function(heardValue){
 
           else{
                   for(var y = 0; y < ingredientWords.length; y++){
-                      if ((heardValue.includes("how much " + ingredientWords[y])) ||
-                         (heardValue.includes("how much " + ingredientWords[y] + "s")) ||
-                         (heardValue.includes("how many " + ingredientWords[y])) ||
-                         (heardValue.includes("how many " + ingredientWords[y] + "s"))) {
+                      if ((heardValue.includes("HOW MUCH " + ingredientWords[y])) ||
+                         (heardValue.includes("HOW MUCH" + ingredientWords[y] + "s")) ||
+                         (heardValue.includes("HOW MANY " + ingredientWords[y])) ||
+                         (heardValue.includes("HOW MANY " + ingredientWords[y] + "s"))) {
 
                       string = amount + " " + "of " + ingredient;
                       ingredients.push(string);
@@ -544,11 +561,22 @@ $scope.handleVoiceInput = function(event) {
           
 
         for(var i = 0; i < $scope.supplies.length; i++){
-            currentstep = $scope.currentStep;
-            ingredient = $scope.supplies[i].name;
-            ingredientWords = ingredient.split(" ");
-            //amount = $scope.supplies[i].originalString;
-            amount = $scope.supplies[i].unitShort;
+          //convert to uppercase to eliminate case differences
+          currentstep = $scope.currentStep.toUpperCase();
+          ingredient = $scope.supplies[i].name.toUpperCase();
+          heardValue = heardValue.toUpperCase();
+          ingredientWords = ingredient.split(" ");
+
+            if($scope.recipe.importedManually === "yes"){
+              amount = $scope.supplies[i].originalString;
+            }
+            else{
+              amount = $scope.supplies[i].unitShort;
+            }
+
+
+
+          
 
             //check for duplicates
 
