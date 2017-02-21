@@ -376,6 +376,76 @@ p.import-title{
 }
 
 
+/*IMPORT PHONE
+*/
+
+textarea.import-copy-paste{
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
+  border: 1px solid black;
+  padding: 1%;
+
+}
+
+p.import-phone-labels{
+  text-align: center;
+
+  font-weight: bold;
+}
+
+select.import-phone-options{
+  width: 40%;
+  margin-left: 30%;
+  margin-right: 30%;
+  background-color: #3B88F0;
+  color: white;
+}
+
+p.import-phone-labels.small{
+  font-size: 90%;
+  font-weight: normal;
+  color: #696969;
+}
+
+img.file-btn{
+  width: 20px;
+  float: left;
+  margin-left: -5%;
+}
+
+img.img-btn{
+  width: 18px;
+  float: left;
+  margin-left: -5%;
+  margin-right: 5%;
+}
+
+div.wrapper{
+  text-align: center;
+}
+
+.progress-import{
+  display: inline-block;
+  width: 100px;
+  border: 4px groove #CCC;
+  background-color: green;
+  color: white;
+  margin-left: 10%;
+  font-style: normal;
+}
+
+div.file-uploaded{
+  text-align: center;
+  font-style: oblique;
+  text-decoration: underline;
+}
+
+p.imported-phone{
+  text-align: center;
+  color: green;
+  font-weight: bold;
+}
 /*IMPORT MANUAL
 */
 

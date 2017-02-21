@@ -127,7 +127,56 @@
 <p class="importPadding"></p>
 
 
-<p class="importParagraph">Enter any</p>
+<p class="importParagraph">Upload a file or image or copy paste recipe text and we will try to extract the recipe!</p>
+
+<br><br>
+<p class = "import-phone-labels">How would you like to import your recipe?</p>
+
+<select class = "import-phone-options" name="singleSelect" ng-model="importPhoneSelection">
+      <option value="file">File(doc,docs,pdf)</option>
+      <option value="image">Image(jpg,png,jpeg)</option>
+      <option value="cp">Copy and Paste</option>
+    </select>
+
+<br>
+<p class = "import-phone-labels small">For best results: Have ingredient and instructions headings</p>
+
+<div ng-show="importPhoneSelection === 'cp'">
+  <br>
+<p class = "import-phone-labels">Copy and paste your recipe here</p>
+
+<textarea cols="40" rows="5" type="text" class= "import-copy-paste" ng-model="pastedRecipe" placeholder="Paste your recipe with the headings 'Ingredients' and 'Instructions' or 'Steps'"></textarea>
+
+</div>
+
+<div ng-show="importPhoneSelection === 'file'" class="wrapper">
+<br>
+<button class="import-file" type = "file" ngf-select="uploadFiles($file, $invalidFiles)" ngf-max-height="1000" ngf-max-size="1MB"><img class="file-btn" ng-src="/img/file.svg"/>Select File</button>
+<p class = "import-phone-labels small">File cannot exceed 2 MB</p>
+</div>
+
+<div ng-show="importPhoneSelection === 'image'" class = "wrapper">
+<br>
+<button class = "import-file" type = "file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*;capture=camera" ngf-max-height="1000" ngf-max-size="1MB"><img class="img-btn" ng-src="/img/photo.svg"/>Select Image</button>
+<p class = "import-phone-labels small">File cannot exceed 2 MB</p>
+</div>
+
+<br><br>
+
+<div ng-show="fileUploaded">
+
+<p class = "imported-phone">File Downloaded:</p>
+<div class="file-uploaded">{{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}
+  <span class="progress-import" ng-show="f.progress >= 0">
+    <div style="width:{{f.progress}}%"
+              ng-bind="f.progress + '%'"></div>
+  </span>
+</div>
+{{errorMsg}}
+</div>
+
+
+
 
 </ion-content>
 

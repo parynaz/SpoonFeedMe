@@ -1,4 +1,4 @@
-angular.module('SpoonReadMe', ['ionic', 'SpoonReadMe.controllers', 'SpoonReadMe.services'])
+angular.module('SpoonReadMe', ['ionic', 'SpoonReadMe.controllers', 'SpoonReadMe.services', 'ngFileUpload'])
 
 //IONIC FUNCTIONS DO NOT TOUCH
 .run(function($ionicPlatform) {

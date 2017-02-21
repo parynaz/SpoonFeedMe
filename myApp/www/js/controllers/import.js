@@ -8,7 +8,7 @@
 //that will process the tags for the side menu 
 angular.module('SpoonReadMe.controllers')
 
-.controller('ImportCtrl', function($scope, $ionicLoading, $state, $ionicPopup, $window, $ionicTabsDelegate, $ionicScrollDelegate, $sce, $location, $anchorScroll, SearchService, StorageService, Settings, VariableExchange) {
+.controller('ImportCtrl', function($scope, Upload, $timeout, $ionicLoading, $state, $ionicPopup, $window, $ionicTabsDelegate, $ionicScrollDelegate, $sce, $location, $anchorScroll, SearchService, StorageService, Settings, VariableExchange) {
 
 
 
@@ -82,10 +82,14 @@ $scope.$on("$ionicView.afterEnter", function() {
 
 $scope.$on("$ionicView.beforeEnter", function() {
 
+  $scope.fileUploaded = false;
+
   var index = VariableExchange.getSavedValue('import');
 
   if(index === -1 || index === 0){
     $ionicTabsDelegate.select(0);
+    cordova.plugins.Keyboard.close();
+
   }
 
   else $ionicTabsDelegate.select(index);
@@ -299,8 +303,30 @@ $scope.lastStepNum = 0;
 
 
 
+//IMPORT FROM PHONE OPTION
 
+$scope.uploadFiles = function(file, errFiles){
+  $scope.f = file;
+  $scope.errFile = errFiles && errFiles[0];
+  if(file){
+    file.upload = Upload.upload({
+      url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+      data: {file: file}
+    });
 
+    file.upload.then(function(response){
+      $timeout(function(){
+        file.result = response.data;
+        $scope.fileUploaded = true;
+      });
+    }, function(response) {
+        if(response.status > 0)
+          $scope.errorMsg = response.status + ': ' + response.data;
+    }, function(evt){
+      file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+    });
+  }
+};
 
 
 
