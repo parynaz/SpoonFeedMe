@@ -139,13 +139,25 @@
     </select>
 
 <br>
-<p class = "import-phone-labels small">For best results: Have ingredient and instructions headings</p>
+<p class = "import-phone-labels small">For best results provide information with headings</p>
 
 <div ng-show="importPhoneSelection === 'cp'">
   <br>
-<p class = "import-phone-labels">Copy and paste your recipe here</p>
+<p class = "import-phone-labels">Copy and paste your recipe here
+<p class = "import-phone-labels guide">Please insert information with the provided headers as guidance</p></p>
 
-<textarea cols="40" rows="5" type="text" class= "import-copy-paste" ng-model="pastedRecipe" placeholder="Paste your recipe with the headings 'Ingredients' and 'Instructions' or 'Steps'"></textarea>
+<textarea cols="40" rows="7" type="text" class= "import-copy-paste" ng-model="importdata.pastedRecipe" ng-init="importdata.pastedRecipe = 
+'Title:
+Servings:
+Time Required:
+Other Labels (separated by comma):
+Ingredients (name: amount, ...):
+Instructions (separated by comma):
+'" ng-required = "string"></textarea>
+
+<input class = "importPaste" type="button" ng-click="importPasted()" value="Import" />
+<p ng-show="notPastedAnything" class="file-error">Please write something in the text area first.</p>
+
 
 </div>
 
@@ -187,8 +199,13 @@
 {{errorMsg}}
 </div>
 
+<b>Preview:</b><br />
+<p id="IMPORTEDTXT">Hi</p>
 
-
+   <i ng-hide="imageSrc">No image choosed</i>
+   <img ng-src="{{imageSrc}}" /><br/>
+   <b>Progress:</b>
+  <progress value="{{progress}}"></progress>
 </ion-content>
 
   </ion-tab>

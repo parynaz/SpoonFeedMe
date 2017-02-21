@@ -320,7 +320,6 @@ p.importPadding{
 background-color: bar-positive !important;
 height: 13%;
 padding-top: 5%;
-border: 1px solid red;
 }
 
 .myimportbar{
@@ -411,6 +410,11 @@ p.import-phone-labels.small{
   font-size: 90%;
   font-weight: normal;
   color: #696969;
+}
+
+p.import-phone-labels.guide{
+  font-size: 90%;
+  color: #3B88F0;
 }
 
 img.file-btn{

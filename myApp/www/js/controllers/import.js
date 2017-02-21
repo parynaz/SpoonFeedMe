@@ -8,7 +8,7 @@
 //that will process the tags for the side menu 
 angular.module('SpoonReadMe.controllers')
 
-.controller('ImportCtrl', function($scope, Upload, $timeout, $ionicLoading, $state, $ionicPopup, $window, $ionicTabsDelegate, $ionicScrollDelegate, $sce, $location, $anchorScroll, SearchService, StorageService, Settings, VariableExchange) {
+.controller('ImportCtrl', function($scope, Upload, $timeout, $ionicLoading, $state, $ionicPopup, $window, $ionicTabsDelegate, $ionicScrollDelegate, $sce, $location, $anchorScroll, SearchService, StorageService, Settings, VariableExchange, FileReader) {
 
 
 
@@ -84,13 +84,13 @@ $scope.$on("$ionicView.beforeEnter", function() {
 
   $scope.fileUploaded = false;
   $scope.errorUploading = false;
+  $scope.notPastedAnything = false;
+  $scope.importdata = {'pastedRecipe': ''};
 
   var index = VariableExchange.getSavedValue('import');
 
   if(index === -1 || index === 0){
     $ionicTabsDelegate.select(0);
-    cordova.plugins.Keyboard.close();
-
   }
 
   else $ionicTabsDelegate.select(index);
@@ -305,6 +305,46 @@ $scope.lastStepNum = 0;
 
 
 //IMPORT FROM PHONE OPTION
+$scope.readFile = function(data){
+$scope.file = data;
+
+        $scope.progress = 0;
+
+FileReader.readAsText($scope.file, $scope)
+                      .then(function(result) {
+                          $scope.imageSrc = result;
+                          console.log($scope.imageSrc);
+                          document.getElementById("IMPORTEDTXT").innerHTML = $scope.imageSrc;
+                      });
+    };
+ 
+ $scope.$on("fileProgress", function(e, progress) {
+      $scope.progress = progress.loaded / progress.total;
+  });
+  
+
+      // //Check File is not Empty
+      //   if (result.length > 0) {
+      //       // Select the very first file from list
+      //      var fileToLoad = result[0];
+      //       // FileReader function for read the file.
+      //       var fileReader = new FileReader();
+      //       var base64;
+      //       // Onload of file read the file content
+      //       fileReader.onload = function(fileLoadedEvent) {
+      //           base64 = fileLoadedEvent.target.result;
+      //           // Print data in console
+      //           console.log(base64);
+      //       };
+      //       // Convert data to base64
+      //       fileReader.readAsText(fileToLoad);
+
+      //       console.log(fileToLoad);
+      //   }
+
+
+
+
 
 $scope.uploadFiles = function(file, errFiles){
    $ionicLoading.show({
@@ -328,6 +368,10 @@ $scope.uploadFiles = function(file, errFiles){
     file.upload.then(function(response){
       $timeout(function(){
         file.result = response.data;
+        $scope.readFile(file); 
+        $scope.fileUploaded = true;
+        $scope.errorUploading = false;
+        $ionicLoading.hide();
       });
     }, function(response) {
         if(response.status > 0)
@@ -340,11 +384,66 @@ $scope.uploadFiles = function(file, errFiles){
     }, function(evt){
       file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
     });
+
+
   }
+          $ionicLoading.hide();
+
+
 };
 
 
+$scope.importPasted = function(){
+  var initialHeaders = 135;
 
+  if ($scope.importdata.pastedRecipe.length <= initialHeaders) $scope.notPastedAnything = true;
+  else{
+    $ionicLoading.show({
+    template: '<ion-spinner icon="android"></ion-spinner>',
+    animation: 'fade-in'
+      });
+  
+
+      //Labels
+      $scope.recipe = {'title': '', 'servings': '', 'time': ''};
+      $scope.descriptionAdditions = [];
+      $scope.description = {'label': '', 'value': ''};
+
+      //Ingredients
+      $scope.ingredientAdditions = [];
+      $scope.ingredient = {'name': '', 'originalString': '', 'image': ''};
+
+      //Instructions
+      $scope.stepAdditions = [];
+      $scope.step = {'number': '', 'step': ''};
+      $scope.lastStepNum = 0;
+
+      var pastedArray = $scope.importdata.pastedRecipe.replace(/\r?\n|\r/g, '');
+
+      var parameter = '';
+
+      parameter = 'Title:';
+
+        var titleLocation = pastedArray.search(parameter);
+        titleLocation += parameter.length;
+
+        parameter = 'Servings:';
+
+        var servingLocation = pastedArray.search(parameter);
+        $scope.recipe.title = pastedArray.substring(titleLocation, servingLocation);
+
+        servingLocation += parameter.length;
+        parameter = 'Time Required:';
+
+        var timeLocation = pastedArray.search(parameter);
+
+        $scope.recipe.servings = pastedArray.substring(servingLocation, timeLocation);
+        
+        console.log($scope.recipe);
+        $ionicLoading.hide();
+      }
+
+}
 
 $scope.$on("$ionicView.beforeLeave", function() {
 
