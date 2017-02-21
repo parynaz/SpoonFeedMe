@@ -24,7 +24,7 @@ angular.module('SpoonReadMe.controllers')
     VariableExchange.deleteSavedValue('saved');
 
 
-    $scope.showDelete == false; 
+    $scope.showDelete = false; 
     $scope.saved = StorageService.getSavedRecipes('saved');
     $scope.imported = StorageService.getSavedRecipes('neither');
   });
