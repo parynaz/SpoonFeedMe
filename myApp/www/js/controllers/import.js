@@ -83,6 +83,7 @@ $scope.$on("$ionicView.afterEnter", function() {
 $scope.$on("$ionicView.beforeEnter", function() {
 
   $scope.fileUploaded = false;
+  $scope.errorUploading = false;
 
   var index = VariableExchange.getSavedValue('import');
 
@@ -306,8 +307,18 @@ $scope.lastStepNum = 0;
 //IMPORT FROM PHONE OPTION
 
 $scope.uploadFiles = function(file, errFiles){
+   $ionicLoading.show({
+    template: '<ion-spinner icon="android"></ion-spinner>',
+    animation: 'fade-in'
+      });
+  
   $scope.f = file;
   $scope.errFile = errFiles && errFiles[0];
+  if($scope.errFile != null){
+    $scope.errorUploading = true;
+    $scope.fileUploaded = false;
+    $ionicLoading.hide();
+  } 
   if(file){
     file.upload = Upload.upload({
       url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
@@ -317,11 +328,15 @@ $scope.uploadFiles = function(file, errFiles){
     file.upload.then(function(response){
       $timeout(function(){
         file.result = response.data;
-        $scope.fileUploaded = true;
       });
     }, function(response) {
         if(response.status > 0)
           $scope.errorMsg = response.status + ': ' + response.data;
+        else{
+        $scope.fileUploaded = true;
+        $scope.errorUploading = false;
+        $ionicLoading.hide();
+        }
     }, function(evt){
       file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
     });

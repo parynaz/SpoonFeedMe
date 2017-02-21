@@ -431,14 +431,26 @@ div.wrapper{
   border: 4px groove #CCC;
   background-color: green;
   color: white;
-  margin-left: 10%;
   font-style: normal;
 }
 
 div.file-uploaded{
   text-align: center;
+  
+}
+
+p.file-name{
   font-style: oblique;
   text-decoration: underline;
+}
+
+p.imported-phone.error{
+  color: red;
+}
+
+p.file-error{
+  color: red;
+  font-style: oblique;
 }
 
 p.imported-phone{

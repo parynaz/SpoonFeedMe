@@ -151,13 +151,14 @@
 
 <div ng-show="importPhoneSelection === 'file'" class="wrapper">
 <br>
-<button class="import-file" type = "file" ngf-select="uploadFiles($file, $invalidFiles)" ngf-max-height="1000" ngf-max-size="1MB"><img class="file-btn" ng-src="/img/file.svg"/>Select File</button>
+<button ng-show="importPhoneSelection === 'file'" class="import-file" type = "file" ngf-select="uploadFiles($file, $invalidFiles)" ngf-max-size="2MB"><img class="file-btn" ng-src="img/file.svg"/><span class="file-select">Select File</span></button>
+
 <p class = "import-phone-labels small">File cannot exceed 2 MB</p>
 </div>
 
 <div ng-show="importPhoneSelection === 'image'" class = "wrapper">
 <br>
-<button class = "import-file" type = "file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*;capture=camera" ngf-max-height="1000" ngf-max-size="1MB"><img class="img-btn" ng-src="/img/photo.svg"/>Select Image</button>
+<button ng-show="importPhoneSelection === 'image'" class = "import-file" type = "file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*;capture=camera" ngf-max-size="2MB"><img class="img-btn" ng-src="img/photo.svg"/><span class="file-select">Select Image</span></button>
 <p class = "import-phone-labels small">File cannot exceed 2 MB</p>
 </div>
 
@@ -165,16 +166,26 @@
 
 <div ng-show="fileUploaded">
 
-<p class = "imported-phone">File Downloaded:</p>
-<div class="file-uploaded">{{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}
+<p ng-show="importPhoneSelection === 'file'" class = "imported-phone">File downloaded successfully:</p>
+<p ng-show="importPhoneSelection === 'image'" class = "imported-phone">Image downloaded successfully:</p>
+
+<div class="file-uploaded"><p class="file-name">{{f.name}}</p>
   <span class="progress-import" ng-show="f.progress >= 0">
     <div style="width:{{f.progress}}%"
               ng-bind="f.progress + '%'"></div>
   </span>
 </div>
-{{errorMsg}}
 </div>
 
+<div ng-show="errorUploading">
+
+<p ng-show="importPhoneSelection === 'file'" class = "imported-phone error">File download failed:</p>
+<p ng-show="importPhoneSelection === 'image'" class = "imported-phone error">Image download failed:</p>
+<div class="file-uploaded error"><p class="file-name">{{errFile.name}}</p> 
+<p class="file-error">{{errFile.$error}} {{errFile.$errorParam}}</p>
+</div>
+{{errorMsg}}
+</div>
 
 
 
