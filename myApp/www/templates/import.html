@@ -133,8 +133,8 @@
 <p class = "import-phone-labels">How would you like to import your recipe?</p>
 
 <select class = "import-phone-options" name="singleSelect" ng-model="importPhoneSelection">
-      <option value="file">File(doc,docs,pdf)</option>
-      <option value="image">Image(jpg,png,jpeg)</option>
+      <option value="file">File (.txt, .rtf)</option>
+      <option value="image">Image (jpg,png,jpeg)</option>
       <option value="cp">Copy and Paste</option>
     </select>
 
@@ -163,7 +163,7 @@ Instructions (separated by comma):
 
 <div ng-show="importPhoneSelection === 'file'" class="wrapper">
 <br>
-<button ng-show="importPhoneSelection === 'file'" class="import-file" type = "file" ngf-select="uploadFiles($file, $invalidFiles)" ngf-max-size="2MB"><img class="file-btn" ng-src="img/file.svg"/><span class="file-select">Select File</span></button>
+<button ng-show="importPhoneSelection === 'file'" class="import-file" type = "file" accept=".txt, .rtf" ngf-select="uploadFiles($file, $invalidFiles)" ngf-max-size="2MB"><img class="file-btn" ng-src="img/file.svg"/><span class="file-select">Select File</span></button>
 
 <p class = "import-phone-labels small">File cannot exceed 2 MB</p>
 </div>

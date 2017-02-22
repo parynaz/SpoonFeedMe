@@ -312,38 +312,15 @@ $scope.file = data;
 
 FileReader.readAsText($scope.file, $scope)
                       .then(function(result) {
-                          $scope.imageSrc = result;
-                          console.log($scope.imageSrc);
+                          $scope.imageSrc = result.replace(/[^\x00-\x7F]/g, "");
                           document.getElementById("IMPORTEDTXT").innerHTML = $scope.imageSrc;
+                          console.log($scope.imageSrc);
                       });
     };
  
  $scope.$on("fileProgress", function(e, progress) {
       $scope.progress = progress.loaded / progress.total;
   });
-  
-
-      // //Check File is not Empty
-      //   if (result.length > 0) {
-      //       // Select the very first file from list
-      //      var fileToLoad = result[0];
-      //       // FileReader function for read the file.
-      //       var fileReader = new FileReader();
-      //       var base64;
-      //       // Onload of file read the file content
-      //       fileReader.onload = function(fileLoadedEvent) {
-      //           base64 = fileLoadedEvent.target.result;
-      //           // Print data in console
-      //           console.log(base64);
-      //       };
-      //       // Convert data to base64
-      //       fileReader.readAsText(fileToLoad);
-
-      //       console.log(fileToLoad);
-      //   }
-
-
-
 
 
 $scope.uploadFiles = function(file, errFiles){
