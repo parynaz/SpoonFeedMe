@@ -133,7 +133,7 @@
 <p class = "import-phone-labels">How would you like to import your recipe?</p>
 
 <select class = "import-phone-options" name="singleSelect" ng-model="importPhoneSelection">
-      <option value="file">File (.txt, .rtf)</option>
+      <option value="file">File (.txt)</option>
       <option value="image">Image (jpg,png,jpeg)</option>
       <option value="cp">Copy and Paste</option>
     </select>
@@ -163,14 +163,14 @@ Instructions (separated by comma):
 
 <div ng-show="importPhoneSelection === 'file'" class="wrapper">
 <br>
-<button ng-show="importPhoneSelection === 'file'" class="import-file" type = "file" accept=".txt, .rtf" ngf-select="uploadFiles($file, $invalidFiles)" ngf-max-size="2MB"><img class="file-btn" ng-src="img/file.svg"/><span class="file-select">Select File</span></button>
+<button ng-show="importPhoneSelection === 'file'" class="import-file" ng-click = "askPermission()" type = "file" accept="'.txt'" ngf-select="uploadFiles($file, $invalidFiles)" ngf-max-size="2MB"><img class="file-btn" ng-src="img/file.svg"/><span class="file-select">Select File</span></button>
 
 <p class = "import-phone-labels small">File cannot exceed 2 MB</p>
 </div>
 
 <div ng-show="importPhoneSelection === 'image'" class = "wrapper">
 <br>
-<button ng-show="importPhoneSelection === 'image'" class = "import-file" type = "file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*;capture=camera" ngf-max-size="2MB"><img class="img-btn" ng-src="img/photo.svg"/><span class="file-select">Select Image</span></button>
+<button ng-show="importPhoneSelection === 'image'" class = "import-file" ng-click = "askPermission()" type = "file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*;capture=camera" ngf-max-size="2MB"><img class="img-btn" ng-src="img/photo.svg"/><span class="file-select">Select Image</span></button>
 <p class = "import-phone-labels small">File cannot exceed 2 MB</p>
 </div>
 
@@ -195,17 +195,90 @@ Instructions (separated by comma):
 <p ng-show="importPhoneSelection === 'image'" class = "imported-phone error">Image download failed:</p>
 <div class="file-uploaded error"><p class="file-name">{{errFile.name}}</p> 
 <p class="file-error">{{errFile.$error}} {{errFile.$errorParam}}</p>
+<p class="file-error">{{errorMsg}}</p>
 </div>
-{{errorMsg}}
+<progress value="{{progress}}"></progress>
 </div>
 
-<b>Preview:</b><br />
-<p id="IMPORTEDTXT">Hi</p>
 
-   <i ng-hide="imageSrc">No image choosed</i>
-   <img ng-src="{{imageSrc}}" /><br/>
-   <b>Progress:</b>
-  <progress value="{{progress}}"></progress>
+
+<form ng-show="importComplete" novalidate class="simple-form">
+<p class = "import-phone-labels">Please review the information below and click "Confirm" to save your recipe!</p>
+
+  <p class="import-labels">Labels</p>
+  <div>
+    <p class= "import-input-title">Title </p><input type="text"  class= "import-input" ng-model="recipe.title" placeholder="Recipe Name"/><br />
+    <p class= "import-input-title servings">Servings </p><input type="text" class= "import-input" ng-model="recipe.servings" placeholder="Serves how many?"/><br />
+    <p class= "import-input-title servings">Time (mins) </p><input type="text" class= "import-input" ng-model="recipe.time" placeholder="Minutes required to make?"/><br />
+  </div>
+<br><br><br>
+    <div class = "additions" ng-repeat = "addition in descriptionAdditions">
+      <p class= "addition-label">{{ addition.label }}</p>
+      <button class = "remove-choice" ng-click="removeChoice('label', addition)"><img class="delete-btn" ng-src="img/less.svg"/></button>
+      <p class= "addition-value">{{ addition.value }}</p>
+      <div class = "added-additions" ng-show = "$last"></div>
+    </div>
+
+   <fieldset  class = "field-addition" data-ng-repeat="choice in descriptionChoicesHolder">
+      <input type="text" class= "import-input-choice label" ng-model="description.label" name="" placeholder="Label"/>
+      <button type = "button" class="addfield" ng-click="addNewChoice('label')"><img class="add-field-btn" ng-src="img/more.svg"/></button>
+      <input type="text" class= "import-input-choice value" ng-model="description.value" name="" placeholder="Value"/>
+   </fieldset>
+
+<br><br>
+<p class="import-labels">Ingredients</p>
+
+   <div class = "additions" ng-repeat = "addition in ingredientAdditions">
+      <p class= "addition-label">{{ addition.name }}</p>
+      <button type = "button" class = "remove-choice" ng-click="removeChoice('ingredient', addition)"><img class="delete-btn" ng-src="img/less.svg"/></button>
+      <p class= "addition-value">{{ addition.originalString }}</p>
+      <div class = "added-additions" ng-show = "$last"></div>      
+    </div>
+
+   <fieldset  class = "field-addition" data-ng-repeat="choice in ingredientChoicesHolder">
+      <input type="text" class= "import-input-choice label" ng-model="ingredient.name" name="" placeholder="Name">
+      <button  type = "button" class="addfield" ng-click="addNewChoice('ingredient')"><img class="add-field-btn" ng-src="img/more.svg"/></button>
+      <input type="text" class= "import-input-choice value" ng-model="ingredient.originalString" name="" placeholder="Amount">
+   </fieldset>
+
+   <br><br>
+<p class="import-labels">Instruction Steps</p>
+
+
+   <div class = "additions" ng-repeat = "addition in stepAdditions">
+      <p class= "addition-number">{{ addition.number }}. <ion-item class= "item-text-wrap step">{{ addition.step }}</ion-item></p>
+      <button class = "remove-step-choice" ng-click="removeChoice('step', addition)"><img class="delete-btn" ng-src="img/less.svg"/></button>
+      <button class = "up-choice" ng-show="!$first" ng-click="moveStepUp(addition)"><img class="up-btn" ng-src="img/up.svg"/></button>
+      <button class = "up-choice" ng-show="$first"><img class="filler" ng-src="img/up.svg"/></button>
+      <button class = "down-choice" ng-show="!$last" ng-click="moveStepDown(addition)"><img class="down-btn" ng-src="img/down.svg"/></button>
+      <button class = "down-choice" ng-show="$last"><img class="filler" ng-src="img/down.svg"/></button>
+    <div class = "added-additions" ng-show = "$last"></div>
+</div>
+
+   <fieldset  class = "field-addition" data-ng-repeat="choice in stepChoicesHolder">
+      <input type="text" class= "import-input-choice step" ng-model="step.step" name="" placeholder="An instruction step">
+      <button type = "button" class="addfield" ng-click="addNewChoice('step')"><img class="add-field-btn" ng-src="img/more.svg"/></button>
+   </fieldset>
+
+<br><br>
+
+    <input class = "reset" type="button" ng-click="reset()" value="Reset" />
+    <input class = "saveManual" type="button" ng-click="save()" value="Confirm" />
+  
+  </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
 </ion-content>
 
   </ion-tab>

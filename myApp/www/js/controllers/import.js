@@ -85,6 +85,7 @@ $scope.$on("$ionicView.beforeEnter", function() {
   $scope.fileUploaded = false;
   $scope.errorUploading = false;
   $scope.notPastedAnything = false;
+  $scope.importComplete = false;
   $scope.importdata = {'pastedRecipe': ''};
 
   var index = VariableExchange.getSavedValue('import');
@@ -302,21 +303,108 @@ $scope.lastStepNum = 0;
     $scope.saveConfirmation();
   }
 
-
-
 //IMPORT FROM PHONE OPTION
+$scope.saveFileImported = function(){
+
+  if(!$scope.f.name.includes('.txt')){
+              $scope.errorMsg = "Please choose a plain text file (.txt)";
+              $scope.errorUploading = true;
+              $scope.fileUploaded = false;
+              return;
+  }
+
+      var fileContent = $scope.fileSrc.replace(/\r?\n|\r/g, ',').toLowerCase();
+
+        var parameter = '';
+
+        parameter = 'ingredients';
+
+        var ingredientLocation = fileContent.search(parameter) + parameter.length + 1;
+
+        parameter = 'instructions';
+
+        var instructionLocation = fileContent.search(parameter);
+
+        var stepLocation;
+
+        if(instructionLocation != null){
+          //found instructions
+          stepLocation = instructionLocation + parameter.length + 1;
+        }
+        else{
+          alert("no instructions found");
+          return;
+        }
+
+        var ingredients= fileContent.substring(ingredientLocation, instructionLocation - 1).split(',');
+
+        var steps = fileContent.substring(stepLocation, fileContent.length - 1).replace(/\d+\./g, '').split(',');
+
+  
+        //Labels
+        $scope.recipe.title = $scope.f.name;
+        $scope.recipe.servings = "N/A";
+        $scope.recipe.readyInMinutes = "N/A";
+
+        var num = 0;
+        //Ingredients
+        for(var i = 0; i < ingredients.length; i++){
+          if(ingredients[i] !== ""){
+            var ingredient = {'name': '', 'originalString': '', 'image': ''};
+            ingredient.image = 'https://s21.postimg.org/q7wgz4vl3/491421_636x393.jpg'; //default
+            ingredient.name = "Ingredient" + (num + 1);
+            ingredient.originalString = ingredients[i];
+
+            $scope.ingredientAdditions.push(ingredient);
+            num++; 
+          }
+        }
+
+        num = 0;
+        //Instructions
+         for(var i = 0; i < steps.length; i++){
+          if(steps[i] !== ""){
+            var step = {'number': '', 'step': ''};
+            step.step = steps[i];
+
+            $scope.stepAdditions.push(step);
+            num++;
+          }
+        }
+}
+
+
+$scope.askPermission = function(){
+    var permissions = cordova.plugins.permissions;
+  permissions.hasPermission(permissions.READ_EXTERNAL_STORAGE, checkPermissionCallback, null);
+
+function checkPermissionCallback(status) {
+  if(!status.hasPermission) {
+    var errorCallback = function() {
+      console.warn('File access permission is not turned on');
+    }
+
+    permissions.requestPermission(
+      permissions.READ_EXTERNAL_STORAGE,
+      function(status) {
+        if(!status.hasPermission) errorCallback();
+      },
+      errorCallback);
+  }
+} 
+}
+
 $scope.readFile = function(data){
 $scope.file = data;
 
-        $scope.progress = 0;
+$scope.progress = 0;
 
 FileReader.readAsText($scope.file, $scope)
                       .then(function(result) {
-                          $scope.imageSrc = result.replace(/[^\x00-\x7F]/g, "");
-                          document.getElementById("IMPORTEDTXT").innerHTML = $scope.imageSrc;
-                          console.log($scope.imageSrc);
+                          $scope.fileSrc = result;
+                          $scope.saveFileImported();
                       });
-    };
+};
  
  $scope.$on("fileProgress", function(e, progress) {
       $scope.progress = progress.loaded / progress.total;
@@ -324,11 +412,14 @@ FileReader.readAsText($scope.file, $scope)
 
 
 $scope.uploadFiles = function(file, errFiles){
+
    $ionicLoading.show({
     template: '<ion-spinner icon="android"></ion-spinner>',
     animation: 'fade-in'
       });
   
+
+
   $scope.f = file;
   $scope.errFile = errFiles && errFiles[0];
   if($scope.errFile != null){
@@ -346,17 +437,37 @@ $scope.uploadFiles = function(file, errFiles){
       $timeout(function(){
         file.result = response.data;
         $scope.readFile(file); 
-        $scope.fileUploaded = true;
-        $scope.errorUploading = false;
-        $ionicLoading.hide();
+        if(!$scope.f.name.includes('.txt')){
+              $scope.errorMsg = "Please choose a plain text file (.txt)";
+              $scope.errorUploading = true;
+              $scope.fileUploaded = false;
+              $ionicLoading.hide();
+        }
+        else{
+          $scope.fileUploaded = true;
+          $scope.errorUploading = false;
+          $scope.importComplete = true;
+          $ionicLoading.hide();
+        }
+        
       });
     }, function(response) {
         if(response.status > 0)
           $scope.errorMsg = response.status + ': ' + response.data;
         else{
-        $scope.fileUploaded = true;
-        $scope.errorUploading = false;
-        $ionicLoading.hide();
+          if(!$scope.f.name.includes('.txt')){
+              $scope.errorMsg = "Please choose a plain text file (.txt)";
+              $scope.errorUploading = true;
+              $scope.fileUploaded = false;
+              $ionicLoading.hide();
+            }
+            else{
+              $scope.fileUploaded = true;
+              $scope.errorUploading = false;
+              $scope.importComplete = true;
+              $ionicLoading.hide();
+            }
+        
         }
     }, function(evt){
       file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
